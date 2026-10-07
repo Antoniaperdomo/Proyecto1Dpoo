@@ -1,3 +1,4 @@
+package Usuario;
 import java.util.Date;
 
 public class Entrenador extends Empleado {
@@ -6,6 +7,5 @@ public class Entrenador extends Empleado {
 			Date fechaContratacion) {
 		super(id, nombre, login, password, fechaNacimiento, fechaContratacion);
 	}
-	
 
 }

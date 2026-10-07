@@ -1,3 +1,4 @@
+package Usuario;
 import java.util.Date;
 
 public class Socio extends Usuario {
