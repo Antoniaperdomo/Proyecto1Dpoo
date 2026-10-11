@@ -8,4 +8,8 @@ public class Fisioterapeuta extends Empleado {
 		super(id, nombre, login, password, fechaNacimiento, fechaContratacion);
 	}
 	
+	@Override
+	public double getDescuentoPropio() {
+		return 0;
+	}
 }

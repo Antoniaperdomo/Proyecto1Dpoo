@@ -1,5 +1,7 @@
 package Competencias;
 
+import Deportes.Deporte;
+
 public class TorneoCerros extends Competencia {
 	private TablaPosiciones  tablaPosiciones;
 

@@ -1,22 +1,20 @@
 package Administrador;
-import java.util.Date;
 
 import Usuario.Empleado;
 
 public class SolicitudCambioTurno {
 	private Empleado empleado;
-	private Date TurnoActual;
-	private Date TurnoPropuesto;
-	private static final String PENDIENTE = "pendiente";
-	private static final  String APROBADA = "aprovada";
-	private static final String RECHAZADA = "rechazada";
+	private Turno TurnoActual;
+	private Turno TurnoPropuesto;
+	public static final String PENDIENTE = "pendiente";
+	public static final  String APROBADA = "aprobada";
+	public static final String RECHAZADA = "rechazada";
 	private String estado;
-	public SolicitudCambioTurno(Empleado empleado, Date turnoActual, Date turnoPropuesto, String estado) {
-		super();
+	public SolicitudCambioTurno(Empleado empleado, Turno turnoActual, Turno turnoPropuesto) {
 		this.empleado = empleado;
 		this.TurnoActual = turnoActual;
 		this.TurnoPropuesto = turnoPropuesto;
-		this.estado = estado;
+		this.estado = PENDIENTE;
 	}
 	public Empleado getEmpleado() {
 		return empleado;
@@ -24,24 +22,27 @@ public class SolicitudCambioTurno {
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
 	}
-	public Date getTurnoActual() {
+	public Turno getTurnoActual() {
 		return TurnoActual;
 	}
-	public void setTurnoActual(Date turnoActual) {
+	public void setTurnoActual(Turno turnoActual) {
 		TurnoActual = turnoActual;
 	}
-	public Date getTurnoPropuesto() {
+	public Turno getTurnoPropuesto() {
 		return TurnoPropuesto;
 	}
-	public void setTurnoPropuesto(Date turnoPropuesto) {
+	public void setTurnoPropuesto(Turno turnoPropuesto) {
 		TurnoPropuesto = turnoPropuesto;
 	}
 	public String getEstado() {
 		return estado;
 	}
 	public void setEstado(String estado) {
-		if ( (estado != PENDIENTE) || (estado != APROBADA) || (estado != RECHAZADA) ) {
-			
+		if ( (estado.equals(PENDIENTE)) || (estado.equals(APROBADA)) || (estado.equals(RECHAZADA)) ) {
+			this.estado = estado;
+		}
+		else {
+			throw new IllegalArgumentException("Estado inválido");
 		}
 	}
 	

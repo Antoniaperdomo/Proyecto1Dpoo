@@ -1,4 +1,7 @@
 package Competencias;
+
+import Deportes.Deporte;
+
 public class ASCUN extends Competencia {
 	private String faseActual;
 

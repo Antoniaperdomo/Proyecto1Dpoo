@@ -1,5 +1,7 @@
 package Competencias;
 
+import Deportes.Deporte;
+
 public abstract class Competencia {
 	protected String nombre;
 	protected String entidadOrganizadora;

@@ -44,5 +44,8 @@ public abstract class Usuario {
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
+	
+	
+	
 
 }

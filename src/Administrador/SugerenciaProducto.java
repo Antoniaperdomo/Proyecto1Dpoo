@@ -1,15 +1,22 @@
 package Administrador;
 
+import Usuario.Empleado;
+
 public class SugerenciaProducto {
 	
+	public static final String PENDIENTE = "pendiente";
+	public static final  String APROBADA = "aprobada";
+	public static final String RECHAZADA = "rechazada";
 	private String nombre;
 	private String categoria;
 	private String estado;
-	public SugerenciaProducto(String nombre, String categoria, String estado) {
-		super();
+	private Empleado empleado;
+	
+	public SugerenciaProducto(String nombre, String categoria, Empleado empleado) {
 		this.nombre = nombre;
 		this.categoria = categoria;
-		this.estado = estado;
+		this.estado = PENDIENTE;
+		this.empleado = empleado;
 	}
 	public String getNombre() {
 		return nombre;
@@ -27,8 +34,21 @@ public class SugerenciaProducto {
 		return estado;
 	}
 	public void setEstado(String estado) {
-		this.estado = estado;
+		if(estado.equals(PENDIENTE) 	|| estado.equals(APROBADA) || estado.equals(RECHAZADA)) {
+			this.estado = estado;
+		}
+		else {
+			throw new IllegalArgumentException("Estado inválido: " + estado);
+		}
 	}
+	public Empleado getEmpleado() {
+		return empleado;
+	}
+	public void setEmpleado(Empleado empleado) {
+		this.empleado = empleado;
+	}
+	
+	
 	
 	
 	
