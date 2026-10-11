@@ -3,7 +3,7 @@ package Competencias;
 import Deportes.Deporte;
 
 public class TorneoCerros extends Competencia {
-	private TablaPosiciones  tablaPosiciones;
+	private TablaPosiciones tablaPosiciones;
 
 	public TorneoCerros(String nombre, String entidadOrganizadora, String temporadaOAño, Deporte deporte,
 			String categoria, TablaPosiciones tablaPosiciones) {
@@ -18,7 +18,5 @@ public class TorneoCerros extends Competencia {
 	public void setTablaPosiciones(TablaPosiciones tablaPosiciones) {
 		this.tablaPosiciones = tablaPosiciones;
 	}
-	
-	
 
 }

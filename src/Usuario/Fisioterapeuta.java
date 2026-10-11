@@ -1,4 +1,5 @@
 package Usuario;
+
 import java.util.Date;
 
 public class Fisioterapeuta extends Empleado {
@@ -7,7 +8,7 @@ public class Fisioterapeuta extends Empleado {
 			Date fechaContratacion) {
 		super(id, nombre, login, password, fechaNacimiento, fechaContratacion);
 	}
-	
+
 	@Override
 	public double getDescuentoPropio() {
 		return 0;

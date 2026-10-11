@@ -1,4 +1,5 @@
 package Deportes;
+
 public class CanchaTenis extends Instalacion {
 
 	public CanchaTenis() {
