@@ -42,4 +42,13 @@ public class ReservaInstalacion {
 		return numJugadores;
 	}
 
+	public Socio getSocio() {
+		return socio;
+	}
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
+	}
+	
+
 }

@@ -21,4 +21,22 @@ public class InscripcionIndividual {
 		this.rankingELO = rankingELO;
 	}
 
+	public Socio getSocio() {
+		return socio;
+	}
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
+	}
+
+	public DeporteIndividual getDeporte() {
+		return deporte;
+	}
+
+	public void setDeporte(DeporteIndividual deporte) {
+		this.deporte = deporte;
+	}
+	
+	
+
 }
