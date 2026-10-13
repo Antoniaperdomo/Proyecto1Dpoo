@@ -105,8 +105,4 @@ public class Administrador extends Usuario {
 		socio.setActivo(false);
 	}
 
-
-
-
-
 }
