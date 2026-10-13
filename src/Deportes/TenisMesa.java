@@ -1,6 +1,6 @@
 package Deportes;
 
-public class TenisMesa extends DeporteIndividual{
+public class TenisMesa extends DeporteIndividual {
 
 	public TenisMesa(String nivel) {
 		super("TENIS", nivel);
@@ -10,7 +10,5 @@ public class TenisMesa extends DeporteIndividual{
 	public EstadisticaPractica crearEstadistica() {
 		return new EstadisticasTenisYPadel();
 	}
-	
-	
 
 }

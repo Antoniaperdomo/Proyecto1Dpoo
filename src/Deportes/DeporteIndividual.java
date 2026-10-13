@@ -1,4 +1,5 @@
 package Deportes;
+
 public abstract class DeporteIndividual extends Deporte {
 	public static final String PRINCIPIANTE = "PRINCIPIANTE";
 	public static final String INTERMEDIO = "INTERMEDIO";

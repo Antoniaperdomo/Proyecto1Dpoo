@@ -1,4 +1,5 @@
 package Usuario;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import Administrador.SugerenciaProducto;
 import Administrador.Turno;
 
 public abstract class Empleado extends Usuario implements Comprador {
-	
+
 	private Date fechaContratacion;
 	private int puntosFidelidad;
 
@@ -24,8 +25,7 @@ public abstract class Empleado extends Usuario implements Comprador {
 	public void setFechaContratacion(Date fechaContratacion) {
 		this.fechaContratacion = fechaContratacion;
 	}
-	
-	
+
 	public int getPuntosFidelidad() {
 		return puntosFidelidad;
 	}
@@ -34,21 +34,23 @@ public abstract class Empleado extends Usuario implements Comprador {
 		this.puntosFidelidad = puntosFidelidad;
 	}
 
-	public SolicitudCambioTurno solicitarCambioTurno(Turno turnoActual, Turno turnoSolicitado, ArrayList<SolicitudCambioTurno> todasLasSolicitudes) throws IllegalArgumentException {
-		if(turnoActual.getEmpleado() != this || turnoSolicitado.getEmpleado() != this) {
+	public SolicitudCambioTurno solicitarCambioTurno(Turno turnoActual, Turno turnoSolicitado,
+			ArrayList<SolicitudCambioTurno> todasLasSolicitudes) throws IllegalArgumentException {
+		if (turnoActual.getEmpleado() != this || turnoSolicitado.getEmpleado() != this) {
 			throw new IllegalArgumentException("El turno debe de ser del empleador que solicita el cambio");
 		}
 		SolicitudCambioTurno solicitud = new SolicitudCambioTurno(this, turnoActual, turnoSolicitado);
 		todasLasSolicitudes.add(solicitud);
 		return solicitud;
 	}
-	
-	public SugerenciaProducto sugerirProducto(String nombre, String categoria, ArrayList<SugerenciaProducto> todasLasSugerencias) {
+
+	public SugerenciaProducto sugerirProducto(String nombre, String categoria,
+			ArrayList<SugerenciaProducto> todasLasSugerencias) {
 		SugerenciaProducto sugerencia = new SugerenciaProducto(nombre, categoria, this);
 		todasLasSugerencias.add(sugerencia);
 		return sugerencia;
 	}
-	
+
 	public double getDescuentoPropio() {
 		return 0.15;
 	}
