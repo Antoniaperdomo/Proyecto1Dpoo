@@ -78,7 +78,6 @@ public class SesionEntrenamiento {
 		return registro;
 	}
 
-
 	public RegistroAsistencia obtenerRegistro(Socio socio) {
 		for (RegistroAsistencia registro : registrosAsistencia) {
 			if (registro.getSocio() == socio) {
@@ -103,7 +102,6 @@ public class SesionEntrenamiento {
 		}
 		return cantidad == 0 ? 0 : suma / cantidad;
 	}
-
 
 	public int contarAsistentes() {
 		int contador = 0;

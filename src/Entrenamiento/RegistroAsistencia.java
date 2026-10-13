@@ -11,11 +11,10 @@ public class RegistroAsistencia {
 	private SesionEntrenamiento sesion;
 	private Socio socio;
 	private String estado;
-	private Double evaluacion; 
-	private String comentario; 
+	private Double evaluacion;
+	private String comentario;
 
-	public RegistroAsistencia(SesionEntrenamiento sesion, Socio socio, String estado)
-			throws IllegalArgumentException {
+	public RegistroAsistencia(SesionEntrenamiento sesion, Socio socio, String estado) throws IllegalArgumentException {
 		this.sesion = sesion;
 		this.socio = socio;
 		setEstado(estado);

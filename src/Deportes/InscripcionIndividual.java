@@ -36,7 +36,5 @@ public class InscripcionIndividual {
 	public void setDeporte(DeporteIndividual deporte) {
 		this.deporte = deporte;
 	}
-	
-	
 
 }

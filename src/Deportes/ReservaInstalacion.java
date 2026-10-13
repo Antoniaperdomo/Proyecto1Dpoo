@@ -49,6 +49,5 @@ public class ReservaInstalacion {
 	public void setSocio(Socio socio) {
 		this.socio = socio;
 	}
-	
 
 }
