@@ -1,5 +1,6 @@
 package Competencias;
 
+import Deportes.Categoria;
 import Deportes.Deporte;
 
 public abstract class Competencia {

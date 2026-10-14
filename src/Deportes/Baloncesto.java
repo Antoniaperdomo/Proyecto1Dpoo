@@ -10,7 +10,7 @@ public class Baloncesto extends DeporteConjunto {
 
 	@Override
 	public EstadisticaJugadorPartido crearEstadistica(Socio jugador) {
-		return new EstadisticaBaloncesto;
+		return new EstadisticaBaloncesto(jugador);
 	}
 
 	@Override
