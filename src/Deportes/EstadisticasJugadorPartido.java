@@ -7,12 +7,20 @@ public abstract class EstadisticasJugadorPartido {
 
 	public EstadisticasJugadorPartido(Socio jugador) {
 		super();
-		this.jugador = jugador;
+		this.setJugador(jugador);
 	}
 
 	// RF 13
 	public abstract int getPuntajeDestacado();
 
 	public abstract String resumen();
+
+	public Socio getJugador() {
+		return jugador;
+	}
+
+	public void setJugador(Socio jugador) {
+		this.jugador = jugador;
+	}
 
 }

@@ -11,14 +11,14 @@ public class Suspension {
 	private String ambito;
 	private boolean cumplida;
 
-	public Suspension(Socio jugador, String motivoSuspension, String ambito, boolean cumplida) {
+	public Suspension(Socio jugador, String motivoSuspension, String ambito) {
 		if (!INTERNO.equals(ambito) && !COMPETENCIA.equals(ambito)) {
 			throw new IllegalArgumentException("Ambito Invalido: " + ambito);
 		}
 		this.jugador = jugador;
 		this.motivoSuspension = motivoSuspension;
 		this.ambito = ambito;
-		this.cumplida = cumplida;
+		this.cumplida = false;
 	}
 
 	public Socio getJugador() {

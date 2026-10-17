@@ -32,12 +32,12 @@ public class Socio extends Usuario implements Comprador, Participante {
 	public double getDescuentoPropio() {
 		return 0;
 	}
-	
+
 	public int getEdad() {
 		long milisegundosPorAnio = 31557600000L;
 		long diferencia = new Date().getTime() - fechaNacimiento.getTime();
 		return (int) (diferencia / milisegundosPorAnio);
-		
+
 	}
 
 }

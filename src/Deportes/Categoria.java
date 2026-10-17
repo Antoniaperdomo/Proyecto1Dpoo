@@ -1,7 +1,5 @@
 package Deportes;
 
-import java.util.Date;
-
 import Usuario.Socio;
 
 public class Categoria {
