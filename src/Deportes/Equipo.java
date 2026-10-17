@@ -11,10 +11,11 @@ public class Equipo {
 	private Categoria categoria;
 	private ArrayList<JugadorEquipo> jugadores;
 	private ArrayList<Suspension> suspensiones;
+	private boolean activo;
 
 	// RF-01
 	public Equipo(String nombre, DeporteConjunto deporte, int cupoMax, Categoria categoria,
-			ArrayList<JugadorEquipo> jugadores, ArrayList<Suspension> suspensiones) {
+			ArrayList<JugadorEquipo> jugadores, ArrayList<Suspension> suspensiones, boolean activo) {
 		if (cupoMax <= 0) {
 			throw new IllegalArgumentException("El cupo para un equipo debe ser mayor a 0");
 
@@ -25,6 +26,7 @@ public class Equipo {
 		this.categoria = categoria;
 		this.jugadores = jugadores;
 		this.suspensiones = suspensiones;
+		this.activo = activo;
 	}
 
 	public String getNombre() {
@@ -73,6 +75,14 @@ public class Equipo {
 
 	public void setSuspensiones(ArrayList<Suspension> suspensiones) {
 		this.suspensiones = suspensiones;
+	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 
 	// RF 2 y RF 3

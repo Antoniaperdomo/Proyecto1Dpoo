@@ -2,15 +2,17 @@ package Competencias;
 
 import java.util.HashMap;
 
+import Deportes.Equipo;
+
 public class TablaPosiciones {
 
-	private HashMap<String, Integer> puntosPorEquipo;
+	private HashMap<Equipo, Integer> puntosPorEquipo;
 
 	public TablaPosiciones() {
 		this.puntosPorEquipo = new HashMap<>();
 	}
 
-	public void registrarUnEquipo(String equipo) {
+	public void registrarUnEquipo(Equipo equipo) {
 		puntosPorEquipo.put(equipo, 0);
 	}
 

@@ -25,12 +25,20 @@ public class ExistenciaArticulo {
 	}
 
 	public void reducir(int cantidad) {
+		if(cantidad <=0) {
+			throw new IllegalArgumentException ("La cantidad debe ser mayor a cero");
+		}
+		
 		if (cantidad > cantidadDisponible) {
 			throw new IllegalStateException("No hay suficientes unidades en el inventario de " + articulo.getNombre());
 		}
+		cantidadDisponible -= cantidad;
 	}
 
 	public void aumentar(int cantidad) {
+		if(cantidad <= 0) {
+			throw new IllegalArgumentException("La cantidad debe ser mayor a cero");
+		}
 		cantidadDisponible += cantidad;
 	}
 

@@ -1,4 +1,4 @@
-package Administrador;
+package Administradores;
 
 import Usuario.Empleado;
 

@@ -1,6 +1,4 @@
-package Administrador;
-
-import java.util.Date;
+package Administradores;
 
 import Usuario.Empleado;
 

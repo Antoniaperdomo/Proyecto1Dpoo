@@ -2,6 +2,7 @@ package Competencias;
 
 import java.util.ArrayList;
 
+import Deportes.Equipo;
 import Usuario.Socio;
 
 public class NominaCompetencia {
