@@ -1,11 +1,11 @@
-package Administrador;
+package Administradores;
 
 import Usuario.Empleado;
 
 public class SolicitudCambioTurno {
 	private Empleado empleado;
-	private Turno TurnoActual;
-	private Turno TurnoPropuesto;
+	private Turno turnoActual;
+	private Turno turnoPropuesto;
 	public static final String PENDIENTE = "pendiente";
 	public static final String APROBADA = "aprobada";
 	public static final String RECHAZADA = "rechazada";
@@ -13,8 +13,8 @@ public class SolicitudCambioTurno {
 
 	public SolicitudCambioTurno(Empleado empleado, Turno turnoActual, Turno turnoPropuesto) {
 		this.empleado = empleado;
-		this.TurnoActual = turnoActual;
-		this.TurnoPropuesto = turnoPropuesto;
+		this.turnoActual = turnoActual;
+		this.turnoPropuesto = turnoPropuesto;
 		this.estado = PENDIENTE;
 	}
 
@@ -27,19 +27,19 @@ public class SolicitudCambioTurno {
 	}
 
 	public Turno getTurnoActual() {
-		return TurnoActual;
+		return turnoActual;
 	}
 
 	public void setTurnoActual(Turno turnoActual) {
-		TurnoActual = turnoActual;
+		this.turnoActual = turnoActual;
 	}
 
 	public Turno getTurnoPropuesto() {
-		return TurnoPropuesto;
+		return turnoPropuesto;
 	}
 
 	public void setTurnoPropuesto(Turno turnoPropuesto) {
-		TurnoPropuesto = turnoPropuesto;
+		this.turnoPropuesto = turnoPropuesto;
 	}
 
 	public String getEstado() {

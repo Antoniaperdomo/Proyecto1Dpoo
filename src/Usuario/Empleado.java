@@ -3,9 +3,9 @@ package Usuario;
 import java.util.ArrayList;
 import java.util.Date;
 
-import Administrador.SolicitudCambioTurno;
-import Administrador.SugerenciaProducto;
-import Administrador.Turno;
+import Administradores.SolicitudCambioTurno;
+import Administradores.SugerenciaProducto;
+import Administradores.Turno;
 
 public abstract class Empleado extends Usuario implements Comprador {
 
