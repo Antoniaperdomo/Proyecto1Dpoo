@@ -5,7 +5,7 @@ import Usuario.Socio;
 public class Baloncesto extends DeporteConjunto {
 
 	public Baloncesto() {
-		super("BALOMCESTO", 5);
+		super("BALONCESTO", 5);
 	}
 
 	@Override

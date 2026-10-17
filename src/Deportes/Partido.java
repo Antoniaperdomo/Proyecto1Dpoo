@@ -72,6 +72,14 @@ public abstract class Partido {
 	public abstract ArrayList<Equipo> getEquipos();
 
 	public abstract String getAmbito();
+	
+	public void registrarMarcador (int marcador1, int marcador2) {
+		if (marcador1 < 0 || marcador2 < 0) {
+			throw new IllegalArgumentException("El marcador no puede ser negativo");
+		}
+		this.marcadorEquipo1 = marcador1;
+		this.marcadorEquipo2 = marcador2;
+	}
 
 	private Equipo buscarEquipoDe(Socio socio) {
 		for (Equipo equipo : getEquipos()) {
@@ -120,7 +128,8 @@ public abstract class Partido {
 			}
 		}
 	}
-
+	
+	
 	// RF 06
 
 	public void cerrar() {
@@ -133,5 +142,18 @@ public abstract class Partido {
 
 		}
 	}
+	
+	public void registrarResultadi(int marcador1, int marcador2, ArrayList<EstadisticaJugadorPartido> estadisticas) {
+		registrarMarcador(marcador1, marcador2);
+		for(EstadisticaJugadorPartido est : estadisticas) {
+			agregarEstadisistica(est);
+		}
+		validar();
+		cerrar();
+	}
+		
+		
+
+
 
 }

@@ -3,12 +3,12 @@ package Deportes;
 public class TenisMesa extends DeporteIndividual {
 
 	public TenisMesa(String nivel) {
-		super("TENIS", nivel);
+		super("TENISDEMESA", nivel);
 	}
 
 	@Override
 	public EstadisticaPractica crearEstadistica() {
-		return new EstadisticasTenisYPadel();
+		return new EstadisticaTenisDeMesa();
 	}
 
 }

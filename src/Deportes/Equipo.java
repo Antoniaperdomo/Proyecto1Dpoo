@@ -89,7 +89,7 @@ public class Equipo {
 		return buscarJugador(socio) != null;
 	}
 
-	public void agregarJugador(Socio socio, String poscicion, int numeroCamiseta) {
+	public JugadorEquipo agregarJugador(Socio socio, String poscicion, int numeroCamiseta) {
 		if (!categoria.aceptaEdad(socio)) {
 			throw new IllegalArgumentException("El socio no corresponde a la categoria");
 		}
@@ -109,7 +109,9 @@ public class Equipo {
 				throw new IllegalStateException("La camiseta " + numeroCamiseta + " ya es de otro jugador");
 			}
 		}
-		jugadores.add(new JugadorEquipo(socio, poscicion, numeroCamiseta));
+		JugadorEquipo nuevo = new JugadorEquipo(socio, poscicion, this, numeroCamiseta);
+		jugadores.add(nuevo);
+		return nuevo;
 	}
 
 	// RF 04, 6 , 14
