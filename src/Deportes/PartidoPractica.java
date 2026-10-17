@@ -2,41 +2,28 @@ package Deportes;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import Usuario.Socio;
 
 public class PartidoPractica {
 	private Date fecha;
-	private ArrayList<Socio> jugadoresParticipantes;
+	private String Disciplina;
 	private Instalacion instalacion;
-	private ArrayList<EstadisticaPractica> estadistica;
-
-	public PartidoPractica(Date fecha, ArrayList<Socio> jugadoresParcitipantes, Instalacion instalacion,
-			ArrayList<EstadisticaPractica> estadistica) {
+	private ArrayList<Socio> jugadoresParticipantes;
+	private HashMap<Socio ,EstadisticaPractica> estadisticasPorJugador;
+	public PartidoPractica(Date fecha, String disciplina, Instalacion instalacion,
+			ArrayList<Socio> jugadoresParticipantes, HashMap<Socio, EstadisticaPractica> estadisticasPorJugador) {
+	
 		this.fecha = fecha;
-		this.jugadoresParticipantes = jugadoresParcitipantes;
+		Disciplina = disciplina;
 		this.instalacion = instalacion;
-		this.estadistica = estadistica;
+		this.jugadoresParticipantes = jugadoresParticipantes;
+		this.estadisticasPorJugador = estadisticasPorJugador;
 	}
+	
+	
+	
 
-	public Date getFecha() {
-		return fecha;
-	}
-
-	public ArrayList<Socio> getJugadoresParcitipantes() {
-		return jugadoresParticipantes;
-	}
-
-	public Instalacion getInstalacion() {
-		return instalacion;
-	}
-
-	public ArrayList<EstadisticaPractica> getEstadistica() {
-		return estadistica;
-	}
-
-	public void agregarJugador(Socio socio) {
-		jugadoresParticipantes.add(socio);
-	}
 
 }
