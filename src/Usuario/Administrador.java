@@ -11,6 +11,9 @@ import Deportes.DeporteConjunto;
 import Deportes.Equipo;
 import Deportes.JugadorEquipo;
 import Deportes.Suspension;
+import Tienda.Articulo;
+import Tienda.ExistenciaArticulo;
+import Tienda.Ubicacion;
 
 public class Administrador extends Usuario {
 
@@ -119,8 +122,7 @@ public class Administrador extends Usuario {
 		socio.setActivo(false);
 	}
 	
-	public Equipo crearEquipo(String nombre, DeporteConjunto deporte, int cupoMax, Categoria categoria,
-			ArrayList<JugadorEquipo> jugadores, ArrayList<Suspension> suspensiones, ArrayList<Equipo> todosLosEquipos) throws IllegalArgumentException {
+	public Equipo crearEquipo(String nombre, DeporteConjunto deporte, int cupoMax, Categoria categoria, ArrayList<Equipo> todosLosEquipos) throws IllegalArgumentException {
 		if(cupoMax <=0) {
 			throw new IllegalArgumentException("El cupo máximo debe ser mayor a cero");
 		}
@@ -150,5 +152,41 @@ public class Administrador extends Usuario {
 		equipo.setActivo(false);
 	}
 	
-	public void reabastecer
+	private ExistenciaArticulo buscarExistencia(Articulo articulo, Ubicacion ubicacion,
+	        ArrayList<ExistenciaArticulo> inventario) {
+	    for (ExistenciaArticulo e : inventario) {
+	        if (e.getArticulo().getNombre().equals(articulo.getNombre())
+	                && e.getUbicacion().getNombre().equals(ubicacion.getNombre())) {
+	            return e;
+	        }
+	    }
+	    return null;
+	}
+	
+	public void reabastecer(Articulo articulo, Ubicacion ubicacion, int cantidad,
+	        ArrayList<ExistenciaArticulo> inventario) {
+	    ExistenciaArticulo existencia = buscarExistencia(articulo, ubicacion, inventario);
+	    if (existencia == null) {
+	        if (cantidad <= 0) {
+	            throw new IllegalArgumentException("La cantidad debe ser mayor a cero");
+	        }
+	        inventario.add(new ExistenciaArticulo(articulo, ubicacion, cantidad));
+	    } else {
+	        existencia.aumentar(cantidad);
+	    }
+	}
+	
+	public void moverArticulo(Articulo articulo, Ubicacion origen, Ubicacion destino, int cantidad,
+	        ArrayList<ExistenciaArticulo> inventario) {
+	    if (origen.getNombre().equals(destino.getNombre())) {
+	        throw new IllegalArgumentException("El origen y el destino son la misma ubicación");
+	    }
+	    ExistenciaArticulo enOrigen = buscarExistencia(articulo, origen, inventario);
+	    if (enOrigen == null) {
+	        throw new IllegalArgumentException("El artículo no existe en la ubicación de origen");
+	    }
+	    enOrigen.reducir(cantidad);
+	    reabastecer(articulo, destino, cantidad, inventario);
+	}
+	
 }
