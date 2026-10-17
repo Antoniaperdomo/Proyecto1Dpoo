@@ -11,6 +11,9 @@ import Deportes.DeporteConjunto;
 import Deportes.Equipo;
 import Deportes.JugadorEquipo;
 import Deportes.Suspension;
+import Tienda.Articulo;
+import Tienda.ExistenciaArticulo;
+import Tienda.Ubicacion;
 
 public class Administrador extends Usuario {
 
@@ -51,11 +54,10 @@ public class Administrador extends Usuario {
 		}
 
 	}
-
+	
 	private boolean chocaConOtrosTurnos(SolicitudCambioTurno solicitud, ArrayList<Turno> todosLosTurnos) {
-		for (Turno t : todosLosTurnos) {
-			if (t != solicitud.getTurnoActual() && t.getEmpleado().getId() == solicitud.getEmpleado().getId()
-					&& t.seCruzaCon(solicitud.getTurnoPropuesto())) {
+		for (Turno t:todosLosTurnos) {
+			if(t != solicitud.getTurnoActual() && t.getEmpleado().getId() == solicitud.getEmpleado().getId() && t.seCruzaCon(solicitud.getTurnoPropuesto())) {
 				return true;
 			}
 		}
@@ -93,7 +95,7 @@ public class Administrador extends Usuario {
 	}
 
 	public Turno asignarTurno(Empleado empleado, String diaSemana, int horaInicio, int horaFin,
-			ArrayList<Turno> todosLosTurnos) throws IllegalArgumentException {
+			ArrayList<Turno> todosLosTurnos) throws IllegalArgumentException{
 		Turno nuevo = new Turno(empleado, diaSemana, horaInicio, horaFin);
 		for (Turno f : todosLosTurnos) {
 			if (f.getEmpleado().getId() == empleado.getId() && f.seCruzaCon(nuevo)) {
@@ -105,7 +107,7 @@ public class Administrador extends Usuario {
 	}
 
 	public Socio crearSocio(int id, String nombre, String login, String password, Date fechaNacimiento,
-			ArrayList<Usuario> todosLosUsuarios) throws IllegalArgumentException {
+			ArrayList<Usuario> todosLosUsuarios) throws IllegalArgumentException{
 		for (Usuario u : todosLosUsuarios) {
 			if (u.getLogin().equals(login)) {
 				throw new IllegalArgumentException("El login ya existe");
@@ -119,39 +121,72 @@ public class Administrador extends Usuario {
 	public void darDeBajaSocio(Socio socio, ArrayList<Socio> todosLosSocios) {
 		socio.setActivo(false);
 	}
-
-	public Equipo crearEquipo(String nombre, DeporteConjunto deporte, int cupoMax, Categoria categoria,
-			ArrayList<JugadorEquipo> jugadores, ArrayList<Suspension> suspensiones, ArrayList<Equipo> todosLosEquipos)
-			throws IllegalArgumentException {
-		if (cupoMax <= 0) {
+	
+	public Equipo crearEquipo(String nombre, DeporteConjunto deporte, int cupoMax, Categoria categoria, ArrayList<Equipo> todosLosEquipos) throws IllegalArgumentException {
+		if(cupoMax <=0) {
 			throw new IllegalArgumentException("El cupo máximo debe ser mayor a cero");
 		}
-
-		for (Equipo e : todosLosEquipos) {
-			if (e.getNombre().equals(nombre)) {
+		
+		for (Equipo e:todosLosEquipos) {
+			if(e.getNombre().equals(nombre)) {
 				throw new IllegalArgumentException("Ya existe un equipo con este nombre");
 			}
 		}
-		Equipo equipo = new Equipo(nombre, deporte, cupoMax, categoria, new ArrayList<JugadorEquipo>(),
-				new ArrayList<Suspension>(), true);
+		Equipo equipo = new Equipo(nombre, deporte, cupoMax, categoria, new ArrayList<JugadorEquipo>(), new ArrayList<Suspension>(), true);
 		todosLosEquipos.add(equipo);
 		return equipo;
 	}
-
-	public void inscribirEnEquipo(Socio socio, Equipo equipo, String posicion, int numCamiseta,
-			ArrayList<Equipo> todosLosEquipos) {
-		for (Equipo e : todosLosEquipos) {
-			if (e != equipo && e.isActivo() && e.getDeporte().getNombre().equals(equipo.getDeporte().getNombre())
+	
+	public void inscribirEnEquipo(Socio socio, Equipo equipo, String posicion, int numCamiseta, ArrayList<Equipo> todosLosEquipos) {
+		for(Equipo e: todosLosEquipos) {
+			if(e != equipo && e.isActivo()
+					&& e.getDeporte().getNombre().equals(equipo.getDeporte().getNombre())
 					&& e.tieneJugador(socio)) {
 				throw new IllegalStateException("El socio ya está en otro equipo de este deporte");
 			}
 		}
 		equipo.agregarJugador(socio, posicion, numCamiseta);
 	}
-
+	
 	public void darDeBajaEquipo(Equipo equipo) {
 		equipo.setActivo(false);
 	}
-
-	public void reabastecer
+	
+	private ExistenciaArticulo buscarExistencia(Articulo articulo, Ubicacion ubicacion,
+	        ArrayList<ExistenciaArticulo> inventario) {
+	    for (ExistenciaArticulo e : inventario) {
+	        if (e.getArticulo().getNombre().equals(articulo.getNombre())
+	                && e.getUbicacion().getNombre().equals(ubicacion.getNombre())) {
+	            return e;
+	        }
+	    }
+	    return null;
+	}
+	
+	public void reabastecer(Articulo articulo, Ubicacion ubicacion, int cantidad,
+	        ArrayList<ExistenciaArticulo> inventario) {
+	    ExistenciaArticulo existencia = buscarExistencia(articulo, ubicacion, inventario);
+	    if (existencia == null) {
+	        if (cantidad <= 0) {
+	            throw new IllegalArgumentException("La cantidad debe ser mayor a cero");
+	        }
+	        inventario.add(new ExistenciaArticulo(articulo, ubicacion, cantidad));
+	    } else {
+	        existencia.aumentar(cantidad);
+	    }
+	}
+	
+	public void moverArticulo(Articulo articulo, Ubicacion origen, Ubicacion destino, int cantidad,
+	        ArrayList<ExistenciaArticulo> inventario) {
+	    if (origen.getNombre().equals(destino.getNombre())) {
+	        throw new IllegalArgumentException("El origen y el destino son la misma ubicación");
+	    }
+	    ExistenciaArticulo enOrigen = buscarExistencia(articulo, origen, inventario);
+	    if (enOrigen == null) {
+	        throw new IllegalArgumentException("El artículo no existe en la ubicación de origen");
+	    }
+	    enOrigen.reducir(cantidad);
+	    reabastecer(articulo, destino, cantidad, inventario);
+	}
+	
 }
