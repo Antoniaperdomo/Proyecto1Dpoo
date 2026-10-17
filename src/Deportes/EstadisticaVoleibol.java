@@ -6,8 +6,6 @@ public class EstadisticaVoleibol extends EstadisticaJugadorPartido {
 	private int aces;
 	private int bloqueos;
 	private int sets;
-	
-	
 
 	public int getAces() {
 		return aces;

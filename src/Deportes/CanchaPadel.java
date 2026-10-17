@@ -6,4 +6,10 @@ public class CanchaPadel extends Instalacion {
 		super(4, 4);
 	}
 
+	@Override
+	public String getDisciplina() {
+		// TODO Auto-generated method stub
+		return "PADEL";
+	}
+
 }

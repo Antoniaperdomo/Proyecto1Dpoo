@@ -6,8 +6,6 @@ public class EstadisticaBaloncesto extends EstadisticaJugadorPartido {
 	private int puntos;
 	private int rebotes;
 
-	
-	
 	public int getPuntos() {
 		return puntos;
 	}

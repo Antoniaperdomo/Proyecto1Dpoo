@@ -7,4 +7,10 @@ public class CanchaTenis extends Instalacion {
 
 	}
 
+	@Override
+	public String getDisciplina() {
+		// TODO Auto-generated method stub
+		return "TENIS";
+	}
+
 }

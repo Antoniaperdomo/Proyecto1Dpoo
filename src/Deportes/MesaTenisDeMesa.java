@@ -12,4 +12,10 @@ public class MesaTenisDeMesa extends Instalacion {
 		return techada;
 	}
 
+	@Override
+	public String getDisciplina() {
+		// TODO Auto-generated method stub
+		return "TENISDEMESA";
+	}
+
 }

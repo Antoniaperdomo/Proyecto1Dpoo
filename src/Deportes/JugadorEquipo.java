@@ -10,7 +10,7 @@ public class JugadorEquipo {
 	private int amarillasInternas;
 	private int amarillasCompetencias;
 
-	public JugadorEquipo(Socio socio, String posiccion ,Equipo equipo, int numeroCamiseta) {
+	public JugadorEquipo(Socio socio, String posiccion, Equipo equipo, int numeroCamiseta) {
 		super();
 		this.socio = socio;
 		this.equipo = equipo;
@@ -31,8 +31,6 @@ public class JugadorEquipo {
 	public int getNumeroCamiseta() {
 		return numeroCamiseta;
 	}
-	
-	
 
 	public Equipo getEquipo() {
 		return equipo;
