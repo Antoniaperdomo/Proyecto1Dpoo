@@ -58,4 +58,10 @@ public class EstadisticaFutbol extends EstadisticaJugadorPartido {
 				+ tarjetasRojas + " tarjetas rojas.";
 	}
 
+	@Override
+	public void procesarTarjetas(Equipo equipo, String ambito) {
+		equipo.registrarTarjetas(this, ambito);
+
+	}
+
 }

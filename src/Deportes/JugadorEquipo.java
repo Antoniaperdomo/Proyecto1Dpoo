@@ -4,14 +4,16 @@ import Usuario.Socio;
 
 public class JugadorEquipo {
 	private Socio socio;
+	private Equipo equipo;
 	private String posiccion;
 	private int numeroCamiseta;
 	private int amarillasInternas;
 	private int amarillasCompetencias;
 
-	public JugadorEquipo(Socio socio, String posiccion, int numeroCamiseta) {
+	public JugadorEquipo(Socio socio, String posiccion ,Equipo equipo, int numeroCamiseta) {
 		super();
 		this.socio = socio;
+		this.equipo = equipo;
 		this.posiccion = posiccion;
 		this.numeroCamiseta = numeroCamiseta;
 		this.amarillasInternas = 0;
@@ -28,6 +30,16 @@ public class JugadorEquipo {
 
 	public int getNumeroCamiseta() {
 		return numeroCamiseta;
+	}
+	
+	
+
+	public Equipo getEquipo() {
+		return equipo;
+	}
+
+	public void setEquipo(Equipo equipo) {
+		this.equipo = equipo;
 	}
 
 	public int getAmarillas(String Ambito) {

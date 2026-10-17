@@ -133,7 +133,7 @@ public class Equipo {
 		return total;
 	}
 
-	public void cimplirSuspension(String ambito) {
+	public void cumplirSuspension(String ambito) {
 		for (Suspension s : suspensiones) {
 			if (s.getAmbito().equals(ambito)) {
 				s.cumplir();

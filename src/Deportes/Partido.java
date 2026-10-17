@@ -82,6 +82,8 @@ public abstract class Partido {
 		return null;
 	}
 
+	// RF 05
+
 	public void agregarEstadisistica(EstadisticaJugadorPartido est) {
 		if (est.getClass() != deporte.crearEstadistica(est.getJugador()).getClass()) {
 			throw new IllegalArgumentException("La estadistica no corresponde al deporte " + deporte.getNombre());
@@ -93,6 +95,8 @@ public abstract class Partido {
 		}
 		estadisticas.add(est);
 	}
+
+	// RF 4, 14
 
 	public void validar() {
 		for (Equipo equipo : getEquipos()) {
@@ -114,6 +118,19 @@ public abstract class Partido {
 				throw new IllegalStateException(
 						est.getJugador().getNombre() + " esta suspendido y no puede ser alineado");
 			}
+		}
+	}
+
+	// RF 06
+
+	public void cerrar() {
+		for (Equipo equipo : getEquipos()) {
+			equipo.cumplirSuspension(getAmbito());
+		}
+		for (EstadisticaJugadorPartido est : estadisticas) {
+			Equipo equipo = buscarEquipoDe(est.getJugador());
+			est.procesarTarjetas(equipo, getAmbito());
+
 		}
 	}
 

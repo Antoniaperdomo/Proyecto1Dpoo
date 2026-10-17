@@ -19,4 +19,7 @@ public abstract class EstadisticaJugadorPartido {
 
 	public abstract String resumen();
 
+	public void procesarTarjetas(Equipo equipo, String ambito) {
+	}
+
 }
