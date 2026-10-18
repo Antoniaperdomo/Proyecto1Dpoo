@@ -13,14 +13,16 @@ public class Snack extends ProductoCafeteria {
 	public ArrayList<String> getAlergenos() {
 		return alergenos;
 	}
+
 	public boolean tieneAlergenos() {
 		return !alergenos.isEmpty();
 	}
+
 	public String getAdvertenciaAlergenos() {
 		if (!tieneAlergenos()) {
 			return getNombre() + ": no registra alergenos.";
 		}
-		return "Cuidado, " + getNombre() + " contiene: " + String.join(", ", alergenos);
+		return "Atencion: " + getNombre() + " contiene: " + String.join(", ", alergenos);
 	}
 
 }

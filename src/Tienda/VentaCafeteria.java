@@ -15,16 +15,18 @@ public class VentaCafeteria extends Venta {
 	public VentaCafeteria(Date fecha, Usuario comprador, ArrayList<ItemVenta> items, int porcentajeDescuento) {
 		this(fecha, comprador, items, porcentajeDescuento, PROPINA_SUGERIDA);
 	}
- 
+
 	public VentaCafeteria(Date fecha, Usuario comprador, ArrayList<ItemVenta> items, int porcentajeDescuento,
 			double porcentajePropina) {
 		super(fecha, comprador, items, porcentajeDescuento);
 		setPorcentajePropina(porcentajePropina);
 	}
+
 	@Override
 	protected boolean esItemValido(Producto producto) {
 		return producto instanceof ProductoCafeteria;
 	}
+
 	public double getPorcentajePropina() {
 		return porcentajePropina;
 	}
@@ -35,6 +37,7 @@ public class VentaCafeteria extends Venta {
 		}
 		this.porcentajePropina = porcentajePropina;
 	}
+
 	public double calcularImpuestoConsumo() {
 		return calcularBase() * IMPUESTO_CONSUMO / 100.0;
 	}
@@ -47,14 +50,7 @@ public class VentaCafeteria extends Venta {
 	public double calcularTotal() {
 		return calcularBase() + calcularImpuestoConsumo() + calcularPropina();
 	}
-	public boolean contieneBebidaCaliente() {
-		for (ItemVenta item : getItems()) {
-			if (item.getProducto() instanceof Bebida && ((Bebida) item.getProducto()).esCaliente()) {
-				return true;
-			}
-		}
-		return false;
-	}
+
 	public String getAdvertenciaAlergenos() {
 		StringBuilder sb = new StringBuilder();
 		for (ItemVenta item : getItems()) {
@@ -67,6 +63,11 @@ public class VentaCafeteria extends Venta {
 		}
 		return sb.toString().trim();
 	}
+
+	public void confirmar() {
+		confirmarVenta();
+	}
+
 	@Override
 	protected void agregarRubrosAdicionales(Map<String, Double> rubros) {
 		rubros.put("Impuesto al consumo (" + IMPUESTO_CONSUMO + "%)", calcularImpuestoConsumo());
