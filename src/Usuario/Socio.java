@@ -164,7 +164,7 @@ public class Socio extends Usuario implements Comprador, Participante {
 			ArrayList<Socio> jugadores) {
 		return new PartidoPractica(fecha, disciplina, instalacion, jugadores, false);
 	}
-	
+
 	public void agregarPartidoPractica(PartidoPractica partido) {
 		partidosPractica.add(partido);
 	}
