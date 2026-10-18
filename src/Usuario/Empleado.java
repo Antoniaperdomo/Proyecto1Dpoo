@@ -36,7 +36,7 @@ public abstract class Empleado extends Usuario implements Comprador {
 
 	public SolicitudCambioTurno solicitarCambioTurno(Turno turnoActual, Turno turnoSolicitado,
 			ArrayList<SolicitudCambioTurno> todasLasSolicitudes) throws IllegalArgumentException {
-		if (turnoActual.getEmpleado() != this || turnoSolicitado.getEmpleado() != this) {
+		if (turnoActual.getEmpleado().getId() != this.getId() || turnoSolicitado.getEmpleado().getId() != this.getId()) {
 			throw new IllegalArgumentException("El turno debe de ser del empleador que solicita el cambio");
 		}
 		SolicitudCambioTurno solicitud = new SolicitudCambioTurno(this, turnoActual, turnoSolicitado);

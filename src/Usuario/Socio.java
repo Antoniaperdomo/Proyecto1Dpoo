@@ -22,15 +22,14 @@ public class Socio extends Usuario implements Comprador, Participante {
 	private ArrayList<PartidoPractica> partidosPractica;
 
 	public Socio(int id, String nombre, String login, String password, Date fechaNacimiento, int puntosFidelidad,
-			boolean activo, ArrayList<Equipo> equipos, ArrayList<InscripcionIndividual> inscripciones,
-			ArrayList<ReservaInstalacion> reservas, ArrayList<PartidoPractica> partidosPractica) {
+			boolean activo) {
 		super(id, nombre, login, password, fechaNacimiento);
 		this.puntosFidelidad = puntosFidelidad;
 		this.activo = activo;
-		this.equipos = equipos;
-		this.inscripciones = inscripciones;
-		this.reservas = reservas;
-		this.partidosPractica = partidosPractica;
+		this.equipos = new ArrayList<Equipo>();
+		this.inscripciones = new ArrayList<InscripcionIndividual>();
+		this.reservas = new ArrayList<ReservaInstalacion>();
+		this.partidosPractica = new ArrayList<PartidoPractica>();
 	}
 
 	@Override
@@ -92,6 +91,7 @@ public class Socio extends Usuario implements Comprador, Participante {
 
 	// RF 02
 	public void unirseEquipo(Equipo equipo, String posicion, int numeroCamiseta) {
+		verificarActivo();
 		for (Equipo n : equipos) {
 			if (n.getDeporte().getNombre().equals(equipo.getDeporte().getNombre())) {
 				throw new IllegalStateException("Ya pertenece a un equipo de " + equipo.getDeporte().getNombre());
@@ -114,6 +114,7 @@ public class Socio extends Usuario implements Comprador, Participante {
 	}
 
 	public InscripcionIndividual inscribirse(String disciplina) {
+		verificarActivo();
 		if (buscarInscripcion(disciplina) != null) {
 			throw new IllegalStateException("Ya esta inscrito en " + disciplina);
 		}
@@ -160,7 +161,7 @@ public class Socio extends Usuario implements Comprador, Participante {
 	}
 
 	// RF 19
-	public PartidoPractica progamarPartido(Date fecha, String disciplina, Instalacion instalacion,
+	public PartidoPractica programarPartido(Date fecha, String disciplina, Instalacion instalacion,
 			ArrayList<Socio> jugadores) {
 		return new PartidoPractica(fecha, disciplina, instalacion, jugadores, false);
 	}
@@ -168,5 +169,10 @@ public class Socio extends Usuario implements Comprador, Participante {
 	public void agregarPartidoPractica(PartidoPractica partido) {
 		partidosPractica.add(partido);
 	}
-
+	
+	private void verificarActivo() {
+		if (!activo) {
+			throw new IllegalStateException("El socio está dado de baja");
+		}
+	}
 }

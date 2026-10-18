@@ -55,7 +55,7 @@ public abstract class Venta {
 	}
 
 	public double calcularDescuento() {
-		return calcularSubtotal() * (porcentajeDescuento / 100);
+		return calcularSubtotal() * (porcentajeDescuento / 100.0);
 	}
 
 	protected double calcularBase() {

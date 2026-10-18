@@ -12,6 +12,7 @@ public abstract class Partido {
 	private int marcadorEquipo1;
 	private int marcadorEquipo2;
 	private ArrayList<EstadisticaJugadorPartido> estadisticas;
+	private boolean jugado;
 
 	public Partido(Date fecha, DeporteConjunto deeporte, Equipo equipo1) {
 		super();
@@ -89,6 +90,10 @@ public abstract class Partido {
 		}
 		return null;
 	}
+	
+	public boolean isJugado() {
+		return jugado;
+	}
 
 	// RF 05
 
@@ -140,6 +145,7 @@ public abstract class Partido {
 			est.procesarTarjetas(equipo, getAmbito());
 
 		}
+		this.jugado = true;
 	}
 
 	public void registrarResultadi(int marcador1, int marcador2, ArrayList<EstadisticaJugadorPartido> estadisticas) {

@@ -1,5 +1,7 @@
 package Deportes;
 
+import java.util.ArrayList;
+
 import Usuario.Socio;
 
 public class InscripcionIndividual {
@@ -11,12 +13,15 @@ public class InscripcionIndividual {
 	private Socio socio;
 	private DeporteIndividual deporte;
 	private int rankingELO;
+	private ArrayList<Integer> historialElo;
 
 	public InscripcionIndividual(Socio socio, DeporteIndividual deporte) {
-		super();
 		this.socio = socio;
 		this.deporte = deporte;
 		this.rankingELO = ELO_INICIAL;
+		this.historialElo = new ArrayList<Integer>();
+		this.historialElo.add(ELO_INICIAL);
+		actualizarNivel();
 	}
 
 	public Socio getSocio() {
@@ -34,16 +39,20 @@ public class InscripcionIndividual {
 	public void setDeporte(DeporteIndividual deporte) {
 		this.deporte = deporte;
 	}
-
+	
 	public int getRankingELO() {
 		return rankingELO;
 	}
+	
+	// RF 16
 
-	public void setRankingELO(int rankingELO) {
-		this.rankingELO = rankingELO;
+	public ArrayList<Integer> getHistorialElo() {
+		return historialElo;
 	}
 
-	// RF 16
+	public void setHistorialElo(ArrayList<Integer> historialElo) {
+		this.historialElo = historialElo;
+	}
 
 	private void actualizarNivel() {
 		if (rankingELO >= ELO_AVANZADO) {
@@ -61,5 +70,6 @@ public class InscripcionIndividual {
 		rankingELO = (int) Math.round(rankingELO + K * (resultado - esperado));
 		actualizarNivel();
 	}
+	
 
 }

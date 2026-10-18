@@ -8,14 +8,27 @@ import Administradores.SugerenciaProducto;
 import Administradores.Turno;
 import Deportes.Categoria;
 import Deportes.DeporteConjunto;
+import Deportes.DeporteIndividual;
 import Deportes.Equipo;
+import Deportes.InscripcionIndividual;
 import Deportes.JugadorEquipo;
+import Deportes.Partido;
+import Deportes.PartidoPractica;
+import Deportes.ReservaInstalacion;
 import Deportes.Suspension;
 import Tienda.Articulo;
 import Tienda.ExistenciaArticulo;
 import Tienda.Ubicacion;
+import Tienda.Venta;
+import Tienda.VentaCafeteria;
+import Tienda.VentaTienda;
 
 public class Administrador extends Usuario {
+	
+	public static final String DIARIO = "diario";
+	public static final String SEMANAL = "semanal";
+	public static final String MENSUAL = "mensual";
+	private static final long MILISEGUNDOS_POR_DIA = 24L * 60 * 60 * 1000;
 
 	public Administrador(int id, String nombre, String login, String password, Date fechaNacimiento) {
 		super(id, nombre, login, password, fechaNacimiento);
@@ -112,6 +125,9 @@ public class Administrador extends Usuario {
 			if (u.getLogin().equals(login)) {
 				throw new IllegalArgumentException("El login ya existe");
 			}
+			if (u.getId() == id) {
+				throw new IllegalArgumentException("El id ya existe");
+			}
 		}
 		Socio socio = new Socio(id, nombre, login, password, fechaNacimiento, 0, true);
 		todosLosUsuarios.add(socio);
@@ -187,6 +203,82 @@ public class Administrador extends Usuario {
 	    }
 	    enOrigen.reducir(cantidad);
 	    reabastecer(articulo, destino, cantidad, inventario);
+	}
+	
+	public String reporteResultadosPartidos(ArrayList<Partido> partidos) {
+		String reporte = "RESULTADOS DE PARTIDOS\n";
+		for (Partido p : partidos) {
+			if (p.isJugado()) {
+				String rival = "rival externo";
+				for (Equipo e : p.getEquipos()) {
+					if (e != p.getEquipo1()) {
+						rival = e.getNombre();
+					}
+				}
+				reporte += p.getFecha() + " | " + p.getDeeporte().getNombre() + " | " + p.getAmbito() + " | "
+						+ p.getEquipo1().getNombre() + " " + p.getMarcadorEquipo1() + " - "
+						+ p.getMarcadorEquipo2() + " " + rival + "\n";
+			}
+		}
+		return reporte;
+	}
+	
+	public String reporteEvolucionRanking(ArrayList<InscripcionIndividual> inscripciones, DeporteIndividual deporte) {
+		String reporte = "EVOLUCIÓN DE RANKING - " + deporte.getNombre() + "\n";
+		for (InscripcionIndividual i : inscripciones) {
+			if (i.getDeporte().getNombre().equals(deporte.getNombre())) {
+				reporte += i.getSocio().getNombre() + " | actual: " + i.getRankingELO() + " (" + i.getDeporte().getNivel() + ") | historial: ";
+				for (int k = 0; k < i.getHistorialElo().size(); k++) {
+					reporte += i.getHistorialElo().get(k);
+					if (k < i.getHistorialElo().size() - 1) {
+						reporte += " -> ";
+					}
+				}
+				reporte += "\n";
+			}
+		}
+		return reporte;
+	}
+	
+	public String reporteVentas(ArrayList<Venta> ventas, Date desde, Date hasta) {
+		double totalTienda = 0;
+		double totalCafeteria = 0;
+		int cantidadTienda = 0;
+		int cantidadCafeteria = 0;
+
+		for (Venta v : ventas) {
+			long momento = v.getFecha().getTime();
+			if (momento >= desde.getTime() && momento <= hasta.getTime()) {
+				if (v instanceof VentaTienda) {
+					totalTienda += v.calcularTotal();
+					cantidadTienda++;
+				} else if (v instanceof VentaCafeteria) {
+					totalCafeteria += v.calcularTotal();
+					cantidadCafeteria++;
+				}
+			}
+		}
+
+		return "REPORTE DE VENTAS\n"
+				+ "Desde: " + desde + "\nHasta: " + hasta + "\n"
+				+ "Tienda: " + cantidadTienda + " ventas, total $" + totalTienda + "\n"
+				+ "Cafetería: " + cantidadCafeteria + " ventas, total $" + totalCafeteria + "\n"
+				+ "Total general: $" + (totalTienda + totalCafeteria) + "\n";
+	}
+	
+	public String reporteVentasPorPeriodo(ArrayList<Venta> ventas, Date fechaReferencia, String periodo) {
+		int dias;
+		if (periodo.equals(DIARIO)) {
+			dias = 1;
+		} else if (periodo.equals(SEMANAL)) {
+			dias = 7;
+		} else if (periodo.equals(MENSUAL)) {
+			dias = 30;
+		} else {
+			throw new IllegalArgumentException("Periodo inválido: " + periodo);
+		}
+		Date desde = new Date(fechaReferencia.getTime() - dias * MILISEGUNDOS_POR_DIA);
+		return reporteVentas(ventas, desde, fechaReferencia);
 	}
 	
 }
