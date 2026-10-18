@@ -16,8 +16,7 @@ public class PartidoPractica {
 	private boolean finalizado;
 
 	public PartidoPractica(Date fecha, String disciplina, Instalacion instalacion,
-			ArrayList<Socio> jugadoresParticipantes, HashMap<Socio, EstadisticaPractica> estadisticasPorJugador,
-			boolean programadoPorEntrenador) {
+			ArrayList<Socio> jugadoresParticipantes, boolean programadoPorEntrenador) {
 		if (!instalacion.getDisciplina().equals(disciplina)) {
 			throw new IllegalArgumentException("La instalacion no sirve para " + disciplina);
 		}
@@ -25,13 +24,14 @@ public class PartidoPractica {
 			throw new IllegalArgumentException("El numero de jugadores no se permite en la instalacion");
 		}
 		for (Socio socio : jugadoresParticipantes) {
-			if(socio.b)
+			if (socio.b) {
+			}
 		}
 		this.fecha = fecha;
 		this.Disciplina = disciplina;
 		this.instalacion = instalacion;
 		this.jugadoresParticipantes = jugadoresParticipantes;
-		this.estadisticasPorJugador = estadisticasPorJugador;
+		this.estadisticasPorJugador = new HashMap<Socio, EstadisticaPractica>();
 		this.programadoPorEntrenador = programadoPorEntrenador;
 		this.finalizado = false;
 	}

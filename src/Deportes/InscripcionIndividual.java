@@ -12,11 +12,11 @@ public class InscripcionIndividual {
 	private DeporteIndividual deporte;
 	private int rankingELO;
 
-	public InscripcionIndividual(Socio socio, DeporteIndividual deporte, int rankingELO) {
+	public InscripcionIndividual(Socio socio, DeporteIndividual deporte) {
 		super();
 		this.socio = socio;
 		this.deporte = deporte;
-		this.rankingELO = rankingELO;
+		this.rankingELO = ELO_INICIAL;
 	}
 
 	public Socio getSocio() {
