@@ -6,7 +6,11 @@ import java.util.Map;
 
 public class Inventario {
 	private ArrayList<ExistenciaArticulo> existencias = new ArrayList<ExistenciaArticulo>();
-	 
+	
+	public ArrayList<ExistenciaArticulo> getExistencias() {
+	    return existencias;
+	}
+	
 	public void registrarExistencia(Articulo articulo, Ubicacion ubicacion, int cantidad) {
 		if (cantidad < 0) {
 			throw new IllegalArgumentException("La cantidad no puede ser negativa");

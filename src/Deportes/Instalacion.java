@@ -4,20 +4,31 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class Instalacion {
+	private final String nombre;
 	private final int capacidadMin;
 	private final int capacidadMax;
 	private ArrayList<ReservaInstalacion> reservas;
 
-	public Instalacion(int capacidadMin, int capacidadMax) {
+	
+
+	public Instalacion(String nombre, int capacidadMin, int capacidadMax, ArrayList<ReservaInstalacion> reservas) {
+		if(nombre == null) {
+			throw new IllegalArgumentException("La instalación debe tener un nombre");
+		}
+		this.nombre = nombre;
 		this.capacidadMin = capacidadMin;
 		this.capacidadMax = capacidadMax;
-		this.reservas = new ArrayList<ReservaInstalacion>();
+		this.reservas = reservas;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+	
 	public ArrayList<ReservaInstalacion> getReservas() {
 		return reservas;
 	}
-
+	
 	public void setReservas(ArrayList<ReservaInstalacion> reservas) {
 		this.reservas = reservas;
 	}

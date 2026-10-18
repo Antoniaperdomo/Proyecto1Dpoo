@@ -1,10 +1,13 @@
 package Deportes;
 
+import java.util.ArrayList;
+
 public class CanchaTenis extends Instalacion {
 
-	public CanchaTenis() {
-		super(2, 4);
+	
 
+	public CanchaTenis(String nombre) {
+	    super(nombre, 2, 4, new ArrayList<ReservaInstalacion>());
 	}
 
 	@Override

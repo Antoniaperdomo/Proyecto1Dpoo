@@ -94,6 +94,11 @@ public abstract class Partido {
 	public boolean isJugado() {
 		return jugado;
 	}
+	
+	// Persistencia: restaura el estado sin volver a procesar tarjetas ni suspensiones
+		public void setJugado(boolean jugado) {
+			this.jugado = jugado;
+		}
 
 	// RF 05
 

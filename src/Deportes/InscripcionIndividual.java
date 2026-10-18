@@ -63,7 +63,16 @@ public class InscripcionIndividual {
 			deporte.setNivel(DeporteIndividual.PRINCIPIANTE);
 		}
 	}
-
+	
+	// Persistencia: restaura el ELO y su historial tal como se guardaron
+		public void restaurar(int rankingELO, ArrayList<Integer> historial) {
+			this.rankingELO = rankingELO;
+			this.historialElo = new ArrayList<Integer>(historial);
+			if (this.historialElo.isEmpty()) {
+				this.historialElo.add(rankingELO);
+			}
+			actualizarNivel();
+		}
 	// RF 21
 	public void actualizarRanking(double resultado, int eloRival) {
 		double esperado = 1.0 / (1 + Math.pow(10, (eloRival - rankingELO) / 400.00));
