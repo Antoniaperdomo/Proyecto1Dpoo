@@ -5,10 +5,15 @@ public class ItemVenta {
 	private int cantidad;
 
 	public ItemVenta(Producto producto, int cantidad) {
+		if (producto == null) {
+			throw new IllegalArgumentException("El producto es obligatorio");
+		}
+		if (cantidad <= 0) {
+			throw new IllegalArgumentException("La cantidad debe ser mayor a cero");
+		}
 		this.producto = producto;
 		this.cantidad = cantidad;
 	}
-
 	public Producto getProducto() {
 		return producto;
 	}
