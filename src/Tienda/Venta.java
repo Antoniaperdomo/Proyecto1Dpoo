@@ -11,7 +11,7 @@ import Usuario.Usuario;
 
 public abstract class Venta {
 
-	public static final double PORCENTAJE_PUNTOS = 0.02;
+	public static final double PORCENTAJE_PUNTOS = 0.02; // RF-34
 
 	private Date fecha;
 	private Usuario comprador;
@@ -27,9 +27,6 @@ public abstract class Venta {
 		}
 		if (!(comprador instanceof Comprador)) {
 			throw new IllegalArgumentException("El comprador debe ser un socio o un empleado");
-		}
-		if (comprador instanceof Socio && !((Socio) comprador).isActivo()) {
-			throw new IllegalStateException("El socio esta dado de baja");
 		}
 		this.fecha = fecha;
 		this.comprador = comprador;
@@ -131,10 +128,21 @@ public abstract class Venta {
 		if (items.isEmpty()) {
 			throw new IllegalStateException("La venta no tiene items");
 		}
+		if (comprador instanceof Socio && !((Socio) comprador).isActivo()) {
+			throw new IllegalStateException("El socio esta dado de baja");
+		}
 		Comprador c = (Comprador) comprador;
 		int ganados = calcularPuntos();
 		c.setPuntosFidelidad(c.getPuntosFidelidad() - getPuntosAplicados() + ganados);
 		confirmada = true;
+	}
+
+	public void restaurarConfirmada(int puntosRedimidos) {
+		if (puntosRedimidos < 0) {
+			throw new IllegalArgumentException("Los puntos no pueden ser negativos");
+		}
+		this.puntosRedimidos = puntosRedimidos;
+		this.confirmada = true;
 	}
 
 	private void verificarNoConfirmada() {

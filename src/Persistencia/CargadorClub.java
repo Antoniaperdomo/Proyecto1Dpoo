@@ -575,7 +575,7 @@ public class CargadorClub {
 				} else {
 					throw f.error("tipo de venta desconocido: " + tipo);
 				}
-				v.redimirPuntos(f.enteroOpcional(5, 0));
+				v.restaurarConfirmada(f.enteroOpcional(5, 0));
 				d.getRegistroVentas().registrar(v);
 			}
 		});
