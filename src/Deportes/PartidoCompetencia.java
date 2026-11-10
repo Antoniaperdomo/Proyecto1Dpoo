@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import Competencias.Competencia;
+import Competencias.NominaCompetencia;
 
 public class PartidoCompetencia extends Partido {
 	private Institucion institucion;
@@ -23,6 +24,9 @@ public class PartidoCompetencia extends Partido {
 	
 	public void setCompetencia(Competencia competencia) {
 		this.competencia = competencia;
+		if(competencia != null) {
+			competencia.agregarPartido(this);
+		}
 	}
 
 	public Institucion getInstitucion() {

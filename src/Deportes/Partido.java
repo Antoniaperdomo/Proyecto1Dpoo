@@ -142,6 +142,9 @@ public abstract class Partido {
 	// RF 06
 
 	public void cerrar() {
+		if (jugado) {
+			throw new IllegalStateException("El partido ya fue cerrado.");
+		}
 		for (Equipo equipo : getEquipos()) {
 			equipo.cumplirSuspension(getAmbito());
 		}
@@ -160,6 +163,15 @@ public abstract class Partido {
 		}
 		validar();
 		cerrar();
+	}
+	//RF 13
+	public int getPuntajeDestacado(Socio socio) {
+		for (EstadisticaJugadorPartido est : estadisticas) {
+			if(est.getJugador() == socio) {
+				return est.getPuntajeDestacado();
+			}
+		}
+		return 0;
 	}
 
 }

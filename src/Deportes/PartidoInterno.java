@@ -3,6 +3,7 @@ package Deportes;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 public class PartidoInterno extends Partido {
 	private Equipo equipo2;
 
