@@ -90,15 +90,16 @@ public abstract class Partido {
 		}
 		return null;
 	}
-	
+
 	public boolean isJugado() {
 		return jugado;
 	}
-	
-	// Persistencia: restaura el estado sin volver a procesar tarjetas ni suspensiones
-		public void setJugado(boolean jugado) {
-			this.jugado = jugado;
-		}
+
+	// Persistencia: restaura el estado sin volver a procesar tarjetas ni
+	// suspensiones
+	public void setJugado(boolean jugado) {
+		this.jugado = jugado;
+	}
 
 	// RF 05
 
@@ -164,10 +165,11 @@ public abstract class Partido {
 		validar();
 		cerrar();
 	}
-	//RF 13
+
+	// RF 13
 	public int getPuntajeDestacado(Socio socio) {
 		for (EstadisticaJugadorPartido est : estadisticas) {
-			if(est.getJugador() == socio) {
+			if (est.getJugador() == socio) {
 				return est.getPuntajeDestacado();
 			}
 		}

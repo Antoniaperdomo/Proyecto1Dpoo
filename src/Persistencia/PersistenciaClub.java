@@ -6,14 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
- //Punto de entrada de la persistencia. Toda la información del club vive en
- // una carpeta de archivos de texto (UTF-8), un archivo por tipo de entidad o
- // relación. La carpeta NO puede ser la del código fuente. 
- //Uso: 
- // DatosClub datos = PersistenciaClub.cargar("datos");
- // ... se usa la aplicación ...
- // PersistenciaClub.guardar(datos, "datos");
+//Punto de entrada de la persistencia. Toda la información del club vive en
+// una carpeta de archivos de texto (UTF-8), un archivo por tipo de entidad o
+// relación. La carpeta NO puede ser la del código fuente. 
+//Uso: 
+// DatosClub datos = PersistenciaClub.cargar("datos");
+// ... se usa la aplicación ...
+// PersistenciaClub.guardar(datos, "datos");
 
 public class PersistenciaClub {
 

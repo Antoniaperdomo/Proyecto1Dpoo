@@ -76,71 +76,75 @@ public abstract class Competencia {
 	public ArrayList<PartidoCompetencia> getPartidos() {
 		return partidos;
 	}
-	
+
 	public abstract TablaPosiciones getTabla();
-	
-	//RF 11
+
+	// RF 11
 	public void regustrarResultado(Equipo equipo, int puntos) {
 		getTabla().sumarPuntos(equipo, puntos);
 	}
-	
+
 	public NominaCompetencia buscarNomina(Equipo equipo) {
 		for (NominaCompetencia n : nominas) {
-			if(n.getEquipo() == equipo) {
+			if (n.getEquipo() == equipo) {
 				return n;
 			}
 		}
 		return null;
 	}
 
-	//RF 09
+	// RF 09
 	public void agrgarNomina(NominaCompetencia nomina) {
-		if(nomina.getCompetencia() != this) {
+		if (nomina.getCompetencia() != this) {
 			throw new IllegalArgumentException("La nomina es de otra competencia");
 		}
-		if(buscarNomina(nomina.getEquipo()) != null) {
-			throw new IllegalArgumentException("El equipo " + nomina.getEquipo().getNombre() + " ya esta inscrito en " + nombre);
+		if (buscarNomina(nomina.getEquipo()) != null) {
+			throw new IllegalArgumentException(
+					"El equipo " + nomina.getEquipo().getNombre() + " ya esta inscrito en " + nombre);
 		}
 		nominas.add(nomina);
 	}
+
 	public void inscribir(NominaCompetencia nomina) {
 		agrgarNomina(nomina);
 		getTabla().registrarUnEquipo(nomina.getEquipo());
 	}
-	//RF10
+
+	// RF10
 	public boolean puedeJugar(Equipo equipo) {
 		return buscarNomina(equipo) != null;
 	}
-	
+
 	public void agregarPartido(PartidoCompetencia partido) {
-		if(!partidos.contains(partido)) {
+		if (!partidos.contains(partido)) {
 			partidos.add(partido);
 		}
 	}
-	
-	//RF 13
+
+	// RF 13
 	public int getPuntajeAcumulado(Socio socio) {
 		int total = 0;
-		for(PartidoCompetencia p : partidos) {
+		for (PartidoCompetencia p : partidos) {
 			if (p.isJugado()) {
 				total += p.getPuntajeDestacado(socio);
 			}
 		}
 		return total;
 	}
-	public ArrayList<Socio> getClasificacionJugadores(){
+
+	public ArrayList<Socio> getClasificacionJugadores() {
 		ArrayList<Socio> jugadores = new ArrayList<Socio>();
-		for (NominaCompetencia n : nominas){
-			for(Socio s :n.getJugadoresHabilitados()) {
-				if(!jugadores.contains(s)) {
+		for (NominaCompetencia n : nominas) {
+			for (Socio s : n.getJugadoresHabilitados()) {
+				if (!jugadores.contains(s)) {
 					jugadores.add(s);
 				}
 			}
 		}
-		for (int i= 0; i< jugadores.size(); i++) {
+		for (int i = 0; i < jugadores.size(); i++) {
 			int mejor = i;
-			for (int j = i +1; j < jugadores.size(); j++) {
-				if(getPuntajeAcumulado(jugadores.get(j))>getPuntajeAcumulado(jugadores.get(mejor))) {
+			for (int j = i + 1; j < jugadores.size(); j++) {
+				if (getPuntajeAcumulado(jugadores.get(j)) > getPuntajeAcumulado(jugadores.get(mejor))) {
 					mejor = j;
 				}
 			}
@@ -150,10 +154,10 @@ public abstract class Competencia {
 		}
 		return jugadores;
 	}
-	
+
 	public Socio getMejorJugador() {
 		ArrayList<Socio> clasificacion = getClasificacionJugadores();
-		if(clasificacion.isEmpty()) {
+		if (clasificacion.isEmpty()) {
 			return null;
 		}
 		return clasificacion.get(0);

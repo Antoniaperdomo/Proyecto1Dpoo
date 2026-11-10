@@ -63,9 +63,9 @@ import Usuario.Socio;
 import Usuario.Usuario;
 
 /**
- * Convierte el estado en memoria ({@link DatosClub}) en archivos de texto.
- * Cada archivo se escribe primero a un temporal y luego se renombra, para no
- * dejar un archivo a medias si algo falla en la mitad de la escritura.
+ * Convierte el estado en memoria ({@link DatosClub}) en archivos de texto. Cada
+ * archivo se escribe primero a un temporal y luego se renombra, para no dejar
+ * un archivo a medias si algo falla en la mitad de la escritura.
  */
 public class GuardadorClub {
 
@@ -88,7 +88,6 @@ public class GuardadorClub {
 		sugerencias(d, carpeta);
 		ventas(d, carpeta);
 	}
-
 
 	// Usuarios
 
@@ -172,8 +171,7 @@ public class GuardadorClub {
 		List<String> filasSuspensiones = new ArrayList<String>();
 		for (Equipo e : d.getEquipos()) {
 			filasEquipos.add(linea(esc(e.getNombre()), esc(e.getDeporte().getNombre()),
-					esc(e.getCategoria().getNombre()), String.valueOf(e.getCupoMax()),
-					String.valueOf(e.isActivo())));
+					esc(e.getCategoria().getNombre()), String.valueOf(e.getCupoMax()), String.valueOf(e.isActivo())));
 			for (JugadorEquipo j : e.getJugadores()) {
 				filasJugadores.add(linea(esc(e.getNombre()), esc(j.getSocio().getId()), esc(j.getPosiccion()),
 						String.valueOf(j.getNumeroCamiseta()), String.valueOf(j.getAmarillas(Suspension.INTERNO)),
@@ -198,8 +196,8 @@ public class GuardadorClub {
 		for (Usuario u : d.getUsuarios()) {
 			if (u instanceof Socio) {
 				for (InscripcionIndividual i : ((Socio) u).getInscripciones()) {
-					filas.add(linea(esc(u.getId()), esc(i.getDeporte().getNombre()),
-							String.valueOf(i.getRankingELO()), lista(i.getHistorialElo())));
+					filas.add(linea(esc(u.getId()), esc(i.getDeporte().getNombre()), String.valueOf(i.getRankingELO()),
+							lista(i.getHistorialElo())));
 				}
 			}
 		}
@@ -284,7 +282,6 @@ public class GuardadorClub {
 				"partidoId;socioId;setsGanados;gamesGanados;aces;erroresNoForzados;puntosTotales", filasEstadisticas);
 	}
 
-
 	// Competencias
 
 	private static void competencias(DatosClub d, Path carpeta) throws IOException {
@@ -303,8 +300,8 @@ public class GuardadorClub {
 					}
 				});
 				for (Map.Entry<Equipo, Integer> e : puntos) {
-					filasTabla.add(linea(esc(c.getNombre()), esc(e.getKey().getNombre()),
-							String.valueOf(e.getValue())));
+					filasTabla
+							.add(linea(esc(c.getNombre()), esc(e.getKey().getNombre()), String.valueOf(e.getValue())));
 				}
 			} else if (c instanceof ASCUN) {
 				tipo = "ASCUN";
@@ -312,9 +309,9 @@ public class GuardadorClub {
 			} else {
 				throw new IOException("Tipo de competencia no soportado: " + c.getClass().getName());
 			}
-			filasCompetencias.add(linea(tipo, esc(c.getNombre()), esc(c.getEntidadOrganizadora()),
-					esc(c.getTemporadaOAño()), esc(c.getDeporte().getNombre()), esc(c.getCategoria().getNombre()),
-					fase));
+			filasCompetencias
+					.add(linea(tipo, esc(c.getNombre()), esc(c.getEntidadOrganizadora()), esc(c.getTemporadaOAño()),
+							esc(c.getDeporte().getNombre()), esc(c.getCategoria().getNombre()), fase));
 		}
 		List<String> filasNominas = new ArrayList<String>();
 		for (NominaCompetencia n : d.getNominas()) {
@@ -446,8 +443,8 @@ public class GuardadorClub {
 	private static void sugerencias(DatosClub d, Path carpeta) throws IOException {
 		List<String> filas = new ArrayList<String>();
 		for (SugerenciaProducto s : d.getSugerencias()) {
-			filas.add(linea(esc(s.getNombre()), esc(s.getCategoria()), esc(s.getEstado()),
-					esc(s.getEmpleado().getId())));
+			filas.add(
+					linea(esc(s.getNombre()), esc(s.getCategoria()), esc(s.getEstado()), esc(s.getEmpleado().getId())));
 		}
 		escribir(carpeta, PersistenciaClub.SUGERENCIAS, "nombre;categoria;estado;empleadoId", filas);
 	}

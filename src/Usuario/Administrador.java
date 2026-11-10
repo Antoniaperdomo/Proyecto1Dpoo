@@ -24,7 +24,7 @@ import Tienda.VentaCafeteria;
 import Tienda.VentaTienda;
 
 public class Administrador extends Usuario {
-	
+
 	public static final String DIARIO = "diario";
 	public static final String SEMANAL = "semanal";
 	public static final String MENSUAL = "mensual";
@@ -67,10 +67,11 @@ public class Administrador extends Usuario {
 		}
 
 	}
-	
+
 	private boolean chocaConOtrosTurnos(SolicitudCambioTurno solicitud, ArrayList<Turno> todosLosTurnos) {
-		for (Turno t:todosLosTurnos) {
-			if(t != solicitud.getTurnoActual() && t.getEmpleado().getId() == solicitud.getEmpleado().getId() && t.seCruzaCon(solicitud.getTurnoPropuesto())) {
+		for (Turno t : todosLosTurnos) {
+			if (t != solicitud.getTurnoActual() && t.getEmpleado().getId() == solicitud.getEmpleado().getId()
+					&& t.seCruzaCon(solicitud.getTurnoPropuesto())) {
 				return true;
 			}
 		}
@@ -108,7 +109,7 @@ public class Administrador extends Usuario {
 	}
 
 	public Turno asignarTurno(Empleado empleado, String diaSemana, int horaInicio, int horaFin,
-			ArrayList<Turno> todosLosTurnos) throws IllegalArgumentException{
+			ArrayList<Turno> todosLosTurnos) throws IllegalArgumentException {
 		Turno nuevo = new Turno(empleado, diaSemana, horaInicio, horaFin);
 		for (Turno f : todosLosTurnos) {
 			if (f.getEmpleado().getId() == empleado.getId() && f.seCruzaCon(nuevo)) {
@@ -120,7 +121,7 @@ public class Administrador extends Usuario {
 	}
 
 	public Socio crearSocio(int id, String nombre, String login, String password, Date fechaNacimiento,
-			ArrayList<Usuario> todosLosUsuarios) throws IllegalArgumentException{
+			ArrayList<Usuario> todosLosUsuarios) throws IllegalArgumentException {
 		for (Usuario u : todosLosUsuarios) {
 			if (u.getLogin().equals(login)) {
 				throw new IllegalArgumentException("El login ya existe");
@@ -137,74 +138,76 @@ public class Administrador extends Usuario {
 	public void darDeBajaSocio(Socio socio, ArrayList<Socio> todosLosSocios) {
 		socio.setActivo(false);
 	}
-	
-	public Equipo crearEquipo(String nombre, DeporteConjunto deporte, int cupoMax, Categoria categoria, ArrayList<Equipo> todosLosEquipos) throws IllegalArgumentException {
-		if(cupoMax <=0) {
+
+	public Equipo crearEquipo(String nombre, DeporteConjunto deporte, int cupoMax, Categoria categoria,
+			ArrayList<Equipo> todosLosEquipos) throws IllegalArgumentException {
+		if (cupoMax <= 0) {
 			throw new IllegalArgumentException("El cupo máximo debe ser mayor a cero");
 		}
-		
-		for (Equipo e:todosLosEquipos) {
-			if(e.getNombre().equals(nombre)) {
+
+		for (Equipo e : todosLosEquipos) {
+			if (e.getNombre().equals(nombre)) {
 				throw new IllegalArgumentException("Ya existe un equipo con este nombre");
 			}
 		}
-		Equipo equipo = new Equipo(nombre, deporte, cupoMax, categoria, new ArrayList<JugadorEquipo>(), new ArrayList<Suspension>(), true);
+		Equipo equipo = new Equipo(nombre, deporte, cupoMax, categoria, new ArrayList<JugadorEquipo>(),
+				new ArrayList<Suspension>(), true);
 		todosLosEquipos.add(equipo);
 		return equipo;
 	}
-	
-	public void inscribirEnEquipo(Socio socio, Equipo equipo, String posicion, int numCamiseta, ArrayList<Equipo> todosLosEquipos) {
-		for(Equipo e: todosLosEquipos) {
-			if(e != equipo && e.isActivo()
-					&& e.getDeporte().getNombre().equals(equipo.getDeporte().getNombre())
+
+	public void inscribirEnEquipo(Socio socio, Equipo equipo, String posicion, int numCamiseta,
+			ArrayList<Equipo> todosLosEquipos) {
+		for (Equipo e : todosLosEquipos) {
+			if (e != equipo && e.isActivo() && e.getDeporte().getNombre().equals(equipo.getDeporte().getNombre())
 					&& e.tieneJugador(socio)) {
 				throw new IllegalStateException("El socio ya está en otro equipo de este deporte");
 			}
 		}
 		equipo.agregarJugador(socio, posicion, numCamiseta);
 	}
-	
+
 	public void darDeBajaEquipo(Equipo equipo) {
 		equipo.setActivo(false);
 	}
-	
+
 	private ExistenciaArticulo buscarExistencia(Articulo articulo, Ubicacion ubicacion,
-	        ArrayList<ExistenciaArticulo> inventario) {
-	    for (ExistenciaArticulo e : inventario) {
-	        if (e.getArticulo().getNombre().equals(articulo.getNombre())
-	                && e.getUbicacion().getNombre().equals(ubicacion.getNombre())) {
-	            return e;
-	        }
-	    }
-	    return null;
+			ArrayList<ExistenciaArticulo> inventario) {
+		for (ExistenciaArticulo e : inventario) {
+			if (e.getArticulo().getNombre().equals(articulo.getNombre())
+					&& e.getUbicacion().getNombre().equals(ubicacion.getNombre())) {
+				return e;
+			}
+		}
+		return null;
 	}
-	
+
 	public void reabastecer(Articulo articulo, Ubicacion ubicacion, int cantidad,
-	        ArrayList<ExistenciaArticulo> inventario) {
-	    ExistenciaArticulo existencia = buscarExistencia(articulo, ubicacion, inventario);
-	    if (existencia == null) {
-	        if (cantidad <= 0) {
-	            throw new IllegalArgumentException("La cantidad debe ser mayor a cero");
-	        }
-	        inventario.add(new ExistenciaArticulo(articulo, ubicacion, cantidad));
-	    } else {
-	        existencia.aumentar(cantidad);
-	    }
+			ArrayList<ExistenciaArticulo> inventario) {
+		ExistenciaArticulo existencia = buscarExistencia(articulo, ubicacion, inventario);
+		if (existencia == null) {
+			if (cantidad <= 0) {
+				throw new IllegalArgumentException("La cantidad debe ser mayor a cero");
+			}
+			inventario.add(new ExistenciaArticulo(articulo, ubicacion, cantidad));
+		} else {
+			existencia.aumentar(cantidad);
+		}
 	}
-	
+
 	public void moverArticulo(Articulo articulo, Ubicacion origen, Ubicacion destino, int cantidad,
-	        ArrayList<ExistenciaArticulo> inventario) {
-	    if (origen.getNombre().equals(destino.getNombre())) {
-	        throw new IllegalArgumentException("El origen y el destino son la misma ubicación");
-	    }
-	    ExistenciaArticulo enOrigen = buscarExistencia(articulo, origen, inventario);
-	    if (enOrigen == null) {
-	        throw new IllegalArgumentException("El artículo no existe en la ubicación de origen");
-	    }
-	    enOrigen.reducir(cantidad);
-	    reabastecer(articulo, destino, cantidad, inventario);
+			ArrayList<ExistenciaArticulo> inventario) {
+		if (origen.getNombre().equals(destino.getNombre())) {
+			throw new IllegalArgumentException("El origen y el destino son la misma ubicación");
+		}
+		ExistenciaArticulo enOrigen = buscarExistencia(articulo, origen, inventario);
+		if (enOrigen == null) {
+			throw new IllegalArgumentException("El artículo no existe en la ubicación de origen");
+		}
+		enOrigen.reducir(cantidad);
+		reabastecer(articulo, destino, cantidad, inventario);
 	}
-	
+
 	public String reporteResultadosPartidos(ArrayList<Partido> partidos) {
 		String reporte = "RESULTADOS DE PARTIDOS\n";
 		for (Partido p : partidos) {
@@ -216,18 +219,19 @@ public class Administrador extends Usuario {
 					}
 				}
 				reporte += p.getFecha() + " | " + p.getDeeporte().getNombre() + " | " + p.getAmbito() + " | "
-						+ p.getEquipo1().getNombre() + " " + p.getMarcadorEquipo1() + " - "
-						+ p.getMarcadorEquipo2() + " " + rival + "\n";
+						+ p.getEquipo1().getNombre() + " " + p.getMarcadorEquipo1() + " - " + p.getMarcadorEquipo2()
+						+ " " + rival + "\n";
 			}
 		}
 		return reporte;
 	}
-	
+
 	public String reporteEvolucionRanking(ArrayList<InscripcionIndividual> inscripciones, DeporteIndividual deporte) {
 		String reporte = "EVOLUCIÓN DE RANKING - " + deporte.getNombre() + "\n";
 		for (InscripcionIndividual i : inscripciones) {
 			if (i.getDeporte().getNombre().equals(deporte.getNombre())) {
-				reporte += i.getSocio().getNombre() + " | actual: " + i.getRankingELO() + " (" + i.getDeporte().getNivel() + ") | historial: ";
+				reporte += i.getSocio().getNombre() + " | actual: " + i.getRankingELO() + " ("
+						+ i.getDeporte().getNivel() + ") | historial: ";
 				for (int k = 0; k < i.getHistorialElo().size(); k++) {
 					reporte += i.getHistorialElo().get(k);
 					if (k < i.getHistorialElo().size() - 1) {
@@ -239,7 +243,7 @@ public class Administrador extends Usuario {
 		}
 		return reporte;
 	}
-	
+
 	public String reporteVentas(ArrayList<Venta> ventas, Date desde, Date hasta) {
 		double totalTienda = 0;
 		double totalCafeteria = 0;
@@ -259,13 +263,11 @@ public class Administrador extends Usuario {
 			}
 		}
 
-		return "REPORTE DE VENTAS\n"
-				+ "Desde: " + desde + "\nHasta: " + hasta + "\n"
-				+ "Tienda: " + cantidadTienda + " ventas, total $" + totalTienda + "\n"
-				+ "Cafetería: " + cantidadCafeteria + " ventas, total $" + totalCafeteria + "\n"
-				+ "Total general: $" + (totalTienda + totalCafeteria) + "\n";
+		return "REPORTE DE VENTAS\n" + "Desde: " + desde + "\nHasta: " + hasta + "\n" + "Tienda: " + cantidadTienda
+				+ " ventas, total $" + totalTienda + "\n" + "Cafetería: " + cantidadCafeteria + " ventas, total $"
+				+ totalCafeteria + "\n" + "Total general: $" + (totalTienda + totalCafeteria) + "\n";
 	}
-	
+
 	public String reporteVentasPorPeriodo(ArrayList<Venta> ventas, Date fechaReferencia, String periodo) {
 		int dias;
 		if (periodo.equals(DIARIO)) {
@@ -280,5 +282,5 @@ public class Administrador extends Usuario {
 		Date desde = new Date(fechaReferencia.getTime() - dias * MILISEGUNDOS_POR_DIA);
 		return reporteVentas(ventas, desde, fechaReferencia);
 	}
-	
+
 }

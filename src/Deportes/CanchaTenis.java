@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 public class CanchaTenis extends Instalacion {
 
-	
-
 	public CanchaTenis(String nombre) {
-	    super(nombre, 2, 4, new ArrayList<ReservaInstalacion>());
+		super(nombre, 2, 4, new ArrayList<ReservaInstalacion>());
 	}
 
 	@Override

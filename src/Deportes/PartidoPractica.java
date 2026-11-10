@@ -119,18 +119,20 @@ public class PartidoPractica {
 		}
 
 	}
-	//Rf 20
+
+	// Rf 20
 	public void registrarEstadisticas(Socio socio, EstadisticaPractica est) {
-		if(!jugadoresParticipantes.contains(socio)) {
-			throw new IllegalArgumentException ("El socio no participo en este partido");
+		if (!jugadoresParticipantes.contains(socio)) {
+			throw new IllegalArgumentException("El socio no participo en este partido");
 		}
 		DeporteIndividual deporte = socio.buscarInscripcion(disciplina).getDeporte();
-		if(est.getClass() != deporte.crearEstadistica().getClass()) {
+		if (est.getClass() != deporte.crearEstadistica().getClass()) {
 			throw new IllegalArgumentException("La estadistica no corresponde a " + disciplina);
 		}
 		estadisticasPorJugador.put(socio, est);
 	}
-	//rf 21
+
+	// rf 21
 	public String finalizar() {
 		if (finalizado) {
 			throw new IllegalStateException("El partido ya fue finalizado");
@@ -142,10 +144,10 @@ public class PartidoPractica {
 		Socio b = jugadoresParticipantes.get(1);
 		EstadisticaPractica estA = estadisticasPorJugador.get(a);
 		EstadisticaPractica estB = estadisticasPorJugador.get(b);
-		if(estA == null || estB == null) {
+		if (estA == null || estB == null) {
 			throw new IllegalStateException("Faltan las estadisticas de alguno de los jugadores");
 		}
-		
+
 		double resultadoA = 0.5;
 		if (estA.getSetsGanados() > estB.getSetsGanados()) {
 			resultadoA = 1;
@@ -153,19 +155,19 @@ public class PartidoPractica {
 		if (estA.getSetsGanados() < estB.getSetsGanados()) {
 			resultadoA = 0;
 		}
-		
+
 		InscripcionIndividual inscA = a.buscarInscripcion(disciplina);
 		InscripcionIndividual inscB = b.buscarInscripcion(disciplina);
 		int eloAntesA = inscA.getRankingELO();
 		int eloAntesB = inscB.getRankingELO();
-		
+
 		inscA.actualizarRanking(resultadoA, eloAntesB);
-		inscB.actualizarRanking(1-resultadoA, eloAntesA);
+		inscB.actualizarRanking(1 - resultadoA, eloAntesA);
 		finalizado = true;
-		
+
 		return a.getNombre() + "(" + disciplina + "): ELO " + eloAntesA + " -> " + inscA.getRankingELO() + "\n"
 				+ b.getNombre() + "(" + disciplina + "): ELO " + eloAntesB + " -> " + inscB.getRankingELO();
-				
+
 	}
 
 }

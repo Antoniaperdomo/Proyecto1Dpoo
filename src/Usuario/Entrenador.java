@@ -12,9 +12,9 @@ public class Entrenador extends Empleado implements Participante {
 			Date fechaContratacion) {
 		super(id, nombre, login, password, fechaNacimiento, fechaContratacion);
 	}
-	
-	//RF 19
-	
+
+	// RF 19
+
 	public PartidoPractica programarPartido(Date fecha, String disciplina, Instalacion instalacion,
 			ArrayList<Socio> jugadores) {
 		return new PartidoPractica(fecha, disciplina, instalacion, jugadores, true);
