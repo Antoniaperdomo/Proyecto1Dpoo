@@ -105,7 +105,7 @@ public class DatosClub {
 		return registroVentas;
 	}
 
-	// ---- búsquedas por llave (devuelven null si no existe) ----
+	// búsquedas por llave (devuelven null si no existe)
 
 	public Usuario buscarUsuario(int id) {
 		for (Usuario u : usuarios) {
