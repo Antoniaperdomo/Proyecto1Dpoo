@@ -79,7 +79,10 @@ public final class Formato {
 		return sb.toString();
 	}
 
-	/** Parte un texto en los separadores que NO están escapados (conserva los escapes). */
+	/**
+	 * Parte un texto en los separadores que NO están escapados (conserva los
+	 * escapes).
+	 */
 	public static ArrayList<String> dividirCrudo(String texto, char separador) {
 		ArrayList<String> partes = new ArrayList<String>();
 		StringBuilder actual = new StringBuilder();

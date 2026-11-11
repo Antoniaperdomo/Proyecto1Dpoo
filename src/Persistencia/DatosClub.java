@@ -22,8 +22,8 @@ import Usuario.Socio;
 import Usuario.Usuario;
 
 /**
- * Todo el estado del club en memoria. Es lo que se carga al iniciar y lo que
- * se guarda al terminar. Los objetos se relacionan entre sí por referencia; los
+ * Todo el estado del club en memoria. Es lo que se carga al iniciar y lo que se
+ * guarda al terminar. Los objetos se relacionan entre sí por referencia; los
  * archivos los relacionan por llave (id, nombre) y el cargador reconstruye las
  * referencias.
  */

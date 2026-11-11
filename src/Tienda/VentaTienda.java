@@ -33,7 +33,6 @@ public class VentaTienda extends Venta {
 		rubros.put("IVA (" + IVA + "%)", calcularIVA());
 	}
 
-
 	public void confirmar(ArrayList<ExistenciaArticulo> inventario, Ubicacion ubicacion) {
 		descontarInventario(inventario, ubicacion);
 		confirmarVenta();
@@ -48,8 +47,7 @@ public class VentaTienda extends Venta {
 		for (Map.Entry<String, Integer> entrada : requerido.entrySet()) {
 			ExistenciaArticulo e = buscarExistencia(entrada.getKey(), ubicacion, inventario);
 			if (e == null || e.getCantidadDisponible() < entrada.getValue()) {
-				throw new IllegalStateException(
-						"No hay suficientes unidades en el inventario de " + entrada.getKey());
+				throw new IllegalStateException("No hay suficientes unidades en el inventario de " + entrada.getKey());
 			}
 		}
 
@@ -57,7 +55,6 @@ public class VentaTienda extends Venta {
 			buscarExistencia(entrada.getKey(), ubicacion, inventario).reducir(entrada.getValue());
 		}
 	}
-
 
 	private ExistenciaArticulo buscarExistencia(String nombreArticulo, Ubicacion ubicacion,
 			ArrayList<ExistenciaArticulo> inventario) {

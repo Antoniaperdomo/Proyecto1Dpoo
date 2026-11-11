@@ -39,11 +39,11 @@ public class InscripcionIndividual {
 	public void setDeporte(DeporteIndividual deporte) {
 		this.deporte = deporte;
 	}
-	
+
 	public int getRankingELO() {
 		return rankingELO;
 	}
-	
+
 	// RF 16
 
 	public ArrayList<Integer> getHistorialElo() {
@@ -63,22 +63,22 @@ public class InscripcionIndividual {
 			deporte.setNivel(DeporteIndividual.PRINCIPIANTE);
 		}
 	}
-	
+
 	// Persistencia: restaura el ELO y su historial tal como se guardaron
-		public void restaurar(int rankingELO, ArrayList<Integer> historial) {
-			this.rankingELO = rankingELO;
-			this.historialElo = new ArrayList<Integer>(historial);
-			if (this.historialElo.isEmpty()) {
-				this.historialElo.add(rankingELO);
-			}
-			actualizarNivel();
+	public void restaurar(int rankingELO, ArrayList<Integer> historial) {
+		this.rankingELO = rankingELO;
+		this.historialElo = new ArrayList<Integer>(historial);
+		if (this.historialElo.isEmpty()) {
+			this.historialElo.add(rankingELO);
 		}
+		actualizarNivel();
+	}
+
 	// RF 21
 	public void actualizarRanking(double resultado, int eloRival) {
 		double esperado = 1.0 / (1 + Math.pow(10, (eloRival - rankingELO) / 400.00));
 		rankingELO = (int) Math.round(rankingELO + K * (resultado - esperado));
 		actualizarNivel();
 	}
-	
 
 }

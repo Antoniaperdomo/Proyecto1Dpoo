@@ -390,8 +390,7 @@ public class CargadorClub {
 				if (!(c instanceof TorneoCerros)) {
 					throw f.error("'" + c.getNombre() + "' no tiene tabla de posiciones (no es liga)");
 				}
-				((TorneoCerros) c).getTablaPosiciones().getPuntosPorEquipo().put(equipo(d, f, f.texto(1)),
-						f.entero(2));
+				((TorneoCerros) c).getTablaPosiciones().getPuntosPorEquipo().put(equipo(d, f, f.texto(1)), f.entero(2));
 			}
 		});
 	}
@@ -494,7 +493,6 @@ public class CargadorClub {
 			}
 		});
 	}
-
 
 	// Administración
 
@@ -623,7 +621,6 @@ public class CargadorClub {
 		return i;
 	}
 
-
 	// Fábricas de deportes
 
 	private static DeporteConjunto deporteConjunto(Fila f, String nombre) throws IOException {
@@ -653,7 +650,6 @@ public class CargadorClub {
 		throw f.error("disciplina desconocida: " + nombre);
 	}
 
-
 	// Lectura de archivos
 
 	private static void recorrer(Path carpeta, String nombreArchivo, ProcesadorFila procesador) throws IOException {
@@ -673,7 +669,8 @@ public class CargadorClub {
 			} catch (IOException e) {
 				throw e;
 			} catch (RuntimeException e) {
-				// Las reglas del dominio lanzan IllegalArgument/IllegalState: se reportan con archivo y línea
+				// Las reglas del dominio lanzan IllegalArgument/IllegalState: se reportan con
+				// archivo y línea
 				throw fila.error(e.getMessage());
 			}
 		}

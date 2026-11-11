@@ -169,7 +169,7 @@ public class Socio extends Usuario implements Comprador, Participante {
 	public void agregarPartidoPractica(PartidoPractica partido) {
 		partidosPractica.add(partido);
 	}
-	
+
 	private void verificarActivo() {
 		if (!activo) {
 			throw new IllegalStateException("El socio está dado de baja");

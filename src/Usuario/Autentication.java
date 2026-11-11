@@ -3,10 +3,10 @@ package Usuario;
 import java.util.ArrayList;
 
 public class Autentication {
-	
+
 	public Usuario iniciarSesion(String login, String password, ArrayList<Usuario> todosLosUsuarios) {
-		for(Usuario u:todosLosUsuarios) {
-			if(u.getLogin().equals(login) && u.getPassword().equals(password)) {
+		for (Usuario u : todosLosUsuarios) {
+			if (u.getLogin().equals(login) && u.getPassword().equals(password)) {
 				if (u instanceof Socio && !((Socio) u).isActivo()) {
 					throw new IllegalStateException("El socio está dado de baja");
 				}

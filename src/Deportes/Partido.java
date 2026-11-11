@@ -90,15 +90,16 @@ public abstract class Partido {
 		}
 		return null;
 	}
-	
+
 	public boolean isJugado() {
 		return jugado;
 	}
-	
-	// Persistencia: restaura el estado sin volver a procesar tarjetas ni suspensiones
-		public void setJugado(boolean jugado) {
-			this.jugado = jugado;
-		}
+
+	// Persistencia: restaura el estado sin volver a procesar tarjetas ni
+	// suspensiones
+	public void setJugado(boolean jugado) {
+		this.jugado = jugado;
+	}
 
 	// RF 05
 
@@ -142,6 +143,9 @@ public abstract class Partido {
 	// RF 06
 
 	public void cerrar() {
+		if (jugado) {
+			throw new IllegalStateException("El partido ya fue cerrado.");
+		}
 		for (Equipo equipo : getEquipos()) {
 			equipo.cumplirSuspension(getAmbito());
 		}
@@ -160,6 +164,16 @@ public abstract class Partido {
 		}
 		validar();
 		cerrar();
+	}
+
+	// RF 13
+	public int getPuntajeDestacado(Socio socio) {
+		for (EstadisticaJugadorPartido est : estadisticas) {
+			if (est.getJugador() == socio) {
+				return est.getPuntajeDestacado();
+			}
+		}
+		return 0;
 	}
 
 }

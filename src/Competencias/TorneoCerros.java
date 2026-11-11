@@ -20,4 +20,9 @@ public class TorneoCerros extends Competencia {
 		this.tablaPosiciones = tablaPosiciones;
 	}
 
+	@Override
+	public TablaPosiciones getTabla() {
+		return tablaPosiciones;
+	}
+
 }
