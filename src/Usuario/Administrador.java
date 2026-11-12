@@ -31,6 +31,8 @@ import Tienda.Venta;
 import Tienda.VentaCafeteria;
 import Tienda.VentaTienda;
 
+import Entrenamiento.AnaliticaJugador;
+
 public class Administrador extends Usuario {
 
 	public static final String DIARIO = "diario";
@@ -289,6 +291,26 @@ public class Administrador extends Usuario {
 		}
 		Date desde = new Date(fechaReferencia.getTime() - dias * MILISEGUNDOS_POR_DIA);
 		return reporteVentas(ventas, desde, fechaReferencia);
+	}
+	
+	public String reporteDesempenoJugador(Socio socio, Date desde, Date hasta, ArrayList<SesionEntrenamiento> sesiones,
+			ArrayList<Partido> partidos, ArrayList<PartidoPractica> partidosPractica) {
+		AnaliticaJugador analitica = AnaliticaJugador.calcular(socio, desde, hasta, sesiones, partidos,
+				partidosPractica);
+		return "DESEMPEÑO DE JUGADOR\n" + analitica.resumen() + "\n";
+	}
+
+	public String reporteDesempenoSocios(ArrayList<Socio> socios, Date desde, Date hasta,
+			ArrayList<SesionEntrenamiento> sesiones, ArrayList<Partido> partidos,
+			ArrayList<PartidoPractica> partidosPractica) {
+		String reporte = "DESEMPEÑO DE JUGADORES (" + desde + " a " + hasta + ")\n";
+		for (Socio socio : socios) {
+			if (socio.isActivo()) {
+				reporte += AnaliticaJugador.calcular(socio, desde, hasta, sesiones, partidos, partidosPractica)
+						.resumen() + "\n";
+			}
+		}
+		return reporte;
 	}
 	
 	
