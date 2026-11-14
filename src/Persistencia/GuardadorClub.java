@@ -188,7 +188,6 @@ public class GuardadorClub {
 		escribir(carpeta, PersistenciaClub.SUSPENSIONES, "equipo;socioId;motivo;ambito;cumplida", filasSuspensiones);
 	}
 
-
 	// Deportes individuales
 	private static void inscripciones(DatosClub d, Path carpeta) throws IOException {
 		List<String> filas = new ArrayList<String>();

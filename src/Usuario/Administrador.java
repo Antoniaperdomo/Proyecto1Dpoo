@@ -292,7 +292,7 @@ public class Administrador extends Usuario {
 		Date desde = new Date(fechaReferencia.getTime() - dias * MILISEGUNDOS_POR_DIA);
 		return reporteVentas(ventas, desde, fechaReferencia);
 	}
-	
+
 	public String reporteDesempenoJugador(Socio socio, Date desde, Date hasta, ArrayList<SesionEntrenamiento> sesiones,
 			ArrayList<Partido> partidos, ArrayList<PartidoPractica> partidosPractica) {
 		AnaliticaJugador analitica = AnaliticaJugador.calcular(socio, desde, hasta, sesiones, partidos,
@@ -312,12 +312,12 @@ public class Administrador extends Usuario {
 		}
 		return reporte;
 	}
-	
-	
-	//rf 38
-	//asistencia a entrenamientos entre dos fechas: detalle por sesión finalizada
-	//y resumen por socio(asistió,llegó tarde, faltó y porcentje de asistencia sobre asistecias registradas)
-	
+
+	// rf 38
+	// asistencia a entrenamientos entre dos fechas: detalle por sesión finalizada
+	// y resumen por socio(asistió,llegó tarde, faltó y porcentje de asistencia
+	// sobre asistecias registradas)
+
 	public String reporteAsistenciaEntrenamientos(ArrayList<SesionEntrenamiento> sesiones, Date desde, Date hasta) {
 		String reporte = "ASISTENCIA A ENTRENAMIENTOS\nDesde: " + desde + "\nHasta: " + hasta + "\n";
 		// por socio: {asistio, llego tarde, falto, sin registrar}
@@ -363,16 +363,15 @@ public class Administrador extends Usuario {
 			int[] c = e.getValue();
 			int registradas = c[0] + c[1] + c[2];
 			double porcentaje = (registradas == 0) ? 0 : (c[0] + c[1]) * 100.0 / registradas;
-			reporte += e.getKey().getNombre() + " | asistió: " + c[0] + " | llegó tarde: " + c[1] + " | faltó: "
-					+ c[2] + " | sin registrar: " + c[3] + " | asistencia: " + String.format("%.1f", porcentaje)
-					+ "%\n";
+			reporte += e.getKey().getNombre() + " | asistió: " + c[0] + " | llegó tarde: " + c[1] + " | faltó: " + c[2]
+					+ " | sin registrar: " + c[3] + " | asistencia: " + String.format("%.1f", porcentaje) + "%\n";
 		}
 		return reporte;
 	}
-	
-	//rf 35 estado del inventario/instalaciones e historiales
-	
-	//Estado del inventario de artículos, agrupado por ubicación.
+
+	// rf 35 estado del inventario/instalaciones e historiales
+
+	// Estado del inventario de artículos, agrupado por ubicación.
 	public String reporteEstadoInventario(Inventario inventario) {
 		Map<String, ArrayList<ExistenciaArticulo>> porUbicacion = new LinkedHashMap<String, ArrayList<ExistenciaArticulo>>();
 		for (ExistenciaArticulo e : inventario.getExistencias()) {
@@ -391,9 +390,8 @@ public class Administrador extends Usuario {
 		}
 		return reporte;
 	}
-	
-	
-	//Estado de las instalaciones: disciplina, capacidad, total de reservas y si
+
+	// Estado de las instalaciones: disciplina, capacidad, total de reservas y si
 	// están ocupadas en la fecha y bloque indicados.
 	public String reporteEstadoInstalaciones(ArrayList<Instalacion> instalaciones, Date fecha, Date bloqueHorario) {
 		String reporte = "ESTADO DE INSTALACIONES (" + fecha + " / " + bloqueHorario + ")\n";
@@ -404,8 +402,9 @@ public class Administrador extends Usuario {
 		}
 		return reporte;
 	}
-	
-	//Historial completo de reservas de todas las instalaciones, de la más antigua a la más reciente.
+
+	// Historial completo de reservas de todas las instalaciones, de la más antigua
+	// a la más reciente.
 	public String historialReservas(ArrayList<Instalacion> instalaciones) {
 		ArrayList<ReservaInstalacion> todas = new ArrayList<ReservaInstalacion>();
 		for (Instalacion i : instalaciones) {
@@ -425,8 +424,9 @@ public class Administrador extends Usuario {
 		}
 		return reporte;
 	}
-	
-	//Historial completo de partidos de conjunto (jugados o programados) y de práctica.
+
+	// Historial completo de partidos de conjunto (jugados o programados) y de
+	// práctica.
 	public String historialPartidos(ArrayList<Partido> partidos, ArrayList<PartidoPractica> partidosPractica) {
 		String reporte = "HISTORIAL DE PARTIDOS\n";
 		for (Partido p : partidos) {
@@ -436,8 +436,7 @@ public class Administrador extends Usuario {
 					rival = e.getNombre();
 				}
 			}
-			String resultado = p.isJugado() ? (p.getMarcadorEquipo1() + " - " + p.getMarcadorEquipo2())
-					: "programado";
+			String resultado = p.isJugado() ? (p.getMarcadorEquipo1() + " - " + p.getMarcadorEquipo2()) : "programado";
 			reporte += p.getFecha() + " | " + p.getDeeporte().getNombre() + " | " + p.getAmbito() + " | "
 					+ p.getEquipo1().getNombre() + " vs " + rival + " | " + resultado + "\n";
 		}
@@ -451,8 +450,8 @@ public class Administrador extends Usuario {
 		}
 		return reporte;
 	}
-	
-	//Historial completo de sesiones de entrenamiento.
+
+	// Historial completo de sesiones de entrenamiento.
 	public String historialSesiones(ArrayList<SesionEntrenamiento> sesiones) {
 		String reporte = "HISTORIAL DE SESIONES DE ENTRENAMIENTO\n";
 		for (SesionEntrenamiento s : sesiones) {
@@ -464,9 +463,5 @@ public class Administrador extends Usuario {
 		}
 		return reporte;
 	}
-	
-	
-	
-	
 
 }
