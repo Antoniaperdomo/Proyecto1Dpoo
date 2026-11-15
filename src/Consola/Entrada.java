@@ -3,6 +3,7 @@ package Consola;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -14,9 +15,9 @@ public class Entrada {
 
 	private final Scanner scanner;
 
-	public Entrada(Scanner scanner) {
+	public Entrada(InputStream in) {
 		super();
-		this.scanner = scanner;
+		this.scanner = new Scanner(in, "UTF-8");
 	}
 
 	private String leerLinea(String prompt) {
@@ -114,23 +115,21 @@ public class Entrada {
 		return leerEntero("Opción", 0, opciones.length);
 	}
 
-	public <T> T elegirDeLista(String titulo, List<T> items, Function<T, String> descripcion) {
+	public int elegirIndice(String titulo, ArrayList<String> descripciones) {
 		System.out.println();
 		System.out.println("--- " + titulo + " ---");
-		if (items.isEmpty()) {
+		if (descripciones.isEmpty()) {
 			System.out.println("  (no hay elementos)");
-			return null;
+			return -1;
 		}
-		for (int i = 0; i < items.size(); i++) {
-			System.out.println((i + 1) + ". " + descripcion.apply(items.get(i)));
+		for (int i = 0; i < descripciones.size(); i++) {
+			System.out.println((i + 1) + ". " + descripciones.get(i));
 		}
 		System.out.println("0. Cancelar");
-		int n = leerEntero("Elija ", 0, items.size());
-		if (n == 0) {
-			return null;
-		}
-		return items.get(n - 1);
-
+		int n = leerEntero("Elija", 0, descripciones.size());
+		return n - 1;
 	}
+
+	
 
 }
