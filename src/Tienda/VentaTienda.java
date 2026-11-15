@@ -34,6 +34,7 @@ public class VentaTienda extends Venta {
 	}
 
 	public void confirmar(ArrayList<ExistenciaArticulo> inventario, Ubicacion ubicacion) {
+		validarConfirmacion();
 		descontarInventario(inventario, ubicacion);
 		confirmarVenta();
 	}

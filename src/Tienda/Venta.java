@@ -123,7 +123,7 @@ public abstract class Venta {
 		return (int) (calcularTotal() * PORCENTAJE_PUNTOS);
 	}
 
-	protected void confirmarVenta() {
+	protected void validarConfirmacion() {
 		verificarNoConfirmada();
 		if (items.isEmpty()) {
 			throw new IllegalStateException("La venta no tiene items");
@@ -131,6 +131,10 @@ public abstract class Venta {
 		if (comprador instanceof Socio && !((Socio) comprador).isActivo()) {
 			throw new IllegalStateException("El socio esta dado de baja");
 		}
+	}
+
+	protected void confirmarVenta() {
+		validarConfirmacion();
 		Comprador c = (Comprador) comprador;
 		int ganados = calcularPuntos();
 		c.setPuntosFidelidad(c.getPuntosFidelidad() - getPuntosAplicados() + ganados);
