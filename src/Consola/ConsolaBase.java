@@ -98,11 +98,11 @@ public abstract class ConsolaBase {
 		}
 	}
 
-	protected void into(String mensaje) {
+	protected void info(String mensaje) {
 		System.out.println(mensaje);
 	}
 
-	protected String elegirTest(String titulo, String[] opciones) {
+	protected String elegirTexto(String titulo, String[] opciones) {
 		ArrayList<String> lista = new ArrayList<String>();
 		for (int i = 0; i < opciones.length; i++) {
 			lista.add(opciones[i]);

@@ -25,7 +25,7 @@ public class Entrada {
 		return scanner.nextLine();
 	}
 
-	private String leerTexto(String prompt) {
+	public String leerTexto(String prompt) {
 		while (true) {
 			String s = leerLinea(prompt);
 			if (!s.isEmpty()) {

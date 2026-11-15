@@ -144,7 +144,7 @@ public class ConsolaEmpleado extends ConsolaBase{
 			if (!s.isEmpty()) {
 				return s;
 			}
-			into("  El valor no puede estar vacío.");
+			info("  El valor no puede estar vacío.");
 		}
 	}
 
@@ -215,26 +215,26 @@ public class ConsolaEmpleado extends ConsolaBase{
 
 	private void verPerfil() {
 		Empleado e = empleado();
-		into("");
-		into("Nombre: " + e.getNombre() + " (id " + e.getId() + ")");
-		into("Cargo: " + tipoDeEmpleado());
-		into("Login: " + e.getLogin());
-		into("Edad: " + e.getEdad() + " años");
-		into("Fecha de contratación: " + formatoFecha.format(e.getFechaContratacion()));
-		into("Puntos de fidelidad: " + e.getPuntosFidelidad());
-		into("Descuento de empleado: " + (int) Math.round(e.getDescuentoPropio() * 100) + "%");
+		info("");
+		info("Nombre: " + e.getNombre() + " (id " + e.getId() + ")");
+		info("Cargo: " + tipoDeEmpleado());
+		info("Login: " + e.getLogin());
+		info("Edad: " + e.getEdad() + " años");
+		info("Fecha de contratación: " + formatoFecha.format(e.getFechaContratacion()));
+		info("Puntos de fidelidad: " + e.getPuntosFidelidad());
+		info("Descuento de empleado: " + (int) Math.round(e.getDescuentoPropio() * 100) + "%");
 	}
 
 	private void verMisTurnos() {
 		ArrayList<Turno> turnos = misTurnos();
-		into("");
+		info("");
 		if (turnos.isEmpty()) {
-			into("No tiene turnos asignados.");
+			info("No tiene turnos asignados.");
 			return;
 		}
-		into("Mis turnos:");
+		info("Mis turnos:");
 		for (Turno t : turnos) {
-			into("  - " + descripcionTurno(t));
+			info("  - " + descripcionTurno(t));
 		}
 	}
 
@@ -259,12 +259,12 @@ public class ConsolaEmpleado extends ConsolaBase{
 		}
 		Turno actual = turnos.get(pos);
 		if (tieneSolicitudPendiente(actual)) {
-			into("Ya hay una solicitud pendiente para ese turno.");
+			info("Ya hay una solicitud pendiente para ese turno.");
 			return;
 		}
 
-		into("Datos del turno que propone:");
-		String dia = elegirTest("Día de la semana", DIAS);
+		info("Datos del turno que propone:");
+		String dia = elegirTexto("Día de la semana", DIAS);
 		if (dia == null) {
 			return;
 		}
@@ -273,24 +273,24 @@ public class ConsolaEmpleado extends ConsolaBase{
 		Turno propuesto = new Turno(empleado(), dia, inicio, fin);
 
 		empleado().solicitarCambioTurno(actual, propuesto, datos.getSolicitudes());
-		into("Solicitud enviada. Un administrador la revisará.");
+		info("Solicitud enviada. Un administrador la revisará.");
 	}
 
 	private void verMisSolicitudes() {
 		boolean hay = false;
-		into("");
+		info("");
 		for (SolicitudCambioTurno s : datos.getSolicitudes()) {
 			if (s.getEmpleado().getId() == usuarioActual.getId()) {
 				if (!hay) {
-					into("Mis solicitudes de cambio de turno:");
+					info("Mis solicitudes de cambio de turno:");
 					hay = true;
 				}
-				into("  - " + descripcionTurno(s.getTurnoActual()) + "  ->  " + descripcionTurno(s.getTurnoPropuesto())
+				info("  - " + descripcionTurno(s.getTurnoActual()) + "  ->  " + descripcionTurno(s.getTurnoPropuesto())
 						+ " | " + s.getEstado());
 			}
 		}
 		if (!hay) {
-			into("No ha enviado solicitudes.");
+			info("No ha enviado solicitudes.");
 		}
 	}
 
@@ -298,29 +298,29 @@ public class ConsolaEmpleado extends ConsolaBase{
 		String nombre = leerTexto("Nombre del producto");
 		String categoria = leerTexto("Categoría (ej. Ropa, Equipo, Bebida, Snack)");
 		empleado().sugerirProducto(nombre, categoria, datos.getSugerencias());
-		into("Sugerencia enviada. Un administrador la evaluará.");
+		info("Sugerencia enviada. Un administrador la evaluará.");
 	}
 
 	private void verMisSugerencias() {
 		boolean hay = false;
-		into("");
+		info("");
 		for (SugerenciaProducto s : datos.getSugerencias()) {
 			if (s.getEmpleado().getId() == usuarioActual.getId()) {
 				if (!hay) {
-					into("Mis sugerencias:");
+					info("Mis sugerencias:");
 					hay = true;
 				}
-				into("  - " + s.getNombre() + " (" + s.getCategoria() + ") | " + s.getEstado());
+				info("  - " + s.getNombre() + " (" + s.getCategoria() + ") | " + s.getEstado());
 			}
 		}
 		if (!hay) {
-			into("No ha hecho sugerencias.");
+			info("No ha hecho sugerencias.");
 		}
 	}
 
 
 	private void programarPartidoPractica() {
-		String disciplina = elegirTest("Disciplina", DISCIPLINAS);
+		String disciplina = elegirTexto("Disciplina", DISCIPLINAS);
 		if (disciplina == null) {
 			return;
 		}
@@ -331,14 +331,14 @@ public class ConsolaEmpleado extends ConsolaBase{
 		Date fecha = entrada.leerFechaHora("Fecha y hora del partido");
 		ArrayList<Socio> jugadores = elegirJugadores(disciplina, null);
 		if (jugadores.isEmpty()) {
-			into("No se eligió ningún jugador. Partido cancelado.");
+			info("No se eligió ningún jugador. Partido cancelado.");
 			return;
 		}
 		PartidoPractica partido = ((Entrenador) usuarioActual).programarPartido(fecha, disciplina, instalacion,
 				jugadores);
 		partido.registrarEnJugadores();
 		datos.getPartidosPractica().add(partido);
-		into("Partido de práctica programado con " + jugadores.size() + " jugadores en " + instalacion.getNombre()
+		info("Partido de práctica programado con " + jugadores.size() + " jugadores en " + instalacion.getNombre()
 				+ ".");
 	}
 
@@ -353,7 +353,7 @@ public class ConsolaEmpleado extends ConsolaBase{
 		SesionEntrenamiento sesion = new SesionEntrenamiento(fecha, hora, duracion, (Entrenador) usuarioActual,
 				instalacion.getNombre());
 		datos.getSesiones().add(sesion);
-		into("Sesión creada. Ahora puede convocar jugadores.");
+		info("Sesión creada. Ahora puede convocar jugadores.");
 	}
 
 	private void convocarJugadores() {
@@ -380,11 +380,11 @@ public class ConsolaEmpleado extends ConsolaBase{
 				seguir = false;
 			} else {
 				sesion.convocarJugador(elegido);
-				into("Convocado: " + elegido.getNombre());
+				info("Convocado: " + elegido.getNombre());
 				seguir = entrada.leerSiNo("¿Convocar a otro jugador?");
 			}
 		}
-		into("La sesión tiene " + sesion.getListaDeJugadoresConvocados().size() + " convocados.");
+		info("La sesión tiene " + sesion.getListaDeJugadoresConvocados().size() + " convocados.");
 	}
 
 	private void registrarAsistencia() {
@@ -399,7 +399,7 @@ public class ConsolaEmpleado extends ConsolaBase{
 			return;
 		}
 		if (sesion.getListaDeJugadoresConvocados().isEmpty()) {
-			into("La sesión no tiene jugadores convocados.");
+			info("La sesión no tiene jugadores convocados.");
 			return;
 		}
 		if (!sesion.isFinalizada()) {
@@ -412,9 +412,9 @@ public class ConsolaEmpleado extends ConsolaBase{
 			if (sesion.obtenerRegistro(socio) != null) {
 				continue;
 			}
-			String estado = elegirTest("Asistencia de " + socio.getNombre(), ESTADOS_ASISTENCIA);
+			String estado = elegirTexto("Asistencia de " + socio.getNombre(), ESTADOS_ASISTENCIA);
 			if (estado == null) {
-				into("Registro interrumpido. Puede continuar más tarde desde esta misma opción.");
+				info("Registro interrumpido. Puede continuar más tarde desde esta misma opción.");
 				return;
 			}
 			Double nota = null;
@@ -427,7 +427,7 @@ public class ConsolaEmpleado extends ConsolaBase{
 			}
 			sesion.registrarAsistencia(socio, estado, nota, comentario);
 		}
-		into("Asistencia registrada. Promedio de evaluaciones: "
+		info("Asistencia registrada. Promedio de evaluaciones: "
 				+ String.format("%.2f", sesion.calcularPromedioEvaluaciones()));
 	}
 
@@ -440,7 +440,7 @@ public class ConsolaEmpleado extends ConsolaBase{
 			if (nota <= 5) {
 				return nota;
 			}
-			into("  La nota no puede ser mayor a 5.");
+			info("  La nota no puede ser mayor a 5.");
 		}
 	}
 
@@ -453,8 +453,8 @@ public class ConsolaEmpleado extends ConsolaBase{
 		Date hasta = entrada.leerFcha("Hasta");
 		AnaliticaJugador analitica = AnaliticaJugador.calcular(socio, desde, hasta, datos.getSesiones(),
 				datos.getPartidos(), datos.getPartidosPractica());
-		into("");
-		into(analitica.resumen());
+		info("");
+		info(analitica.resumen());
 	}
 
 }
