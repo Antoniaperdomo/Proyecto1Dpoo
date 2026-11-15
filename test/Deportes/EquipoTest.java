@@ -6,6 +6,7 @@ import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import Usuario.Socio;
+import Usuario.Externo;
 
 public class EquipoTest {
 	private Equipo equipo;
@@ -197,6 +198,37 @@ public class EquipoTest {
 
 		assertFalse(e.tieneMinimoDeJugadores(Suspension.INTERNO));
 		assertTrue(e.tieneMinimoDeJugadores(Suspension.COMPETENCIA));
+	}
+	
+	@Test
+	public void unExternoPuedeJugarEnUnEquipo() {
+		Externo externo = new Externo(50, "Externo", "externo", "1234", new Date(0), false);
+		JugadorEquipo j = equipo.agregarJugador(externo, "Delantero", 9);
+
+		assertTrue(equipo.tieneJugador(externo));
+		assertSame(externo, j.getParticipante());
+	}
+
+	@Test
+	public void unExternoDeOtraCategoriaEsRechazado() {
+		Externo externo = new Externo(50, "Externo", "externo", "1234", new Date(0), true);
+		Equipo sub13 = new Equipo("Peques", futbol, 10, new Categoria(Categoria.SUB13), new ArrayList<JugadorEquipo>(),
+				new ArrayList<Suspension>(), true);
+		assertThrows(IllegalArgumentException.class, () -> sub13.agregarJugador(externo, "Delantero", 9));
+	}
+
+	@Test
+	public void unExternoPuedeSerSuspendidoYSePuedeMezclarConSocios() {
+		Externo externo = new Externo(50, "Externo", "externo", "1234", new Date(0), false);
+		equipo.agregarJugador(socioAdulto(1), "Portero", 1);
+		equipo.agregarJugador(externo, "Delantero", 9);
+		EstadisticaFutbol est = new EstadisticaFutbol(externo);
+		est.setTarjetasRojas(1);
+
+		equipo.registrarTarjetas(est, Suspension.INTERNO);
+
+		assertTrue(equipo.estaSuspendido(externo, Suspension.INTERNO));
+		assertEquals(1, equipo.contarHabilitados(Suspension.INTERNO));
 	}
 
 }
