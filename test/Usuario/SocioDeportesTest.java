@@ -50,7 +50,7 @@ public class SocioDeportesTest {
 
 	@Test
 	public void inscibirseEnDIsciplinaQueNoExisteExcepcion() {
-		assertThrows(IllegalStateException.class, () -> socio.inscribirse("GOLF"));
+		assertThrows(IllegalArgumentException.class, () -> socio.inscribirse("GOLF"));
 	}
 
 	@Test
