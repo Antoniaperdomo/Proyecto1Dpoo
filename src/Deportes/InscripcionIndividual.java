@@ -79,6 +79,7 @@ public class InscripcionIndividual {
 		double esperado = 1.0 / (1 + Math.pow(10, (eloRival - rankingELO) / 400.00));
 		rankingELO = (int) Math.round(rankingELO + K * (resultado - esperado));
 		actualizarNivel();
+		historialElo.add(rankingELO);
 	}
 
 }

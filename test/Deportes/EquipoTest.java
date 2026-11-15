@@ -195,7 +195,6 @@ public class EquipoTest {
 	public void losSuspendidosNoCuentanParaElMinimoSoloEnSuAmbito() {
 		Equipo e = equipoConJugadores(7);
 		e.getSuspensiones().add(new Suspension(e.getJugadores().get(0).getParticipante(), "Tarjeta roja", Suspension.INTERNO));
-
 		assertFalse(e.tieneMinimoDeJugadores(Suspension.INTERNO));
 		assertTrue(e.tieneMinimoDeJugadores(Suspension.COMPETENCIA));
 	}
