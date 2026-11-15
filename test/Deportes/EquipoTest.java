@@ -79,7 +79,7 @@ public class EquipoTest {
 		equipo.getSuspensiones().add(new Suspension(s, "Tarjeta roja", Suspension.INTERNO));
 		assertTrue(equipo.estaSuspendido(s, Suspension.INTERNO));
 		assertFalse(equipo.estaSuspendido(s, Suspension.COMPETENCIA));
-		assertFalse(equipo.estaSuspendido(s, Suspension.INTERNO));
+		assertFalse(equipo.estaSuspendido(otro, Suspension.INTERNO));
 	}
 
 	@Test
@@ -140,7 +140,7 @@ public class EquipoTest {
 	@Test
 	public void amarillasDeDosPartidosSuspenden() {
 		Socio a = socioAdulto(1);
-		JugadorEquipo j = equipo.agregarJugador(a, "Portero", 1);
+		equipo.agregarJugador(a, "Portero", 1);
 		EstadisticaFutbol partido1 = new EstadisticaFutbol(a);
 		partido1.setTarjetasAmarillas(1);
 		EstadisticaFutbol partido2 = new EstadisticaFutbol(a);
