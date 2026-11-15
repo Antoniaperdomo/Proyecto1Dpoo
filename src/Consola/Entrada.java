@@ -99,8 +99,38 @@ public class Entrada {
 	public Date leerFcha(String prompt) {
 		return leerFechaConFormato(prompt, FORMATO_FECHA);
 	}
+
 	public String leerCredencial(String prompt) {
 		return leerLinea(prompt);
+	}
+
+	public int elegirOpccion(String titulo, String[] opciones) {
+		System.out.println();
+		System.out.println("=== " + titulo + " ===");
+		for (int i = 0; i < opciones.length; i++) {
+			System.out.println((i + 1) + ". " + opciones[i]);
+		}
+		System.out.println("0. Salir / Volver");
+		return leerEntero("Opción", 0, opciones.length);
+	}
+
+	public <T> T elegirDeLista(String titulo, List<T> items, Function<T, String> descripcion) {
+		System.out.println();
+		System.out.println("--- " + titulo + " ---");
+		if (items.isEmpty()) {
+			System.out.println("  (no hay elementos)");
+			return null;
+		}
+		for (int i = 0; i < items.size(); i++) {
+			System.out.println((i + 1) + ". " + descripcion.apply(items.get(i)));
+		}
+		System.out.println("0. Cancelar");
+		int n = leerEntero("Elija ", 0, items.size());
+		if (n == 0) {
+			return null;
+		}
+		return items.get(n - 1);
+
 	}
 
 }
