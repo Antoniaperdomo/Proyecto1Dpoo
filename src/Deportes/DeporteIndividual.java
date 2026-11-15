@@ -9,6 +9,9 @@ public abstract class DeporteIndividual extends Deporte {
 
 	public DeporteIndividual(String nombre, String nivel) {
 		super(nombre);
+		if (!esNivelValido(nivel)) {
+			throw new IllegalArgumentException("Nivel invalido" + nivel);
+		}
 		this.nivel = nivel;
 	}
 
@@ -32,6 +35,10 @@ public abstract class DeporteIndividual extends Deporte {
 			return false;
 		}
 		return true;
+	}
+
+	public static boolean esNivelValido(String nivel) {
+		return PRINCIPIANTE.equals(nivel) || INTERMEDIO.equals(nivel) || AVANZADO.equals(nivel);
 	}
 
 	@Override

@@ -14,6 +14,15 @@ public class EquipoTest {
 	private Socio socioAdulto(int id) {
 		return new Socio(id, "Jugador" + id, "j" + id, "1234", new Date(0), 0, true);
 	}
+	
+	private Equipo equipoConJugadores(int cuantos) {
+		Equipo grande = new Equipo("Grande", futbol, 20, new Categoria(Categoria.MAYORES),
+				new ArrayList<JugadorEquipo>(), new ArrayList<Suspension>(), true);
+		for (int i = 1; i <= cuantos; i++) {
+			grande.agregarJugador(socioAdulto(i), "Jugador", i);
+		}
+		return grande;
+	}
 
 	@BeforeEach
 	public void setUp() {
@@ -169,6 +178,25 @@ public class EquipoTest {
 		est.setTarjetasRojas(1);
 		equipo.registrarTarjetas(est, Suspension.INTERNO);
 		assertEquals(0, equipo.getSuspensiones().size());
+	}
+	
+	@Test
+	public void equipoConElminimoDeJugadoresEstaCompleto() {
+		assertTrue(equipoConJugadores(7).tieneMinimoDeJugadores(Suspension.INTERNO));
+		assertTrue(equipoConJugadores(8).tieneMinimoDeJugadores(Suspension.INTERNO));
+	}
+	@Test
+	public void equipoPorDebajoDelMinimoEstaIncompleto() {
+		assertFalse(equipoConJugadores(6).tieneMinimoDeJugadores(Suspension.INTERNO));
+		assertFalse(equipoConJugadores(0).tieneMinimoDeJugadores(Suspension.INTERNO));
+	}
+	@Test
+	public void losSuspendidosNoCuentanParaElMinimoSoloEnSuAmbito() {
+		Equipo e = equipoConJugadores(7);
+		e.getSuspensiones().add(new Suspension(e.getJugadores().get(0).getSocio(), "Tarjeta roja", Suspension.INTERNO));
+
+		assertFalse(e.tieneMinimoDeJugadores(Suspension.INTERNO));
+		assertTrue(e.tieneMinimoDeJugadores(Suspension.COMPETENCIA));
 	}
 
 }

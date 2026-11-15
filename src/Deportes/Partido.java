@@ -122,7 +122,7 @@ public abstract class Partido {
 			if (!equipo.getDeporte().getNombre().equals(deporte.getNombre())) {
 				throw new IllegalStateException("El equipo " + equipo.getNombre() + " no es de " + deporte.getNombre());
 			}
-			if (equipo.contarHabilitados(getAmbito()) < deporte.getMinJugadores()) {
+			if (!equipo.tieneMinimoDeJugadores(getAmbito())) {
 				throw new IllegalStateException("No se puede jusgar: " + equipo.getNombre() + " no tiene el minimo de "
 						+ deporte.getMinJugadores() + " jugadores habilitados");
 			}

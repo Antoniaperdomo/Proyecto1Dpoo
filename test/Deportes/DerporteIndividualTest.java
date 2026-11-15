@@ -56,5 +56,13 @@ public class DerporteIndividualTest {
 		Tenis b = new Tenis(DeporteIndividual.AVANZADO);
 		assertTrue(a.puedeJugarCon(b));
 	}
+	@Test
+	public void esNivelValidoAceptaSoloLosTresNiveles() {
+		assertTrue(DeporteIndividual.esNivelValido(DeporteIndividual.PRINCIPIANTE));
+		assertTrue(DeporteIndividual.esNivelValido(DeporteIndividual.INTERMEDIO));
+		assertTrue(DeporteIndividual.esNivelValido(DeporteIndividual.AVANZADO));
+		assertFalse(DeporteIndividual.esNivelValido("EXPERTO"));
+		assertFalse(DeporteIndividual.esNivelValido(null));
+	}
 
 }

@@ -85,6 +85,10 @@ public class Equipo {
 		this.activo = activo;
 	}
 
+	public boolean tieneMinimoDeJugadores(String ambito) {
+		return contarHabilitados(ambito) >= deporte.getMinJugadores();
+	}
+
 	// RF 2 y RF 3
 	public JugadorEquipo buscarJugador(Socio socio) {
 		for (JugadorEquipo j : jugadores) {
