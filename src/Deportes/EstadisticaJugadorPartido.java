@@ -1,16 +1,16 @@
 package Deportes;
 
-import Usuario.Socio;
+import Usuario.Participante;
 
 public abstract class EstadisticaJugadorPartido {
-	private Socio jugador;
+	private Participante jugador;
 
-	public EstadisticaJugadorPartido(Socio jugador) {
+	public EstadisticaJugadorPartido(Participante jugador) {
 		super();
 		this.jugador = jugador;
 	}
 
-	public Socio getJugador() {
+	public Participante getJugador() {
 		return jugador;
 	}
 

@@ -2,7 +2,7 @@ package Deportes;
 
 import java.util.ArrayList;
 
-import Usuario.Socio;
+import Usuario.Participante;
 
 public class Equipo {
 	private String nombre;
@@ -90,25 +90,25 @@ public class Equipo {
 	}
 
 	// RF 2 y RF 3
-	public JugadorEquipo buscarJugador(Socio socio) {
+	public JugadorEquipo buscarJugador(Participante Participante) {
 		for (JugadorEquipo j : jugadores) {
-			if (j.getSocio().equals(socio)) {
+			if (j.getParticipante().equals(Participante)) {
 				return j;
 			}
 		}
 		return null;
 	}
 
-	public boolean tieneJugador(Socio socio) {
-		return buscarJugador(socio) != null;
+	public boolean tieneJugador(Participante Participante) {
+		return buscarJugador(Participante) != null;
 	}
 
-	public JugadorEquipo agregarJugador(Socio socio, String poscicion, int numeroCamiseta) {
-		if (!categoria.aceptaEdad(socio)) {
-			throw new IllegalArgumentException("El socio no corresponde a la categoria");
+	public JugadorEquipo agregarJugador(Participante Participante, String poscicion, int numeroCamiseta) {
+		if (!categoria.aceptaEdad(Participante)) {
+			throw new IllegalArgumentException("El Participante no corresponde a la categoria");
 		}
-		if (tieneJugador(socio) == true) {
-			throw new IllegalStateException("El socio ya esta en el equipo " + nombre);
+		if (tieneJugador(Participante) == true) {
+			throw new IllegalStateException("El Participante ya esta en el equipo " + nombre);
 		}
 		if (jugadores.size() >= cupoMax) {
 			throw new IllegalStateException("El equipo ya alzanzo su cupo maximo");
@@ -123,16 +123,16 @@ public class Equipo {
 				throw new IllegalStateException("La camiseta " + numeroCamiseta + " ya es de otro jugador");
 			}
 		}
-		JugadorEquipo nuevo = new JugadorEquipo(socio, poscicion, this, numeroCamiseta);
+		JugadorEquipo nuevo = new JugadorEquipo(Participante, poscicion, this, numeroCamiseta);
 		jugadores.add(nuevo);
 		return nuevo;
 	}
 
 	// RF 04, 6 , 14
 
-	public boolean estaSuspendido(Socio socio, String ambito) {
+	public boolean estaSuspendido(Participante Participante, String ambito) {
 		for (Suspension s : suspensiones) {
-			if (!s.isCumplida() && s.getAmbito().equals(ambito) && s.getJugador().equals(socio)) {
+			if (!s.isCumplida() && s.getAmbito().equals(ambito) && s.getJugador().equals(Participante)) {
 				return true;
 			}
 		}
@@ -142,7 +142,7 @@ public class Equipo {
 	public int contarHabilitados(String ambito) {
 		int total = 0;
 		for (JugadorEquipo j : jugadores) {
-			if (!estaSuspendido(j.getSocio(), ambito)) {
+			if (!estaSuspendido(j.getParticipante(), ambito)) {
 				total++;
 			}
 		}

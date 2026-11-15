@@ -1,18 +1,18 @@
 package Deportes;
 
-import Usuario.Socio;
+import Usuario.Participante;
 
 public class JugadorEquipo {
-	private Socio socio;
+	private Participante Participante;
 	private Equipo equipo;
 	private String posiccion;
 	private int numeroCamiseta;
 	private int amarillasInternas;
 	private int amarillasCompetencias;
 
-	public JugadorEquipo(Socio socio, String posiccion, Equipo equipo, int numeroCamiseta) {
+	public JugadorEquipo(Participante Participante, String posiccion, Equipo equipo, int numeroCamiseta) {
 		super();
-		this.socio = socio;
+		this.Participante = Participante;
 		this.equipo = equipo;
 		this.posiccion = posiccion;
 		this.numeroCamiseta = numeroCamiseta;
@@ -20,8 +20,8 @@ public class JugadorEquipo {
 		this.amarillasCompetencias = 0;
 	}
 
-	public Socio getSocio() {
-		return socio;
+	public Participante getParticipante() {
+		return Participante;
 	}
 
 	public String getPosiccion() {

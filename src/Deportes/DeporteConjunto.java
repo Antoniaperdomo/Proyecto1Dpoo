@@ -1,6 +1,6 @@
 package Deportes;
 
-import Usuario.Socio;
+import Usuario.Participante;
 
 public abstract class DeporteConjunto extends Deporte {
 	private final int minJugadores;
@@ -21,7 +21,7 @@ public abstract class DeporteConjunto extends Deporte {
 
 	// RF-05
 
-	public abstract EstadisticaJugadorPartido crearEstadistica(Socio jugador);
+	public abstract EstadisticaJugadorPartido crearEstadistica(Participante jugador);
 
 	// RF-11
 	public abstract int calcularPuntos(int marcadorPropio, int marcadorRival);

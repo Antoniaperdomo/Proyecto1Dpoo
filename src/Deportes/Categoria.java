@@ -1,6 +1,6 @@
 package Deportes;
 
-import Usuario.Socio;
+import Usuario.Participante;
 
 public class Categoria {
 	public static final String SUB13 = "SUB13";
@@ -27,8 +27,8 @@ public class Categoria {
 	}
 	// RF 02
 
-	public boolean aceptaEdad(Socio socio) {
-		int edad = socio.getEdad();
+	public boolean aceptaEdad(Participante Participante) {
+		int edad = Participante.getEdad();
 		if (SUB13.equals(nombre)) {
 			return edad <= 12;
 		}

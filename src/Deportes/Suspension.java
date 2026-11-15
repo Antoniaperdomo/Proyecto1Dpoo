@@ -1,17 +1,17 @@
 package Deportes;
 
-import Usuario.Socio;
+import Usuario.Participante;
 
 public class Suspension {
 	public static final String INTERNO = "INTERNO";
 	public static final String COMPETENCIA = "COMPETENCIA";
 
-	private Socio jugador;
+	private Participante jugador;
 	private String motivoSuspension;
 	private String ambito;
 	private boolean cumplida;
 
-	public Suspension(Socio jugador, String motivoSuspension, String ambito) {
+	public Suspension(Participante jugador, String motivoSuspension, String ambito) {
 		if (!INTERNO.equals(ambito) && !COMPETENCIA.equals(ambito)) {
 			throw new IllegalArgumentException("Ambito Invalido: " + ambito);
 		}
@@ -21,11 +21,11 @@ public class Suspension {
 		this.cumplida = false;
 	}
 
-	public Socio getJugador() {
+	public Participante getJugador() {
 		return jugador;
 	}
 
-	public void setJugador(Socio jugador) {
+	public void setJugador(Participante jugador) {
 		this.jugador = jugador;
 	}
 

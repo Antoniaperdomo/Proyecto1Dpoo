@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import Competencias.NominaCompetencia;
 import Competencias.TablaPosiciones;
 import Competencias.TorneoCerros;
+import Usuario.Participante;
 import Usuario.Socio;
 
 public class PartidoCompetenciaTest {
@@ -20,7 +21,7 @@ public class PartidoCompetenciaTest {
 		Equipo e = new Equipo(nombre, deporte, 20, new Categoria(categoria), new ArrayList<JugadorEquipo>(),
 				new ArrayList<Suspension>(), true);
 		for (int i = 0; i < numJugadores; i++) {
-			Socio s = new Socio(i, "Jugador" + i, "j" + i, "1234", new Date(0), 0, true);
+			Participante s = new Socio(i, "Jugador" + i, "j" + i, "1234", new Date(0), 0, true);
 			e.agregarJugador(s, "Jugador", i + 1);
 		}
 		return e;
@@ -31,10 +32,10 @@ public class PartidoCompetenciaTest {
 				new TablaPosiciones());
 	}
 
-	private ArrayList<Socio> primeros(Equipo e, int cuantos) {
-		ArrayList<Socio> lista = new ArrayList<Socio>();
+	private ArrayList<Participante> primeros(Equipo e, int cuantos) {
+		ArrayList<Participante> lista = new ArrayList<Participante>();
 		for (int i = 0; i < cuantos; i++) {
-			lista.add(e.getJugadores().get(i).getSocio());
+			lista.add(e.getJugadores().get(i).getParticipante());
 		}
 		return lista;
 	}
@@ -90,7 +91,18 @@ public class PartidoCompetenciaTest {
 	}
 
 	@Test
-	public void validarFallaSiNoEstaEnLaNomina() {
+	public void validarFallaSiUnJugadorNoEstaEnLaNomina() {
+		TorneoCerros torneo = crearTorneo(futbol, Categoria.MAYORES);
+		torneo.inscribir(new NominaCompetencia(equipo, torneo, primeros(equipo, 7)));
+		partido.setCompetencia(torneo);
+		Participante fueraDeNomina = equipo.getJugadores().get(7).getParticipante();
+		partido.agregarEstadisistica(new EstadisticaFutbol(fueraDeNomina));
+
+		assertThrows(IllegalStateException.class, () -> partido.validar());
+	}
+	
+	@Test
+	public void victoriaSuma3PuntosEnLaTabla() {
 		TorneoCerros torneo = crearTorneo(futbol, Categoria.MAYORES);
 		torneo.inscribir(new NominaCompetencia(equipo, torneo, primeros(equipo, 8)));
 		partido.setCompetencia(torneo);
@@ -118,7 +130,7 @@ public class PartidoCompetenciaTest {
 
 	@Test
 	public void tarjetaRojaEnCompetenciaNoSuspenedeEnPartidosInternos() {
-		Socio s = equipo.getJugadores().get(0).getSocio();
+		Participante s = equipo.getJugadores().get(0).getParticipante();
 		EstadisticaFutbol est = new EstadisticaFutbol(s);
 		est.setTarjetasRojas(1);
 		partido.agregarEstadisistica(est);

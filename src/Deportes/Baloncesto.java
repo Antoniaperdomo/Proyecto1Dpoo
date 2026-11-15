@@ -1,6 +1,6 @@
 package Deportes;
 
-import Usuario.Socio;
+import Usuario.Participante;
 
 public class Baloncesto extends DeporteConjunto {
 
@@ -9,7 +9,7 @@ public class Baloncesto extends DeporteConjunto {
 	}
 
 	@Override
-	public EstadisticaJugadorPartido crearEstadistica(Socio jugador) {
+	public EstadisticaJugadorPartido crearEstadistica(Participante jugador) {
 		return new EstadisticaBaloncesto(jugador);
 	}
 

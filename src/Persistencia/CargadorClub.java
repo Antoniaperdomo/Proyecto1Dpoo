@@ -61,6 +61,7 @@ import Usuario.Administrador;
 import Usuario.Empleado;
 import Usuario.Entrenador;
 import Usuario.Fisioterapeuta;
+import Usuario.Participante;
 import Usuario.Socio;
 import Usuario.Usuario;
 
@@ -377,7 +378,7 @@ public class CargadorClub {
 			public void procesar(Fila f) throws IOException {
 				Competencia c = competencia(d, f, f.texto(0));
 				Equipo e = equipo(d, f, f.texto(1));
-				ArrayList<Socio> jugadores = new ArrayList<Socio>();
+				ArrayList<Participante> jugadores = new ArrayList<Participante>();
 				for (int id : f.listaEnteros(2)) {
 					jugadores.add(socio(d, f, id));
 				}

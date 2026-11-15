@@ -59,6 +59,7 @@ import Usuario.Administrador;
 import Usuario.Empleado;
 import Usuario.Entrenador;
 import Usuario.Fisioterapeuta;
+import Usuario.Participante;
 import Usuario.Socio;
 import Usuario.Usuario;
 
@@ -173,7 +174,7 @@ public class GuardadorClub {
 			filasEquipos.add(linea(esc(e.getNombre()), esc(e.getDeporte().getNombre()),
 					esc(e.getCategoria().getNombre()), String.valueOf(e.getCupoMax()), String.valueOf(e.isActivo())));
 			for (JugadorEquipo j : e.getJugadores()) {
-				filasJugadores.add(linea(esc(e.getNombre()), esc(j.getSocio().getId()), esc(j.getPosiccion()),
+				filasJugadores.add(linea(esc(e.getNombre()), esc(j.getParticipante().getId()), esc(j.getPosiccion()),
 						String.valueOf(j.getNumeroCamiseta()), String.valueOf(j.getAmarillas(Suspension.INTERNO)),
 						String.valueOf(j.getAmarillas(Suspension.COMPETENCIA))));
 			}
@@ -314,7 +315,7 @@ public class GuardadorClub {
 		List<String> filasNominas = new ArrayList<String>();
 		for (NominaCompetencia n : d.getNominas()) {
 			ArrayList<Integer> ids = new ArrayList<Integer>();
-			for (Socio s : n.getJugadoresHabilitados()) {
+			for (Participante s : n.getJugadoresHabilitados()) {
 				ids.add(s.getId());
 			}
 			filasNominas.add(linea(esc(n.getCompetencia().getNombre()), esc(n.getEquipo().getNombre()), lista(ids)));

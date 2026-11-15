@@ -5,5 +5,7 @@ public interface Participante {
 	int getId();
 
 	String getNombre();
+	
+	int getEdad();
 
 }

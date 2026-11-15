@@ -1,6 +1,6 @@
 package Deportes;
 
-import Usuario.Socio;
+import Usuario.Participante;
 
 public class EstadisticaBaloncesto extends EstadisticaJugadorPartido {
 	private int puntos;
@@ -22,7 +22,7 @@ public class EstadisticaBaloncesto extends EstadisticaJugadorPartido {
 		this.rebotes = rebotes;
 	}
 
-	public EstadisticaBaloncesto(Socio jugador) {
+	public EstadisticaBaloncesto(Participante jugador) {
 		super(jugador);
 		// TODO Auto-generated constructor stub
 	}

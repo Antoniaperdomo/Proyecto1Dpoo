@@ -3,7 +3,7 @@ package Deportes;
 import java.util.ArrayList;
 import java.util.Date;
 
-import Usuario.Socio;
+import Usuario.Participante;
 
 public abstract class Partido {
 	private Date fecha;
@@ -82,9 +82,9 @@ public abstract class Partido {
 		this.marcadorEquipo2 = marcador2;
 	}
 
-	private Equipo buscarEquipoDe(Socio socio) {
+	private Equipo buscarEquipoDe(Participante Participante) {
 		for (Equipo equipo : getEquipos()) {
-			if (equipo.tieneJugador(socio)) {
+			if (equipo.tieneJugador(Participante)) {
 				return equipo;
 			}
 		}
@@ -167,9 +167,9 @@ public abstract class Partido {
 	}
 
 	// RF 13
-	public int getPuntajeDestacado(Socio socio) {
+	public int getPuntajeDestacado(Participante Participante) {
 		for (EstadisticaJugadorPartido est : estadisticas) {
-			if (est.getJugador() == socio) {
+			if (est.getJugador() == Participante) {
 				return est.getPuntajeDestacado();
 			}
 		}

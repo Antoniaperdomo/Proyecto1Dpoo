@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import Usuario.Participante;
 import Usuario.Socio;
 
 public class PartidoInternoTest {
@@ -24,8 +26,8 @@ public class PartidoInternoTest {
 		return equipo;
 	}
 
-	private Socio jugador(Equipo equipo, int indice) {
-		return equipo.getJugadores().get(indice).getSocio();
+	private Participante jugador(Equipo equipo, int indice) {
+		return equipo.getJugadores().get(indice).getParticipante();
 	}
 
 	@BeforeEach
@@ -97,7 +99,7 @@ public class PartidoInternoTest {
 
 	@Test
 	public void validarFallaConSUspension() {
-		Socio suspendido = jugador(e1, 0);
+		Participante suspendido = jugador(e1, 0);
 		e1.getSuspensiones().add(new Suspension(suspendido, "Tarjeta roja", Suspension.INTERNO));
 		partido.agregarEstadisistica(new EstadisticaFutbol(suspendido));
 		assertThrows(IllegalStateException.class, () -> partido.validar());
@@ -105,7 +107,7 @@ public class PartidoInternoTest {
 
 	@Test
 	public void unaSuspensionNoImpideJugarUnPartidoInterno() {
-		Socio s = jugador(e1, 0);
+		Participante s = jugador(e1, 0);
 		e1.getSuspensiones().add(new Suspension(s, "Tarjeta roja", Suspension.COMPETENCIA));
 		partido.agregarEstadisistica(new EstadisticaFutbol(s));
 		partido.validar();
@@ -126,7 +128,7 @@ public class PartidoInternoTest {
 
 	@Test
 	public void cerrarCumpleExcepciones() {
-		Socio s = jugador(e1, 0);
+		Participante s = jugador(e1, 0);
 		e1.getSuspensiones().add(new Suspension(s, "Tarjeta roja", Suspension.INTERNO));
 
 		partido.cerrar();
@@ -136,7 +138,7 @@ public class PartidoInternoTest {
 
 	@Test
 	public void tarjetaRojaAlCerrarSuspendeElAmbito() {
-		Socio s = jugador(e1, 0);
+		Participante s = jugador(e1, 0);
 		EstadisticaFutbol est = new EstadisticaFutbol(s);
 		est.setTarjetasRojas(1);
 		partido.agregarEstadisistica(est);
@@ -149,7 +151,7 @@ public class PartidoInternoTest {
 
 	@Test
 	public void dosAmarillasAlCerrarSuspenden() {
-		Socio s = jugador(e2, 3);
+		Participante s = jugador(e2, 3);
 		EstadisticaFutbol est = new EstadisticaFutbol(s);
 		est.setTarjetasAmarillas(2);
 		partido.agregarEstadisistica(est);
@@ -161,7 +163,7 @@ public class PartidoInternoTest {
 
 	@Test
 	public void unaAmarillaNoSuspende() {
-		Socio s = jugador(e2, 3);
+		Participante s = jugador(e2, 3);
 		EstadisticaFutbol est = new EstadisticaFutbol(s);
 		est.setTarjetasAmarillas(1);
 		partido.agregarEstadisistica(est);
@@ -189,7 +191,7 @@ public class PartidoInternoTest {
 
 	@Test
 	public void registrarNegativoNoCierra() {
-		Socio s = jugador(e1, 0);
+		Participante s = jugador(e1, 0);
 		e1.getSuspensiones().add(new Suspension(s, "Tarjeta roja", Suspension.INTERNO));
 		ArrayList<EstadisticaJugadorPartido> estadisticas = new ArrayList<EstadisticaJugadorPartido>();
 		estadisticas.add(new EstadisticaFutbol(s));
@@ -200,12 +202,23 @@ public class PartidoInternoTest {
 
 	@Test
 	public void puntajeDestacadoDevuelveLosGolesDelJugadorCero() {
-		Socio goleador = jugador(e1, 0);
+		Participante goleador = jugador(e1, 0);
 		EstadisticaFutbol est = new EstadisticaFutbol(goleador);
 		est.setGoles(2);
 		partido.agregarEstadisistica(est);
 
 		assertEquals(2, partido.getPuntajeDestacado(goleador));
 		assertEquals(0, partido.getPuntajeDestacado(jugador(e2, 0)));
+	}
+	@Test
+	public void unEquipoNoPuedeJugarContraSiMismo() {
+		assertThrows(IllegalArgumentException.class, () -> new PartidoInterno(new Date(), futbol, e1, e1));
+	}
+
+	@Test
+	public void validarFallaSiLosSuspendidosDejanAlEquipoSinElMinimo() {
+		e1.getSuspensiones().add(new Suspension(jugador(e1, 0), "Tarjeta roja", Suspension.INTERNO));
+		e1.getSuspensiones().add(new Suspension(jugador(e1, 1), "Tarjeta roja", Suspension.INTERNO));
+		assertThrows(IllegalStateException.class, () -> partido.validar());
 	}
 }

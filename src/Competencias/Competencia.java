@@ -6,7 +6,7 @@ import Deportes.Categoria;
 import Deportes.Deporte;
 import Deportes.Equipo;
 import Deportes.PartidoCompetencia;
-import Usuario.Socio;
+import Usuario.Participante;
 
 public abstract class Competencia {
 	protected String nombre;
@@ -122,20 +122,20 @@ public abstract class Competencia {
 	}
 
 	// RF 13
-	public int getPuntajeAcumulado(Socio socio) {
+	public int getPuntajeAcumulado(Participante Participante) {
 		int total = 0;
 		for (PartidoCompetencia p : partidos) {
 			if (p.isJugado()) {
-				total += p.getPuntajeDestacado(socio);
+				total += p.getPuntajeDestacado(Participante);
 			}
 		}
 		return total;
 	}
 
-	public ArrayList<Socio> getClasificacionJugadores() {
-		ArrayList<Socio> jugadores = new ArrayList<Socio>();
+	public ArrayList<Participante> getClasificacionJugadores() {
+		ArrayList<Participante> jugadores = new ArrayList<Participante>();
 		for (NominaCompetencia n : nominas) {
-			for (Socio s : n.getJugadoresHabilitados()) {
+			for (Participante s : n.getJugadoresHabilitados()) {
 				if (!jugadores.contains(s)) {
 					jugadores.add(s);
 				}
@@ -148,15 +148,15 @@ public abstract class Competencia {
 					mejor = j;
 				}
 			}
-			Socio temp = jugadores.get(i);
+			Participante temp = jugadores.get(i);
 			jugadores.set(i, jugadores.get(mejor));
 			jugadores.set(mejor, temp);
 		}
 		return jugadores;
 	}
 
-	public Socio getMejorJugador() {
-		ArrayList<Socio> clasificacion = getClasificacionJugadores();
+	public Participante getMejorJugador() {
+		ArrayList<Participante> clasificacion = getClasificacionJugadores();
 		if (clasificacion.isEmpty()) {
 			return null;
 		}

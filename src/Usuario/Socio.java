@@ -54,12 +54,7 @@ public class Socio extends Usuario implements Comprador, Participante {
 		this.activo = activo;
 	}
 
-	public int getEdad() {
-		long milisegundosPorAnio = 31557600000L;
-		long diferencia = new Date().getTime() - fechaNacimiento.getTime();
-		return (int) (diferencia / milisegundosPorAnio);
-
-	}
+	
 
 	public ArrayList<Equipo> getEquipos() {
 		return equipos;

@@ -56,5 +56,11 @@ public abstract class Usuario {
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
+	
+	public int getEdad() {
+		long msPorAnio = 31557600000L;
+		long diferencia = new Date().getTime() - fechaNacimiento.getTime();
+		return (int) (diferencia / msPorAnio);
+	}
 
 }
