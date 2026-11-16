@@ -1,6 +1,7 @@
 package Consola;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -9,6 +10,7 @@ import Administradores.SugerenciaProducto;
 import Administradores.Turno;
 import Deportes.Baloncesto;
 import Deportes.Categoria;
+import Deportes.Deporte;
 import Deportes.DeporteConjunto;
 import Deportes.DeporteIndividual;
 import Deportes.Equipo;
@@ -23,9 +25,15 @@ import Tienda.Bebida;
 import Tienda.Producto;
 import Tienda.Snack;
 import Tienda.Ubicacion;
+import Torneos.CatalogoTorneos;
+import Torneos.EncuentroTorneo;
+import Torneos.InscripcionTorneo;
+import Torneos.Torneo;
 import Usuario.Administrador;
 import Usuario.Empleado;
 import Usuario.Entrenador;
+import Usuario.Externo;
+import Usuario.Participante;
 import Usuario.Socio;
 import Usuario.Usuario;
 
@@ -95,7 +103,11 @@ public class ConsolaAdmin extends ConsolaBase{
 		case 9:
 			menuReporteInstalaciones();
 			break;
+		case 10:
+			menuTorneos();
+			break;
 		}
+		
 	}
 
 
@@ -599,5 +611,253 @@ public class ConsolaAdmin extends ConsolaBase{
 			mostrarReporte(admin().historialReservas(datos.getInstalaciones()));
 		}
 	}
+	
+	// Torneos (HU16 a HU21)
+
+		private static final String[] TIPOS_TORNEO = { "RECREATIVO", "COMPETITIVO" };
+		private static final String[] DEPORTES_TORNEO = { "FUTBOL", "BALONCESTO", "VOLEIBOL", "TENIS", "PADEL",
+				"TENISDEMESA" };
+		private static final String[] NIVELES = { DeporteIndividual.PRINCIPIANTE, DeporteIndividual.INTERMEDIO,
+				DeporteIndividual.AVANZADO };
+		private static final String[] MODALIDADES = { Torneo.SENCILLOS, Torneo.DOBLES };
+		private static final String TODOS = "TODOS";
+
+		private void menuTorneos() {
+			String[] ops = { "Crear un torneo", "Ver los torneos y su historial", "Iniciar un torneo",
+					"Registrar el resultado de un encuentro", "Finalizar un torneo", "Registrar un participante externo",
+					"Inscribir a un externo en un torneo", "Retirar a un externo de un torneo" };
+			int op = entrada.elegirOpccion("Torneos", ops);
+			if (op == 1) {
+				crearTorneo();
+			} else if (op == 2) {
+				verTorneos();
+			} else if (op == 3) {
+				iniciarTorneo();
+			} else if (op == 4) {
+				registrarResultadoEncuentro();
+			} else if (op == 5) {
+				finalizarTorneo();
+			} else if (op == 6) {
+				registrarExterno();
+			} else if (op == 7) {
+				inscribirExterno();
+			} else if (op == 8) {
+				retirarExterno();
+			}
+		}
+
+		private ArrayList<Torneo> torneosEnEstado(String estado) {
+			return CatalogoTorneos.filtrar(datos.getTorneos(), estado, null, null);
+		}
+
+		private Torneo elegirTorneo(String titulo, ArrayList<Torneo> candidatos) {
+			return elegir(titulo, candidatos, t -> CatalogoTorneos.resumen(t));
+		}
+
+		// HU16
+		private void crearTorneo() {
+			String tipo = elegirTexto("Tipo de torneo", TIPOS_TORNEO);
+			if (tipo == null) {
+				return;
+			}
+			String nombre = entrada.leerTexto("Nombre del torneo");
+			String nombreDeporte = elegirTexto("Deporte o disciplina", DEPORTES_TORNEO);
+			if (nombreDeporte == null) {
+				return;
+			}
+			Deporte deporte;
+			Categoria categoria = null;
+			String nivel = null;
+			String modalidad = null;
+			if (Arrays.asList(DISCIPLINAS).contains(nombreDeporte)) {
+				deporte = deporteIndividual(nombreDeporte);
+				nivel = elegirTexto("Nivel del torneo", NIVELES);
+				if (nivel == null) {
+					return;
+				}
+				modalidad = elegirTexto("Modalidad", MODALIDADES);
+				if (modalidad == null) {
+					return;
+				}
+			} else {
+				deporte = crearDeporteConjunto(nombreDeporte);
+				String nombreCategoria = elegirTexto("Categoría", CATEGORIAS);
+				if (nombreCategoria == null) {
+					return;
+				}
+				categoria = new Categoria(nombreCategoria);
+			}
+			int cupos = entrada.leerEntero("Cupos totales", 2, 1000);
+			Date inicio = entrada.leerFcha("Fecha de inicio del torneo");
+			Date limite = entrada.leerFcha("Fecha límite de reserva (hasta ahí hay cupos preferenciales)");
+			Torneo torneo;
+			if (tipo.equals("RECREATIVO")) {
+				double tarifa = entrada.leerDecimal("Tarifa de inscripción (0 si es gratis)", 0);
+				int bono = entrada.leerEntero("Porcentaje del bono de descuento para el ganador", 1, 100);
+				torneo = admin().crearTorneoRecreativo(datos.getTorneos(), nombre, deporte, categoria, nivel, modalidad,
+						cupos, inicio, limite, tarifa, bono);
+			} else {
+				double tarifa = entrada.leerDecimal("Tarifa de inscripción", 1);
+				torneo = admin().crearTorneoCompetitivo(datos.getTorneos(), nombre, deporte, categoria, nivel, modalidad,
+						cupos, inicio, limite, tarifa);
+			}
+			info("Torneo creado:");
+			info(CatalogoTorneos.resumen(torneo));
+		}
+
+		// HU17
+		private void verTorneos() {
+			String[] filtros = { TODOS, Torneo.ABIERTO, Torneo.EN_CURSO, Torneo.FINALIZADO };
+			String filtro = elegirTexto("¿Qué torneos quiere ver?", filtros);
+			if (filtro == null) {
+				return;
+			}
+			ArrayList<Torneo> lista = torneosEnEstado(filtro.equals(TODOS) ? null : filtro);
+			mostrarReporte(CatalogoTorneos.listar(lista));
+			if (lista.isEmpty() || !entrada.leerSiNo("¿Ver el historial detallado de alguno?")) {
+				return;
+			}
+			Torneo torneo = elegirTorneo("Torneo", lista);
+			if (torneo != null) {
+				mostrarReporte(admin().historialTorneo(datos.getTorneos(), torneo.getId()));
+			}
+		}
+
+		// HU18
+		private void iniciarTorneo() {
+			Torneo torneo = elegirTorneo("¿Qué torneo inicia?", torneosEnEstado(Torneo.ABIERTO));
+			if (torneo == null) {
+				return;
+			}
+			info("Inscritos: " + torneo.getInscripciones().size() + " de " + torneo.getCupos() + " cupos.");
+			if (!entrada.leerSiNo("Al iniciar se cierran las inscripciones. ¿Continuar?")) {
+				return;
+			}
+			admin().iniciarTorneo(torneo);
+			info("Torneo iniciado. Encuentros generados: " + torneo.getEncuentros().size());
+		}
+
+		// HU19
+		private void registrarResultadoEncuentro() {
+			Torneo torneo = elegirTorneo("¿En qué torneo registra el resultado?", torneosEnEstado(Torneo.EN_CURSO));
+			if (torneo == null) {
+				return;
+			}
+			ArrayList<EncuentroTorneo> pendientes = new ArrayList<EncuentroTorneo>();
+			for (EncuentroTorneo e : torneo.getEncuentros()) {
+				if (!e.isJugado()) {
+					pendientes.add(e);
+				}
+			}
+			EncuentroTorneo encuentro = elegir("Encuentros sin resultado", pendientes, e -> e.toString());
+			if (encuentro == null) {
+				return;
+			}
+			int local = entrada.leerEntero("Marcador de " + encuentro.getLocal().getNombre(), 0, 999);
+			int visitante = entrada.leerEntero("Marcador de " + encuentro.getVisitante().getNombre(), 0, 999);
+			admin().registrarResultadoEncuentro(torneo, encuentro, local, visitante);
+			info("Resultado registrado. Encuentros por jugar: " + torneo.encuentrosFaltantes());
+		}
+
+		// HU18
+		private void finalizarTorneo() {
+			Torneo torneo = elegirTorneo("¿Qué torneo finaliza?", torneosEnEstado(Torneo.EN_CURSO));
+			if (torneo == null) {
+				return;
+			}
+			admin().finalizarTorneo(torneo);
+			info("Torneo finalizado.");
+			mostrarReporte(admin().historialTorneo(datos.getTorneos(), torneo.getId()));
+		}
+
+		private ArrayList<Externo> externos() {
+			ArrayList<Externo> lista = new ArrayList<Externo>();
+			for (Usuario u : datos.getUsuarios()) {
+				if (u instanceof Externo) {
+					lista.add((Externo) u);
+				}
+			}
+			return lista;
+		}
+
+		private Externo elegirExterno(String titulo, ArrayList<Externo> candidatos) {
+			return elegir(titulo, candidatos, x -> x.getNombre() + " (id " + x.getId() + ")");
+		}
+
+		// HU20
+		private void registrarExterno() {
+			String nombre = entrada.leerTexto("Nombre completo");
+			String login = entrada.leerTexto("Login");
+			String password = entrada.leerTexto("Contraseña");
+			Date nacimiento = entrada.leerFcha("Fecha de nacimiento");
+			boolean estudiante = entrada.leerSiNo("¿Es estudiante de la universidad?");
+			Externo externo = admin().registrarExterno(datos.getUsuarios(), siguienteIdUsuario(), nombre, login, password,
+					nacimiento, estudiante);
+			info("Participante externo registrado: " + externo.getNombre() + " (id " + externo.getId() + ")");
+		}
+
+		private ArrayList<Torneo> torneosIndividualesAbiertos() {
+			ArrayList<Torneo> lista = new ArrayList<Torneo>();
+			for (Torneo t : torneosEnEstado(Torneo.ABIERTO)) {
+				if (t.esIndividual()) {
+					lista.add(t);
+				}
+			}
+			return lista;
+		}
+
+		// HU21
+		private void inscribirExterno() {
+			Torneo torneo = elegirTorneo("¿En qué torneo lo inscribe?", torneosIndividualesAbiertos());
+			if (torneo == null) {
+				return;
+			}
+			Externo externo = elegirExterno("¿Qué externo inscribe?", externos());
+			if (externo == null) {
+				return;
+			}
+			String nivel = elegirTexto("Nivel declarado por el externo", NIVELES);
+			if (nivel == null) {
+				return;
+			}
+			Participante companero = null;
+			if (Torneo.DOBLES.equals(torneo.getModalidad())) {
+				ArrayList<Participante> posibles = new ArrayList<Participante>();
+				posibles.addAll(sociosActivos());
+				for (Externo x : externos()) {
+					if (x.getId() != externo.getId()) {
+						posibles.add(x);
+					}
+				}
+				companero = elegir("¿Quién es su compañero?", posibles, p -> p.getNombre() + " (id " + p.getId() + ")");
+				if (companero == null) {
+					return;
+				}
+			}
+			InscripcionTorneo inscripcion = admin().inscribirExterno(torneo, externo, nivel, companero, datos.getUsuarios(),
+					todosLosSocios(), new Date());
+			info("Inscripción realizada en cupo " + inscripcion.getTipoCupo().toLowerCase() + ". Tarifa: $"
+					+ inscripcion.getTarifaPagada());
+		}
+
+		// HU21
+		private void retirarExterno() {
+			Torneo torneo = elegirTorneo("¿De qué torneo lo retira?", torneosIndividualesAbiertos());
+			if (torneo == null) {
+				return;
+			}
+			ArrayList<Externo> inscritos = new ArrayList<Externo>();
+			for (Externo x : externos()) {
+				if (torneo.buscarInscripcion(x) != null) {
+					inscritos.add(x);
+				}
+			}
+			Externo externo = elegirExterno("¿Qué externo retira?", inscritos);
+			if (externo == null) {
+				return;
+			}
+			InscripcionTorneo retirada = admin().retirarExterno(torneo, externo);
+			info(torneo.mensajeRetiro(retirada));
+		}
 
 }

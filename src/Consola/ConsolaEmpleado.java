@@ -14,8 +14,12 @@ import Deportes.PartidoPractica;
 import Entrenamiento.AnaliticaJugador;
 import Entrenamiento.RegistroAsistencia;
 import Entrenamiento.SesionEntrenamiento;
+import Torneos.CatalogoTorneos;
+import Torneos.InscripcionTorneo;
+import Torneos.Torneo;
 import Usuario.Empleado;
 import Usuario.Entrenador;
+import Usuario.Participante;
 import Usuario.Socio;
 import Usuario.Usuario;
 
@@ -101,6 +105,9 @@ public class ConsolaEmpleado extends ConsolaBase{
 			break;
 		case 7:
 			new MenuCompras(entrada, datos, usuarioActual).comprar();
+			break;
+		case 8:
+			torneosIndividuales();
 			break;
 		}
 	}
@@ -456,5 +463,83 @@ public class ConsolaEmpleado extends ConsolaBase{
 		info("");
 		info(analitica.resumen());
 	}
+	
+	//Torneos (HU27)
+
+		private ArrayList<Torneo> torneosIndividualesAbiertos() {
+			ArrayList<Torneo> lista = new ArrayList<Torneo>();
+			for (Torneo t : CatalogoTorneos.filtrar(datos.getTorneos(), Torneo.ABIERTO, null, null)) {
+				if (t.esIndividual()) {
+					lista.add(t);
+				}
+			}
+			return lista;
+		}
+
+		private Torneo elegirTorneo(String titulo, ArrayList<Torneo> candidatos) {
+			ArrayList<String> descripciones = new ArrayList<String>();
+			for (Torneo t : candidatos) {
+				descripciones.add(CatalogoTorneos.resumen(t));
+			}
+			int pos = entrada.elegirIndice(titulo, descripciones);
+			if (pos < 0) {
+				return null;
+			}
+			return candidatos.get(pos);
+		}
+
+		private void torneosIndividuales() {
+			String[] ops = { "Ver los torneos individuales abiertos", "Inscribirme en un torneo", "Salirme de un torneo" };
+			int op = entrada.elegirOpccion("Torneos individuales", ops);
+			if (op == 1) {
+				info("");
+				info(CatalogoTorneos.listar(torneosIndividualesAbiertos()).trim());
+			} else if (op == 2) {
+				inscribirmeEnTorneo();
+			} else if (op == 3) {
+				salirmeDeTorneo();
+			}
+		}
+
+		private void inscribirmeEnTorneo() {
+			Torneo torneo = elegirTorneo("¿En qué torneo se inscribe?", torneosIndividualesAbiertos());
+			if (torneo == null) {
+				return;
+			}
+			Socio companero = null;
+			if (Torneo.DOBLES.equals(torneo.getModalidad())) {
+				companero = elegirSocio("¿Quién es su compañero?", sociosActivos());
+				if (companero == null) {
+					return;
+				}
+			}
+			InscripcionTorneo inscripcion = torneo.inscribirParticipante((Participante) usuarioActual, companero, null,
+					todosLosSocios(), datos.getTurnos(), new Date());
+			info("Inscripción realizada en cupo " + inscripcion.getTipoCupo().toLowerCase() + ".");
+			if (inscripcion.getTarifaPagada() > 0) {
+				info("Tarifa cobrada: $" + inscripcion.getTarifaPagada());
+			} else {
+				info("Sin costo de inscripción para empleados en este torneo.");
+			}
+		}
+
+		private void salirmeDeTorneo() {
+			Participante yo = (Participante) usuarioActual;
+			ArrayList<Torneo> mios = new ArrayList<Torneo>();
+			for (Torneo t : torneosIndividualesAbiertos()) {
+				if (t.buscarInscripcion(yo) != null) {
+					mios.add(t);
+				}
+			}
+			Torneo torneo = elegirTorneo("¿De qué torneo se retira?", mios);
+			if (torneo == null) {
+				return;
+			}
+			InscripcionTorneo retirada = torneo.retirarParticipante(yo);
+			info(torneo.mensajeRetiro(retirada));
+		}
+	
+	
+	
 
 }
