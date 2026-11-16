@@ -13,9 +13,11 @@ import Tienda.Ubicacion;
 import Tienda.Venta;
 import Tienda.VentaCafeteria;
 import Tienda.VentaTienda;
+import Torneos.BonoDescuento;
 import Persistencia.DatosClub;
 import Usuario.Comprador;
 import Usuario.Empleado;
+import Usuario.Socio;
 import Usuario.Usuario;
 
 public class MenuCompras {
@@ -80,6 +82,33 @@ public class MenuCompras {
 			venta.redimirPuntos(puntos);
 		}
 	}
+	
+	// HU28: el bono de torneo no se acumula con el codigo de descuento ni con puntos
+		private void pedirBono(Venta venta) {
+			if (!(comprador instanceof Socio)) {
+				return;
+			}
+			ArrayList<BonoDescuento> disponibles = ((Socio) comprador).getBonosDisponibles();
+			if (disponibles.isEmpty()) {
+				return;
+			}
+			if (venta.getPorcentajeDescuento() > 0) {
+				System.out.println("Tiene bonos de torneo, pero no se pueden acumular con el descuento ya aplicado.");
+				return;
+			}
+			if (!entrada.leerSiNo("Tiene " + disponibles.size() + " bono(s) de torneo. ¿Desea usar uno?")) {
+				return;
+			}
+			ArrayList<String> descripciones = new ArrayList<String>();
+			for (BonoDescuento b : disponibles) {
+				descripciones.add(b.toString());
+			}
+			int pos = entrada.elegirIndice("Bonos disponibles", descripciones);
+			if (pos >= 0) {
+				venta.aplicarBono(disponibles.get(pos));
+				System.out.println("Bono aplicado: " + disponibles.get(pos).getPorcentaje() + "% de descuento");
+			}
+		}
 
 	private void mostrarResumen(Venta venta) {
 		System.out.println("\n--- Resumen de la compra ---");

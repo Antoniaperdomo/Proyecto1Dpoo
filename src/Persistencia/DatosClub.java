@@ -16,6 +16,7 @@ import Tienda.Inventario;
 import Tienda.Producto;
 import Tienda.RegistroVentas;
 import Tienda.Ubicacion;
+import Torneos.Torneo;
 import Usuario.Empleado;
 import Usuario.Entrenador;
 import Usuario.Socio;
@@ -44,6 +45,7 @@ public class DatosClub {
 	private final ArrayList<Ubicacion> ubicaciones = new ArrayList<Ubicacion>();
 	private final Inventario inventario = new Inventario();
 	private final RegistroVentas registroVentas = new RegistroVentas();
+	private final ArrayList<Torneo> torneos = new ArrayList<Torneo>();
 
 	public ArrayList<Usuario> getUsuarios() {
 		return usuarios;
@@ -104,6 +106,10 @@ public class DatosClub {
 	public RegistroVentas getRegistroVentas() {
 		return registroVentas;
 	}
+	
+	public ArrayList<Torneo> getTorneos() {   // junto a los otros getters
+	    return torneos;
+	}
 
 	// búsquedas por llave (devuelven null si no existe)
 
@@ -161,7 +167,7 @@ public class DatosClub {
 	public Instalacion buscarInstalacion(String nombre) {
 		for (Instalacion i : instalaciones) {
 			if (i.getNombre().equals(nombre)) {
-				return i;
+				return i; 
 			}
 		}
 		return null;

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import Torneos.BonoDescuento;
 import Usuario.Comprador;
 import Usuario.Socio;
 import Usuario.Usuario;
@@ -20,6 +21,7 @@ public abstract class Venta {
 	private int porcentajeDescuento;
 	private int puntosRedimidos;
 	private boolean confirmada;
+	private BonoDescuento bono;
 
 	public Venta(Date fecha, Usuario comprador, ArrayList<ItemVenta> items, int porcentajeDescuento) {
 		if (fecha == null || comprador == null) {
@@ -90,6 +92,36 @@ public abstract class Venta {
 			throw new IllegalArgumentException("El comprador no tiene suficientes puntos");
 		}
 		this.puntosRedimidos = puntos;
+	}
+	
+	/**
+	 * HU28: usa un bono de torneo como descuento. No es acumulable con el codigo
+	 * de empleado ni con puntos. El bono queda como porcentaje de descuento de la
+	 * venta y solo se marca usado al confirmar.
+	 */
+	public void aplicarBono(BonoDescuento bono) {
+		verificarNoConfirmada();
+		if (bono == null) {
+			throw new IllegalArgumentException("El bono es obligatorio");
+		}
+		if (!(comprador instanceof Socio) || !((Socio) comprador).getBonos().contains(bono)) {
+			throw new IllegalArgumentException("El bono no pertenece al comprador");
+		}
+		if (bono.isUsado()) {
+			throw new IllegalStateException("El bono ya fue usado");
+		}
+		if (this.bono != null) {
+			throw new IllegalStateException("Ya se aplico un bono a esta venta");
+		}
+		if (porcentajeDescuento > 0 || puntosRedimidos > 0) {
+			throw new IllegalStateException("El bono no es acumulable con otros descuentos");
+		}
+		this.bono = bono;
+		this.porcentajeDescuento = bono.getPorcentaje();
+	}
+
+	public BonoDescuento getBono() {
+		return bono;
 	}
 
 	public double calcularSubtotal() {
