@@ -1,0 +1,1 @@
+# tipo;nombre;entidadOrganizadora;temporada;deporte;categoria;faseActual

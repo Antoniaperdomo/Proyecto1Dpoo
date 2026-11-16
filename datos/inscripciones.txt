@@ -1,0 +1,1 @@
+# socioId;disciplina;rankingELO;historialELO

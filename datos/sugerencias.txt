@@ -1,0 +1,2 @@
+# nombre;categoria;estado;empleadoId
+"Galletas";Snack;pendiente;20

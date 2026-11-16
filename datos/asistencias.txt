@@ -1,0 +1,1 @@
+# sesionId;socioId;estado;evaluacion;comentario

@@ -1,0 +1,1 @@
+# nombre;deporte;categoria;cupoMax;activo

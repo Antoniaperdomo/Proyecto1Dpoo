@@ -1,0 +1,1 @@
+# id;tipo;fecha;deporte;equipo1;equipo2;institucionRival;escenario;competencia;marcador1;marcador2;jugado

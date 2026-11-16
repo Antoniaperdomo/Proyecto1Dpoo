@@ -1,0 +1,1 @@
+# id;fecha;hora;duracion;entrenadorId;instalacion;finalizada;convocados

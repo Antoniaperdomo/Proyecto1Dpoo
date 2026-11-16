@@ -1,0 +1,5 @@
+# tipo;id;nombre;login;password;fechaNacimiento;fechaContratacion;puntosFidelidad;activo
+ADMINISTRADOR;1;Admin Club;admin;1234;1980-01-01 00:00:00;;;
+SOCIO;10;Ana Socia;ana;1234;1995-04-12 00:00:00;;500;true
+SOCIO;11;Luis Socio;luis;1234;1998-08-20 00:00:00;;0;true
+ENTRENADOR;20;Carlos Entrenador;carlos;1234;1985-02-02 00:00:00;2020-01-01 00:00:00;0;

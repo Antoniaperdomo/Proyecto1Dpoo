@@ -1,0 +1,1 @@
+# socioId;instalacion;fecha;bloqueHorario;modalidad;numJugadores

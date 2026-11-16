@@ -1,0 +1,1 @@
+# partidoId;socioId;v1;v2;v3;v4  (futbol: goles,asistencias,amarillas,rojas | baloncesto: puntos,rebotes | voleibol: aces,bloqueos,sets)
