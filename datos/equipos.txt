@@ -1,1 +1,2 @@
 # nombre;deporte;categoria;cupoMax;activo
+Tigres;FUTBOL;MAYORES;15;true

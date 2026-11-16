@@ -1,1 +1,3 @@
 # nombre
+Tienda
+Bodega

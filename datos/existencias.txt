@@ -1,1 +1,4 @@
 # articulo;ubicacion;cantidad
+Raqueta;Tienda;5
+Raqueta;Bodega;10
+Pelotas;Tienda;0

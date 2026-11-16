@@ -1,1 +1,6 @@
 # tipo;nombre;precio;categoria|tipoBebida|alergenos
+ARTICULO;Raqueta;150000.0;Raquetas
+ARTICULO;Pelotas;20000.0;Accesorios
+BEBIDA;Cafe;5000.0;CALIENTE
+BEBIDA;Limonada;4000.0;FRIA
+SNACK;Galletas;3000.0;gluten,leche
