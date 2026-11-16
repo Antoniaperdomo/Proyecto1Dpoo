@@ -11,6 +11,7 @@ import Administradores.SolicitudCambioTurno;
 import Administradores.SugerenciaProducto;
 import Administradores.Turno;
 import Deportes.Categoria;
+import Deportes.Deporte;
 import Deportes.DeporteConjunto;
 import Deportes.DeporteIndividual;
 import Deportes.Equipo;
@@ -30,7 +31,12 @@ import Tienda.Ubicacion;
 import Tienda.Venta;
 import Tienda.VentaCafeteria;
 import Tienda.VentaTienda;
-
+import Torneos.CatalogoTorneos;
+import Torneos.EncuentroTorneo;
+import Torneos.InscripcionTorneo;
+import Torneos.Torneo;
+import Torneos.TorneoCompetitivo;
+import Torneos.TorneoRecreativo;
 import Entrenamiento.AnaliticaJugador;
 
 public class Administrador extends Usuario {
@@ -463,5 +469,91 @@ public class Administrador extends Usuario {
 		}
 		return reporte;
 	}
+	
+	//Torneos
+
+		// HU20
+		public Externo registrarExterno(ArrayList<Usuario> usuarios, int id, String nombre, String login,
+				String password, Date fechaNacimiento, boolean estudianteUniversidad) {
+			if (nombre == null || nombre.trim().isEmpty() || login == null || login.trim().isEmpty() || password == null
+					|| password.isEmpty() || fechaNacimiento == null) {
+				throw new IllegalArgumentException("Faltan datos obligatorios del participante");
+			}
+			if (fechaNacimiento.after(new Date())) {
+				throw new IllegalArgumentException("La fecha de nacimiento no puede ser futura");
+			}
+			for (Usuario u : usuarios) {
+				if (u.getId() == id) {
+					throw new IllegalArgumentException("El identificador " + id + " ya esta registrado");
+				}
+				if (u.getLogin().equals(login)) {
+					throw new IllegalArgumentException("El login " + login + " ya esta registrado");
+				}
+			}
+			Externo externo = new Externo(id, nombre, login, password, fechaNacimiento, estudianteUniversidad);
+			usuarios.add(externo);
+			return externo;
+		}
+
+		// HU16
+		public TorneoRecreativo crearTorneoRecreativo(ArrayList<Torneo> torneos, String nombre, Deporte deporte,
+				Categoria categoria, String nivel, String modalidad, int cupos, Date fechaInicio, Date fechaLimiteReserva,
+				double tarifa, int porcentajeBono) {
+			TorneoRecreativo torneo = new TorneoRecreativo(CatalogoTorneos.siguienteId(torneos), nombre, deporte,
+					categoria, nivel, modalidad, cupos, fechaInicio, fechaLimiteReserva, tarifa, porcentajeBono);
+			torneos.add(torneo);
+			return torneo;
+		}
+
+		// HU16
+		public TorneoCompetitivo crearTorneoCompetitivo(ArrayList<Torneo> torneos, String nombre, Deporte deporte,
+				Categoria categoria, String nivel, String modalidad, int cupos, Date fechaInicio, Date fechaLimiteReserva,
+				double tarifa) {
+			TorneoCompetitivo torneo = new TorneoCompetitivo(CatalogoTorneos.siguienteId(torneos), nombre, deporte,
+					categoria, nivel, modalidad, cupos, fechaInicio, fechaLimiteReserva, tarifa);
+			torneos.add(torneo);
+			return torneo;
+		}
+
+		// HU17
+		public String listarTorneos(ArrayList<Torneo> torneos, String estado) {
+			return CatalogoTorneos.listar(CatalogoTorneos.filtrar(torneos, estado, null, null));
+		}
+
+		// HU17
+		public String historialTorneo(ArrayList<Torneo> torneos, int idTorneo) {
+			return CatalogoTorneos.buscar(torneos, idTorneo).getHistorial();
+		}
+
+		// HU18
+		public void iniciarTorneo(Torneo torneo) {
+			torneo.iniciar();
+		}
+
+		// HU18
+		public void finalizarTorneo(Torneo torneo) {
+			torneo.finalizar();
+		}
+
+		// HU19
+		public void registrarResultadoEncuentro(Torneo torneo, EncuentroTorneo encuentro, int marcadorLocal,
+				int marcadorVisitante) {
+			torneo.registrarResultado(encuentro, marcadorLocal, marcadorVisitante);
+		}
+
+		// HU21: el externo no tiene consola; el administrador lo inscribe en su nombre
+		public InscripcionTorneo inscribirExterno(Torneo torneo, Externo externo, String nivelDeclarado,
+				Participante companero, ArrayList<Usuario> usuarios, ArrayList<Socio> socios, Date ahora) {
+			if (externo == null || !usuarios.contains(externo)) {
+				throw new IllegalArgumentException("El participante externo no esta registrado");
+			}
+			return torneo.inscribirParticipante(externo, companero, nivelDeclarado, socios, new ArrayList<Turno>(),
+					ahora);
+		}
+
+		// HU21
+		public InscripcionTorneo retirarExterno(Torneo torneo, Externo externo) {
+			return torneo.retirarParticipante(externo);
+		}
 
 }

@@ -312,18 +312,18 @@ public class AdministradorReportesTest {
 
 	// Entrenamientos (RF 35, 38, 24)
 
-	private SesionEntrenamiento sesion(int dia, Socio... convocados) {
-		SesionEntrenamiento s = new SesionEntrenamiento(dia(dia), 8, 1.5, entrenador, "Tenis 1");
-		for (Socio c : convocados) {
-			s.convocarJugador(c);
-		}
-		return s;
+	private SesionEntrenamiento sesion(int dia, Socio[] convocados) {
+	    SesionEntrenamiento s = new SesionEntrenamiento(dia(dia), 8, 1.5, entrenador, "Tenis 1");
+	    for (Socio c : convocados) {
+	        s.convocarJugador(c);
+	    }
+	    return s;
 	}
 
 	@Test
 	public void reporteAsistenciaResumeAsistenciaFaltasYSinRegistrar() {
-		SesionEntrenamiento s1 = sesion(2, ana, luis);
-		SesionEntrenamiento s2 = sesion(4, ana, luis);
+		SesionEntrenamiento s1 = sesion(2, new Socio[] { ana, luis });
+		SesionEntrenamiento s2 = sesion(4, new Socio[] { ana, luis });
 		s1.finalizarSesion();
 		s2.finalizarSesion();
 		s1.registrarAsistencia(ana, RegistroAsistencia.ASISTIO, 4.0, null);
@@ -341,8 +341,8 @@ public class AdministradorReportesTest {
 
 	@Test
 	public void reporteAsistenciaIgnoraSesionesNoFinalizadasYFueraDeRango() {
-		SesionEntrenamiento abierta = sesion(2, ana);
-		SesionEntrenamiento fuera = sesion(30, ana);
+		SesionEntrenamiento abierta = sesion(2, new Socio[] { ana });
+		SesionEntrenamiento fuera = sesion(30, new Socio[] { ana });
 		fuera.finalizarSesion();
 		ArrayList<SesionEntrenamiento> sesiones = new ArrayList<SesionEntrenamiento>();
 		sesiones.add(abierta);
@@ -354,8 +354,8 @@ public class AdministradorReportesTest {
 
 	@Test
 	public void historialSesionesDiferenciaAbiertasDeFinalizadasYIndividualesDeGrupales() {
-		SesionEntrenamiento individual = sesion(1, ana);
-		SesionEntrenamiento grupal = sesion(2, ana, luis);
+		SesionEntrenamiento individual = sesion(1, new Socio[] { ana });
+		SesionEntrenamiento grupal = sesion(2, new Socio[] { ana, luis });
 		grupal.finalizarSesion();
 		grupal.registrarAsistencia(ana, RegistroAsistencia.ASISTIO, null, null);
 		ArrayList<SesionEntrenamiento> sesiones = new ArrayList<SesionEntrenamiento>();
@@ -370,7 +370,7 @@ public class AdministradorReportesTest {
 
 	@Test
 	public void reporteDesempenoJugadorResumeLaAnaliticaDelSocio() {
-		SesionEntrenamiento s = sesion(2, ana);
+		SesionEntrenamiento s = sesion(2, new Socio[] { ana });
 		s.finalizarSesion();
 		s.registrarAsistencia(ana, RegistroAsistencia.ASISTIO, 4.0, null);
 		ArrayList<SesionEntrenamiento> sesiones = new ArrayList<SesionEntrenamiento>();

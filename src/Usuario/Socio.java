@@ -12,6 +12,7 @@ import Deportes.PartidoPractica;
 import Deportes.ReservaInstalacion;
 import Deportes.Tenis;
 import Deportes.TenisMesa;
+import Torneos.BonoDescuento;
 
 public class Socio extends Usuario implements Comprador, Participante {
 	private int puntosFidelidad;
@@ -20,6 +21,7 @@ public class Socio extends Usuario implements Comprador, Participante {
 	private ArrayList<InscripcionIndividual> inscripciones;
 	private ArrayList<ReservaInstalacion> reservas;
 	private ArrayList<PartidoPractica> partidosPractica;
+	private ArrayList<BonoDescuento> bonos;
 
 	public Socio(int id, String nombre, String login, String password, Date fechaNacimiento, int puntosFidelidad,
 			boolean activo) {
@@ -30,6 +32,7 @@ public class Socio extends Usuario implements Comprador, Participante {
 		this.inscripciones = new ArrayList<InscripcionIndividual>();
 		this.reservas = new ArrayList<ReservaInstalacion>();
 		this.partidosPractica = new ArrayList<PartidoPractica>();
+		this.bonos = new ArrayList<BonoDescuento>();
 	}
 
 	@Override
@@ -164,10 +167,35 @@ public class Socio extends Usuario implements Comprador, Participante {
 	public void agregarPartidoPractica(PartidoPractica partido) {
 		partidosPractica.add(partido);
 	}
+	
+	// HU28: bonos de descuento ganados en torneos recreativos
+		public ArrayList<BonoDescuento> getBonos() {
+			return bonos;
+		}
+
+		public void agregarBono(BonoDescuento bono) {
+			if (bono == null) {
+				throw new IllegalArgumentException("El bono es obligatorio");
+			}
+			bonos.add(bono);
+		}
+
+		public ArrayList<BonoDescuento> getBonosDisponibles() {
+			ArrayList<BonoDescuento> disponibles = new ArrayList<BonoDescuento>();
+			for (BonoDescuento b : bonos) {
+				if (!b.isUsado()) {
+					disponibles.add(b);
+				}
+			}
+			return disponibles;
+		}
+	
 
 	private void verificarActivo() {
 		if (!activo) {
 			throw new IllegalStateException("El socio está dado de baja");
 		}
 	}
+	
+	
 }
