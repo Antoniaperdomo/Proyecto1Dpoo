@@ -14,7 +14,7 @@ public class BalocestoTest {
 
 	@Test
 	public void victoriaDaDosPuntos() {
-		assertEquals(1, baloncesto.calcularPuntos(80, 70));
+		assertEquals(2, baloncesto.calcularPuntos(80, 70));
 	}
 
 	@Test

@@ -46,7 +46,7 @@ public class CategoraTest {
 	public void sub15Acepta15y16() {
 		Categoria c = new Categoria(Categoria.SUB17);
 		assertFalse(c.aceptaEdad(socioConEdad(14)));
-		assertTrue(c.aceptaEdad(socioConEdad(115)));
+		assertTrue(c.aceptaEdad(socioConEdad(15)));
 		assertTrue(c.aceptaEdad(socioConEdad(16)));
 		assertFalse(c.aceptaEdad(socioConEdad(17)));
 

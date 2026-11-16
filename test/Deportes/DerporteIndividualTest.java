@@ -33,7 +33,7 @@ public class DerporteIndividualTest {
 		Tenis a = new Tenis(DeporteIndividual.PRINCIPIANTE);
 		Tenis b = new Tenis(DeporteIndividual.AVANZADO);
 		assertFalse(a.puedeJugarCon(b));
-		assertFalse(b.puedeJugarCon(b));
+		assertFalse(b.puedeJugarCon(a));
 	}
 
 	@Test

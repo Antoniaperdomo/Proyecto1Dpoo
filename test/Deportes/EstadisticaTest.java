@@ -61,7 +61,7 @@ public class EstadisticaTest {
 	public void resumenFutbol() {
 		EstadisticaFutbol est = new EstadisticaFutbol(socio);
 		est.setGoles(2);
-		est.setAsistencias(5);
+		est.setAsistencias(1);
 		assertEquals("2 goles, 1 asistencias, 0 tarjetas amarillas, 0 tarjetas rojas.", est.resumen());
 	}
 

@@ -11,9 +11,17 @@ import Usuario.Externo;
 public class EquipoTest {
 	private Equipo equipo;
 	private Futbol futbol;
+	private ArrayList<Socio> socios = new ArrayList<Socio>();
 
 	private Socio socioAdulto(int id) {
-		return new Socio(id, "Jugador" + id, "j" + id, "1234", new Date(0), 0, true);
+		for (Socio s : socios) {
+			if (s.getId() == id) {
+				return s;
+			}
+		}
+		Socio nuevo = new Socio(id, "Jugador" + id, "j" + id, "1234", new Date(0), 0, true);
+		socios.add(nuevo);
+		return nuevo;
 	}
 	
 	private Equipo equipoConJugadores(int cuantos) {
@@ -65,7 +73,7 @@ public class EquipoTest {
 	public void jugadorRepetido() {
 		equipo.agregarJugador(socioAdulto(1), "Portero", 1);
 		equipo.agregarJugador(socioAdulto(2), "Defensa", 2);
-		equipo.agregarJugador(socioAdulto(3), "Medio", 2);
+		equipo.agregarJugador(socioAdulto(3), "Medio", 3);
 		assertThrows(IllegalStateException.class, () -> equipo.agregarJugador(socioAdulto(4), "Delantero", 4));
 		assertEquals(3, equipo.getJugadores().size());
 	}
@@ -118,9 +126,10 @@ public class EquipoTest {
 	public void tarjetaRojaSuspendeYReiniciaAmarillas() {
 		Socio a = socioAdulto(1);
 		JugadorEquipo j = equipo.agregarJugador(a, "Portero", 1);
-		j.setAmarillas(Suspension.INTERNO, 0);
+		j.setAmarillas(Suspension.INTERNO, 1);
 		EstadisticaFutbol est = new EstadisticaFutbol(a);
 		est.setTarjetasRojas(1);
+		equipo.registrarTarjetas(est, Suspension.INTERNO);
 		assertTrue(equipo.estaSuspendido(a, Suspension.INTERNO));
 		assertEquals(0, j.getAmarillas(Suspension.INTERNO));
 	}
@@ -130,8 +139,10 @@ public class EquipoTest {
 		Socio a = socioAdulto(1);
 		JugadorEquipo j = equipo.agregarJugador(a, "Portero", 1);
 		EstadisticaFutbol est = new EstadisticaFutbol(a);
-		est.setTarjetasRojas(1);
+		est.setTarjetasAmarillas(1);
+
 		equipo.registrarTarjetas(est, Suspension.INTERNO);
+
 		assertFalse(equipo.estaSuspendido(a, Suspension.INTERNO));
 		assertEquals(1, j.getAmarillas(Suspension.INTERNO));
 	}
@@ -167,8 +178,10 @@ public class EquipoTest {
 		Socio a = socioAdulto(1);
 		JugadorEquipo j = equipo.agregarJugador(a, "Portero", 1);
 		EstadisticaFutbol est = new EstadisticaFutbol(a);
-		est.setTarjetasRojas(1);
+		est.setTarjetasAmarillas(1);
+		
 		equipo.registrarTarjetas(est, Suspension.INTERNO);
+		
 		assertEquals(1, j.getAmarillas(Suspension.INTERNO));
 		assertEquals(0, j.getAmarillas(Suspension.COMPETENCIA));
 	}
