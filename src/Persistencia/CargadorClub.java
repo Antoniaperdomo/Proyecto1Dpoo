@@ -60,6 +60,7 @@ import Tienda.VentaTienda;
 import Usuario.Administrador;
 import Usuario.Empleado;
 import Usuario.Entrenador;
+import Usuario.Externo;
 import Usuario.Fisioterapeuta;
 import Usuario.Participante;
 import Usuario.Socio;
@@ -101,6 +102,7 @@ public class CargadorClub {
 		turnos(d, carpeta);
 		sugerencias(d, carpeta);
 		ventas(d, carpeta);
+		CargadorTorneos.cargar(d, carpeta);
 		return d;
 	}
 
@@ -137,6 +139,8 @@ public class CargadorClub {
 					Fisioterapeuta e = new Fisioterapeuta(id, nombre, login, password, nacimiento, f.fecha(6));
 					e.setPuntosFidelidad(f.enteroOpcional(7, 0));
 					u = e;
+				} else if (tipo.equals("EXTERNO")) {
+					u = new Externo(id, nombre, login, password, nacimiento, f.booleanoOpcional(9, false));
 				} else {
 					throw f.error("tipo de usuario desconocido: " + tipo);
 				}

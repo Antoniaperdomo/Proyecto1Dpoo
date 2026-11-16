@@ -47,6 +47,9 @@ public abstract class Venta {
 
 	public void setPorcentajeDescuento(int porcentajeDescuento) {
 		verificarNoConfirmada();
+		if (bono != null) {
+			throw new IllegalStateException("El bono de torneo no es acumulable con otros descuentos");
+		}
 		if (porcentajeDescuento < 0 || porcentajeDescuento > 100) {
 			throw new IllegalArgumentException("El descuento debe estar entre 0 y 100");
 		}
@@ -88,12 +91,15 @@ public abstract class Venta {
 		if (puntos < 0) {
 			throw new IllegalArgumentException("Los puntos no pueden ser negativos");
 		}
+		if (bono != null && puntos > 0) {
+			throw new IllegalStateException("El bono de torneo no es acumulable con otros descuentos");
+		}
 		if (puntos > ((Comprador) comprador).getPuntosFidelidad()) {
 			throw new IllegalArgumentException("El comprador no tiene suficientes puntos");
 		}
 		this.puntosRedimidos = puntos;
 	}
-	
+
 	/**
 	 * HU28: usa un bono de torneo como descuento. No es acumulable con el codigo
 	 * de empleado ni con puntos. El bono queda como porcentaje de descuento de la
@@ -163,6 +169,9 @@ public abstract class Venta {
 		if (comprador instanceof Socio && !((Socio) comprador).isActivo()) {
 			throw new IllegalStateException("El socio esta dado de baja");
 		}
+		if (bono != null && bono.isUsado()) {
+			throw new IllegalStateException("El bono ya fue usado");
+		}
 	}
 
 	protected void confirmarVenta() {
@@ -170,6 +179,9 @@ public abstract class Venta {
 		Comprador c = (Comprador) comprador;
 		int ganados = calcularPuntos();
 		c.setPuntosFidelidad(c.getPuntosFidelidad() - getPuntosAplicados() + ganados);
+		if (bono != null) {
+			bono.usar();
+		}
 		confirmada = true;
 	}
 

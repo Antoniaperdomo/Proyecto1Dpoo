@@ -104,7 +104,7 @@ public abstract class Torneo {
 		this.avanzan = new ArrayList<InscripcionTorneo>();
 	}
 
-	// ---------------------------------------------------------------- datos
+	// datos
 
 	public int getId() {
 		return id;
@@ -627,4 +627,27 @@ public abstract class Torneo {
 		}
 		return sb.toString();
 	}
+	
+	// ------------------------------------------------------------ persistencia
+
+		public int getRondaActual() {
+			return rondaActual;
+		}
+
+		public ArrayList<InscripcionTorneo> getAvanzan() {
+			return avanzan;
+		}
+
+		/** Persistencia: restaura el estado guardado sin ejecutar las reglas de negocio. */
+		public void restaurar(String estado, int rondaActual, ArrayList<InscripcionTorneo> avanzan,
+				ArrayList<String> premios) {
+			if (!ABIERTO.equals(estado) && !EN_CURSO.equals(estado) && !FINALIZADO.equals(estado)) {
+				throw new IllegalArgumentException("Estado de torneo desconocido: " + estado);
+			}
+			this.estado = estado;
+			this.rondaActual = rondaActual;
+			this.avanzan = avanzan;
+			this.premiosEntregados = premios;
+		}
+
 }

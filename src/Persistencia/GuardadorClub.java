@@ -58,6 +58,7 @@ import Tienda.VentaTienda;
 import Usuario.Administrador;
 import Usuario.Empleado;
 import Usuario.Entrenador;
+import Usuario.Externo;
 import Usuario.Fisioterapeuta;
 import Usuario.Participante;
 import Usuario.Socio;
@@ -88,6 +89,7 @@ public class GuardadorClub {
 		turnos(d, carpeta);
 		sugerencias(d, carpeta);
 		ventas(d, carpeta);
+		GuardadorTorneos.guardar(d, carpeta);
 	}
 
 	// Usuarios
@@ -99,6 +101,7 @@ public class GuardadorClub {
 			String contratacion = "";
 			String puntos = "";
 			String activo = "";
+			String estudiante = "";
 			if (u instanceof Administrador) {
 				tipo = "ADMINISTRADOR";
 			} else if (u instanceof Socio) {
@@ -113,14 +116,17 @@ public class GuardadorClub {
 				tipo = "FISIOTERAPEUTA";
 				contratacion = fecha(((Fisioterapeuta) u).getFechaContratacion());
 				puntos = String.valueOf(((Fisioterapeuta) u).getPuntosFidelidad());
+			} else if (u instanceof Externo) {
+				tipo = "EXTERNO";
+				estudiante = String.valueOf(((Externo) u).isEstudianteUniversidad());
 			} else {
 				throw new IOException("Tipo de usuario no soportado: " + u.getClass().getName());
 			}
 			filas.add(linea(tipo, esc(u.getId()), esc(u.getNombre()), esc(u.getLogin()), esc(u.getPassword()),
-					fecha(u.getFechaNacimiento()), contratacion, puntos, activo));
+					fecha(u.getFechaNacimiento()), contratacion, puntos, activo, estudiante));
 		}
 		escribir(carpeta, PersistenciaClub.USUARIOS,
-				"tipo;id;nombre;login;password;fechaNacimiento;fechaContratacion;puntosFidelidad;activo", filas);
+				"tipo;id;nombre;login;password;fechaNacimiento;fechaContratacion;puntosFidelidad;activo;estudianteUniversidad", filas);
 	}
 
 	// Tienda: ubicaciones, productos, existencias
