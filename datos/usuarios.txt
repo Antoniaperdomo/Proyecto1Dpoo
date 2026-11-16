@@ -1,5 +1,21 @@
-# tipo;id;nombre;login;password;fechaNacimiento;fechaContratacion;puntosFidelidad;activo
-ADMINISTRADOR;1;Admin Club;admin;1234;1980-01-01 00:00:00;;;
-SOCIO;10;Ana Socia;ana;1234;1995-04-12 00:00:00;;500;true
-SOCIO;11;Luis Socio;luis;1234;1998-08-20 00:00:00;;0;true
-ENTRENADOR;20;Carlos Entrenador;carlos;1234;1985-02-02 00:00:00;2020-01-01 00:00:00;0;
+# tipo;id;nombre;login;password;fechaNacimiento;fechaContratacion;puntosFidelidad;activo;estudianteUniversidad
+ADMINISTRADOR;1;Admin Club;admin;1234;1980-01-01;;;;
+SOCIO;10;Ana Socia;ana;1234;1990-01-10;;500;true;
+SOCIO;11;Luis Socio;luis;1234;1991-02-11;;0;true;
+SOCIO;12;Maria Lopez;maria;1234;1992-03-12;;0;true;
+SOCIO;13;Pedro Ruiz;pedro;1234;1993-04-13;;0;true;
+SOCIO;14;Sofia Mora;sofia;1234;1994-05-14;;0;true;
+SOCIO;15;Diego Rojas;diego;1234;1995-06-15;;0;true;
+SOCIO;16;Camila Vega;camila;1234;1996-07-16;;0;true;
+SOCIO;17;Andres Gil;andres;1234;1997-08-17;;0;true;
+SOCIO;18;Valeria Pino;valeria;1234;1990-09-18;;0;true;
+SOCIO;19;Juan Soto;juan;1234;1991-01-10;;0;true;
+SOCIO;20;Laura Diaz;lauras;1234;1992-02-11;;0;true;
+SOCIO;21;Mateo Cruz;mateo;1234;1993-03-12;;0;true;
+SOCIO;22;Isabela Paz;isabela;1234;1994-04-13;;0;true;
+SOCIO;23;Tomas Luna;tomas;1234;1995-05-14;;0;true;
+ENTRENADOR;30;Carlos Entrenador;carlos;1234;1985-02-02;2020-01-01;0;;
+ENTRENADOR;31;Elena Entrenadora;elena;1234;1988-05-05;2021-02-01;0;;
+FISIOTERAPEUTA;32;Marta Fisio;marta;1234;1990-03-03;2021-06-01;0;;
+EXTERNO;40;Julian Externo;julian;1234;2000-09-09;;;;false
+EXTERNO;41;Laura Externa;laurae;1234;1999-01-20;;;;true
