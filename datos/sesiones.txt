@@ -1,1 +1,2 @@
 # id;fecha;hora;duracion;entrenadorId;instalacion;finalizada;convocados
+1;2027-01-11 00:00:00;10;2.0;20;Tenis 1;false;

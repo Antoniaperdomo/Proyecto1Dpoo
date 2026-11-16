@@ -1,1 +1,2 @@
 # socioId;disciplina;rankingELO;historialELO
+10;TENIS;1000;1000

@@ -1,2 +1,2 @@
 # nombre;categoria;estado;empleadoId
-"Galletas";Snack;pendiente;20
+"Galletas";Snack;aprobada;20

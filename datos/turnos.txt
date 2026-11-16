@@ -1,1 +1,4 @@
 # empleadoId;diaSemana;horaInicio;horaFin
+20;lunes;8;16
+22;lunes;8;16
+21;lunes;8;16

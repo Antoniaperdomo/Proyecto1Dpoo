@@ -1,1 +1,2 @@
 # socioId;instalacion;fecha;bloqueHorario;modalidad;numJugadores
+10;Tenis 1;2027-01-11 00:00:00;2027-01-11 10:00:00;INDIVIDUAL;2

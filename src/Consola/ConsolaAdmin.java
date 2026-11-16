@@ -56,7 +56,8 @@ public class ConsolaAdmin extends ConsolaBase{
 			"Reportes de ventas", 
 			"Reportes de partidos y rankings",
 			"Reportes de entrenamiento y desempeño", 
-			"Reportes de instalaciones" };
+			"Reportes de instalaciones",
+			"Torneo"};
 
 	@Override
 	protected String titulo() {

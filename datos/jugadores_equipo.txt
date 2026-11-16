@@ -1,1 +1,2 @@
 # equipo;socioId;posicion;numeroCamiseta;amarillasInternas;amarillasCompetencia
+Tigres;10;Portero;1;0;0

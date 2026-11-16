@@ -1,1 +1,5 @@
 # tipo;nombre;techada
+TENIS;Tenis 1;
+TENIS;Tenis 2;
+PADEL;Padel 1;
+TENISDEMESA;Mesa 1;true
